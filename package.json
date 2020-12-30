@@ -10,10 +10,11 @@
   "dependencies": {
     "axios": "^0.18.0",
     "echarts": "^4.1.0",
-    "element-ui": "^2.4.5",
+    "element-ui": "^2.14.1",
     "lodash": "^4.17.11",
     "nprogress": "^0.2.0",
     "vue": "^2.5.22",
+    "vue-json-excel": "^0.3.0",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.1",
     "vue-table-with-tree-grid": "^0.2.4"
@@ -33,5 +34,17 @@
     "less-loader": "^4.1.0",
     "vue-cli-plugin-element": "^1.0.1",
     "vue-template-compiler": "^2.5.21"
-  }
+  },
+  "description": "## Project setup ``` npm install ```",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Assiuss/vue_shop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Assiuss/vue_shop/issues"
+  },
+  "homepage": "https://github.com/Assiuss/vue_shop#readme"
 }
