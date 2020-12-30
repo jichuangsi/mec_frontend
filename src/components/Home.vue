@@ -76,7 +76,7 @@
               <el-menu-item
                 index="/superThinPull"
                 @click="saveNavState('/superThinPull')"
-              >产品(超细拉)</el-menu-item>
+              >成品(超细拉)</el-menu-item>
               <el-menu-item
                 index="/backFire"
                 @click="saveNavState('/backFire')"

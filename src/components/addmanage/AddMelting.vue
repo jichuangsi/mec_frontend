@@ -204,7 +204,7 @@
       <!-- 原材料 -->
       <el-card style="width:100%;margin-top:20px;">
         <div class="j-c-s">
-          <div class="meta">原材料</div>
+          <div class="meta">{{oneListName?oneListName:'原材料'}}</div>
           <el-button type="primary" plain @click="showAllocatDialog('diaobo')" v-if="PPProductionInfo.state === 0 || id >= 0">新增</el-button>
         </div>
         <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="Needstock" style="width: 100%">
@@ -224,7 +224,7 @@
       </el-card>
       <el-card style="width:100%;margin-top:20px;">
         <div class="j-c-s">
-          <div class="meta">本班生产产物（熔炼）</div>
+          <div class="meta">{{twoListName?'本班生产产物（'+twoListName+')':'本班生产产物（熔炼）'}}</div>
           <el-button type="primary" plain @click="showAddClassDialog" v-if="PPProductionInfo.state === 0 || id >= 0">新增</el-button>
         </div>
         <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="SmeltingProducts" style="width: 100%">
@@ -234,7 +234,11 @@
               {{ scope.row.createTime | dateFormat }}
             </template>
           </el-table-column>
-          <el-table-column  label="工序">熔炼</el-table-column>
+          <el-table-column  label="工序">
+            <template>
+              {{twoListName?twoListName:'熔炼'}}
+            </template>
+          </el-table-column>
           <el-table-column prop="grossWeight" label="毛重"> </el-table-column>
           <el-table-column prop="netWeightg" label="净重"> </el-table-column>
           <el-table-column prop="wastageg" label="废料(g)"> </el-table-column>
@@ -444,6 +448,8 @@ export default {
       form: {
         name: ''
       },
+      oneListName:'',
+      twoListName:'',
       tableData: [],
       addClassDialogVisible: false,
       dialogCZVisible: false,
@@ -542,6 +548,9 @@ export default {
     }
   },
   methods: {
+    del(index){
+      this.listdataDetailAll.splice(index,1)
+    },
     // 最后确认调拨
     async allocatConfirm() {
       this.listdataDetailAll.forEach(item => {
@@ -726,6 +735,7 @@ export default {
       this.equipmentXiaLa = res.data.equipmentXiaLa
       this.PPProductionInfo.teamId = res.data.OperationInfo.tteamId
       this.PPProductionInfo.frequency = res.data.OperationInfo.frequency
+
     },
     // 详情页面获取初始数据
     async getEditData() {
@@ -744,6 +754,8 @@ export default {
       this.equipmentInfo = res.data.equipmentInfo
       this.equipmentXiaLa = res.data.equipmentXiaLa
       this.staffXiaLa = res.data.staffXiaLa
+      this.oneListName=res.data.oneListName
+      this.twoListName=res.data.twoListName
     },
     // 保存全部数据
     async saveAll(state) {
