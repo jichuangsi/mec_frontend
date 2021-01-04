@@ -28,6 +28,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
+          <el-button type="primary" @click="showDialog" plain>新增</el-button>
           <el-button type="primary" @click="getData">筛选</el-button>
           <el-button @click="clear">清空</el-button>
         </el-col>
@@ -50,7 +51,61 @@
         </el-table-column>
       </el-table>
     </el-form>
-    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="submitForm.pageNum"
+      :page-sizes="[5, 10, 15, 20]"
+      :page-size="submitForm.pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    >
+    </el-pagination>
+    <el-dialog title="新增改绕" :visible.sync="dialogVisible" width="60%">
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-table :data="OneList" style="width: 100%" :cell-style="{ padding: '5px 0' }" highlight-current-row :header-cell-style="{ background: '#f0f5ff', padding: '0' }" @row-click="rowClick">
+            <el-table-column prop="ppNumber" label="生产批号"> </el-table-column>
+            <el-table-column prop="productModel" label="产品型号"> </el-table-column>
+          </el-table>
+        </el-col>
+        <el-col :span="12">
+          <el-table :data="TwoList" style="width: 100%" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
+            <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
+            <el-table-column prop="lengthM" label="长度/m"> </el-table-column>
+            <el-table-column prop="numbers" label="数量"> </el-table-column>
+            <el-table-column label="选定数量">
+              <template>
+                <el-input size="mini"></el-input>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
+      <el-row style="margin:20px 0">
+        <el-col :span="3" style="font-weight:bold">待改绕产品</el-col>
+        <el-col :span="3" :offset="18">
+          <el-button size="mini">添加</el-button>
+        </el-col>
+      </el-row>
+      <el-table :data="tableData" style="width: 100%" :cell-style="{padding: '5px 0'}"
+                :header-cell-style="{background:'#f0f5ff',padding:'0'}">
+        <el-table-column prop="date" label="生产批号" > </el-table-column>
+        <el-table-column prop="name" label="产品型号" > </el-table-column>
+        <el-table-column prop="address" label="线轴"> </el-table-column>
+        <el-table-column prop="address" label="长度/m"> </el-table-column>
+        <el-table-column prop="address" label="已选定数量"> </el-table-column>
+        <el-table-column prop="address" label="操作">
+          <template>
+            <el-button type="text">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </el-card>
 </template>
 <script>
@@ -58,8 +113,7 @@ export default {
   inject: ['reload'],
   data() {
     return {
-      tableData: [
-      ],
+      tableData: [],
       submitForm: {
         findById: 9,
         findDate: '',
@@ -68,13 +122,32 @@ export default {
         pageNum: 1,
         pageSize: 10
       },
-      total: 0
+      total: 0,
+      dialogVisible: false,
+      TwoList: [],
+      OneList: []
     }
   },
   created() {
     this.getData()
   },
   methods: {
+    // 监听行点击
+    async rowClick(row) {
+      const { data: res } = await this.$http.post('ProductionController/getFinishedByPPPId', {
+        findById: row.id
+      })
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      this.TwoList = res.data.twoList
+    },
+    // 点击新增
+    async showDialog() {
+      this.dialogVisible = true
+      const { data: res } = await this.$http.post('ProductionController/getAllFinished')
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      this.OneList = res.data.oneList
+      this.TwoList = res.data.twoList
+    },
     clear() {
       this.submitForm = {
         findById: 9,
@@ -102,12 +175,12 @@ export default {
     toAddMedium() {
       this.$router.push('/addMediumPull')
     },
-    handleSizeChange(e){
-      this.submitForm.pageSize=e
+    handleSizeChange(e) {
+      this.submitForm.pageSize = e
       this.getData()
     },
-    handleCurrentChange(e){
-      this.submitForm.pageNum=e
+    handleCurrentChange(e) {
+      this.submitForm.pageNum = e
       this.getData()
     }
   }

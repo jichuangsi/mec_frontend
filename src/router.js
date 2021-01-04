@@ -76,6 +76,8 @@ const AddWinding = () =>
     // 质量检验
 const QualitySetting = () =>
     import ('./components/qualitytesting/QualitySetting.vue')
+const SamplingInspection = () =>
+    import ('./components/qualitytesting/SamplingInspection.vue')
     // 统计数据
 const SummaryTable = () =>
     import ('./components/statistics/SummaryTable.vue')
@@ -208,6 +210,10 @@ const WarehouseAllocation = () =>
     import ('./erpcomponents/inventory/WarehouseAllocation.vue')
 const WarehouseManage = () =>
     import ('./erpcomponents/inventory/WarehouseManage.vue')
+const PackagingManage = () =>
+    import ('./erpcomponents/inventory/PackagingManage.vue')
+const PackagingSetting = () =>
+    import ('./erpcomponents/inventory/PackagingSetting.vue')
     // 文件管理
 const FileManage = () =>
     import ('./erpcomponents/file/FileManage.vue')
@@ -278,6 +284,7 @@ const router = new Router({
                 { path: '/staffManagement/addClass', component: AddClass },
                 { path: '/staffManagement/AddRole', component: AddRole },
                 { path: '/QualitySetting', component: QualitySetting },
+                { path: '/samplingInspection', component: SamplingInspection },
                 { path: '/addMelting', component: AddMelting },
                 { path: '/addRoughDrawing', component: AddRoughDrawing },
                 { path: '/addMediumPull', component: AddMediumPull },
@@ -321,6 +328,8 @@ const router = new Router({
                 { path: '/inventoryStatusDetail', component: InventoryStatusDetail },
                 { path: '/warehouseallocation', component: WarehouseAllocation },
                 { path: '/warehouseManage', component: WarehouseManage },
+                { path: '/packagingSetting', component: PackagingSetting },
+                { path: '/packagingManage', component: PackagingManage },
                 { path: '/fileManage', component: FileManage },
                 { path: '/systemAnnounce', component: SystemAnnounce },
             ]

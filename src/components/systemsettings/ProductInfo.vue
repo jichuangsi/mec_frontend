@@ -9,7 +9,7 @@
                 :on-success="handleSuccess"
                 :headers="headerObj"
                 :limit="1"
-                action="http://192.168.31.96:8080/SysController/localUploadPic"
+                action="http://192.168.31.92:8080/SysController/localUploadPic"
                 list-type="picture-card"
                 :on-preview="handlePictureCardPreview"
                 :on-remove="handleRemove">

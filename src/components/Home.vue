@@ -47,7 +47,7 @@
                 >质量检验</template
               >
               <el-menu-item index="/QualitySetting" @click="saveNavState('/QualitySetting')">证书模板设置</el-menu-item>
-              <el-menu-item index="/homepage1">抽样检验</el-menu-item>
+              <el-menu-item index="/samplingInspection">抽样检验</el-menu-item>
               <el-menu-item index="/homepage1">生成证书</el-menu-item>
             </el-submenu>
             <el-submenu index="6">

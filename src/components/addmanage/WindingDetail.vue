@@ -185,9 +185,9 @@
             </template>
           </el-tab-pane>
         </el-tabs>
-        <div class="card-footer">
+        <div class="card-footer" v-if="PPProductionInfo.state === 0  ">
           <el-button type="primary" @click="saveAll(0)">草稿</el-button>
-          <el-button type="primary">保存</el-button>
+          <el-button type="primary"  @click="saveAll(1)">保存</el-button>
           <el-button type="primary">打印标签</el-button>
         </div>
       </el-card>
@@ -415,19 +415,11 @@ export default {
       this.staffXiaLa = res.data.staffXiaLa
       this.BobbinXiaLa = res.data.BobbinXiaLa
       this.oneListName=res.data.oneListName
+      this.PPProductionInfo=res.data.PPProductionInfo
+      this.dialogCZConfirm()
     },
     // 保存全部数据
     async saveAll(state) {
-      if (state === 2) {
-        const confirmResult = await this.$confirm('是否确认重复当前工序？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).catch(err => err)
-        if (confirmResult !== 'confirm') {
-          return
-        }
-      }
       if (this.Eid >= 0) {
         this.PPProductionInfo.id = this.Eid
       } else {
@@ -436,7 +428,7 @@ export default {
         this.PPProductionInfo.gxid = 1
         this.PPProductionInfo.productionNumber = this.BasicInfo.productModel
       }
-      if (!this.PPProductionInfo.pproductId || !this.PPProductionInfo.equipmentId || !this.PPProductionInfo.suitId || !this.PPProductionInfo.staffId) {
+      if (!this.PPProductionInfo.teamId || !this.PPProductionInfo.staffId|| !this.PPProductionInfo.frequency) {
         return this.$message.error('请填写必要项')
       }
       this.ppAnnealingInfo.pppId = this.Eid
@@ -445,15 +437,11 @@ export default {
         item.gxId = this.PPProductionInfo.gxid
       })
 
-      const { data: res } = await this.$http.post('ProductionController/savePPProduction', {
+      const { data: res } = await this.$http.post('ProductionController/savePWinding', {
         ppProduction: this.PPProductionInfo,
-        oneList: this.Needstock,
-        twoList: this.SmeltingProducts,
-        elblDataList: this.elblDataList,
-        ppAnnealingInfo: this.ppAnnealingInfo
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
-      this.$message.success(this.Eid >= 0 ? '编辑成功' : '新增成功')
+      this.$message.success( '保存成功')
       this.$router.go(-1)
     },
     

@@ -439,12 +439,14 @@ export default {
       this.listdataDetailAll.forEach(item=>{
         obj.updateID=item.updateID
         obj.updateNum=item.xuandingNum
+        obj.unitId=item.unitId
+        obj.stockModel=item.stockModel
+        obj.stockName=item.stockName
+        obj.stockNumber=item.stockNumber
+        obj.standards=item.updateRemark
         list.push(_.cloneDeep(obj))
       })      
-      if(this.type=='diaobo'){
-        if(!this.updateWarehourseID){
-          return this.$message.error("请选择仓库")
-        }
+      if(this.type=='diaobo'){      
         const { data: res } = await this.$http.post('warehouseController/updateWarehouseAllocation',list)
         if (res.code !== '0010') return this.$message.error(res.msg)
         this.$message.success("调拨成功")
@@ -452,10 +454,7 @@ export default {
         const { data: res } = await this.$http.post('warehouseController/updateWarehouseOut',list)
         if (res.code !== '0010') return this.$message.error(res.msg)
         this.$message.success("出库成功")
-      }else{
-        if(!this.updateWarehourseID){
-          return this.$message.error("请选择仓库")
-        }
+      }else{      
         const { data: res } = await this.$http.post('warehouseController/updateWarehouseIn',list)
         if (res.code !== '0010') return this.$message.error(res.msg)
         this.$message.success("入库成功")
@@ -471,9 +470,14 @@ export default {
       this.listdataDetailAll.push(..._.cloneDeep(this.listdataDetail))
       this.listdataDetailAll.forEach(item=>{
         item.stockName=item.stockName?item.stockName:this.listdataObj.stockName
+        item.stockModel=item.stockModel?item.stockModel:this.listdataObj.stockModel
+        item.unitId=item.unitId?item.unitId:this.listdataObj.unitId
         item.stockNumber=item.stockNumber?item.stockNumber:this.listdataObj.stockNumber
       })
-      this.listdataDetailAll=this.listdataDetailAll.filter(item => item.xuandingNum > 0 && item.xuandingNum<=item.updateNum)
+      this.listdataDetailAll=this.listdataDetailAll.filter(item => item.xuandingNum > 0 )
+      if(this.type=="diaobo"||this.type=="chuku"){
+        this.listdataDetailAll=this.listdataDetailAll.filter(item =>  item.xuandingNum<=item.updateNum )
+      }
     },
     // 每一行点击
     async rowClick(row){
@@ -486,6 +490,8 @@ export default {
         this.listdataDetail=res.data.liststockDetail
         this.listdataObj.stockName=row.stockName
         this.listdataObj.stockNumber=row.stockNumber
+        this.listdataObj.unitId=row.dictionarierId
+        this.listdataObj.stockModel=row.stockModel
       }else{
         const { data: res } = await this.$http.post('warehouseController/getAllWarehousingChuKuById',{
         findById:row.id,
@@ -513,6 +519,10 @@ export default {
     },
     //展示调拨下一步
     allocatNext() {
+      if(this.type=='diaobo'||this.type=='ruku')
+       if(!this.updateWarehourseID){
+          return this.$message.error("请选择仓库")
+        }
       this.allocatDialogVisible = false
       this.allocatNextDialogVisible = true
     },
@@ -525,6 +535,7 @@ export default {
         this.listdataDetail=ress.data.liststockDetail
         this.listdataObj.stockName=ress.data.liststock[0].stockName
         this.listdataObj.stockNumber=ress.data.liststock[0].stockNumber
+        this.rowClick(ress.data.liststock[0])
       }else{
         const { data: ress } = await this.$http.post('warehouseController/getAllWarehousingChuKu',this.ChuKuForm)
         if (ress.code !== '0010') return this.$message.error(ress.msg)

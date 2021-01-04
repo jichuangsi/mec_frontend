@@ -149,7 +149,7 @@
         </el-row>
         <el-row>
           <el-col :span="6"><div class="col-left">设备类型</div></el-col>
-          <el-col :span="16" :offset="2"><div class="col-right">熔炼设备</div></el-col>
+          <el-col :span="16" :offset="2"><div class="col-right">{{equipmentInfo.equipmentInfo}}</div></el-col>
         </el-row>
         <el-row>
           <el-col :span="6"><div class="col-left">最近一次检修员</div></el-col>
