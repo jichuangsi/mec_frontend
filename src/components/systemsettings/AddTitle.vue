@@ -22,9 +22,8 @@
             </el-form-item>
             <el-form-item label="部门状态">
                 <el-switch
-                    v-model="value"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
+                    v-model="addTitleForm.postState"
+                    :active-value="0" :inactive-value="1"
                 >
                 </el-switch>
             </el-form-item>
@@ -50,20 +49,35 @@ export default {
         postName: '',
         postLevel: '',
         remark: '',
+        postState:'',
       },
-      value: true//部门状态
+      value: true,//部门状态
+      id:-1,
     }
   },
-
+  created(){
+    this.id=this.$route.query.id
+    if(this.id>=0){
+      this.getData()
+    }
+  },
   methods: {
+    // 编辑获取初始数据
+    async getData(){
+      const { data: res } = await this.$http.post('SysController/getAllSysByNameId',{
+        findById:this.id,
+        findModelName:'mesPost'
+      })
+      if (res.code !== "0010") return this.$message.error(res.msg)
+      this.addTitleForm=res.data.data
+    },
     cancel() {
       this.$router.go(-1)
     },
     async submitForm(){
-      this.addTitleForm.postState=Number(this.value)+''
       const { data: result } = await this.$http.post('SysController/addMesPost', this.addTitleForm)
       if (result.code !== "0010") return this.$message.error(result.msg)
-      this.$message.success('新增成功')
+      this.$message.success(this.id>=0?'编辑成功':'新增成功')
       this.$router.go(-1)
     }
   }

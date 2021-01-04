@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import md5 from 'js-md5';
 export default {
   data() {
     return {
@@ -68,7 +69,12 @@ export default {
     login() {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
-        const { data: res } = await this.$http.post('userController/loginUser', this.loginForm)
+        const { data: res } = await this.$http.post('userController/loginUser', {
+          account:this.loginForm.account,
+          sysType:this.loginForm.sysType,
+          // pwd:md5(this.loginForm.pwd),
+           pwd:this.loginForm.pwd
+        })
         if (res.code !== "0010") return this.$message.error(res.msg)
         this.$message.success('登录成功')
         window.sessionStorage.setItem('token', res.data)

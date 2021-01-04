@@ -295,7 +295,7 @@
           <el-button type="warning" @click="saveAll(2)">重复当前工序</el-button>
           <el-button type="success" @click="goBack()">撤回上班工序</el-button>
           <el-button type="danger" @click="saveAll(3)">转退火</el-button>
-          <el-button type="warning" >完成生产</el-button>
+          <el-button type="warning" @click="saveAll(4)">完成生产</el-button>
         </div>
       </el-card>
       <!--  新增本班产物的对话框-->
@@ -415,7 +415,7 @@
             <el-upload
               :data="{ findById: Eid }"
               class="upload-demo"
-              action="http://192.168.31.92:8080/ProductionController/importFilePPProduction"
+              action="http://192.168.31.96:8080/ProductionController/importFilePPProduction"
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :before-remove="beforeRemove"
@@ -775,7 +775,13 @@ export default {
       this.SmeltingProducts.forEach(item => {
         item.gxId = this.PPProductionInfo.gxid
       })
-      
+      this.elblDataList.forEach(item=>{
+        if(!item.gxId||!item.pppid){
+          item.gxId=this.PPProductionInfo.gxid
+          item.pppid=this.Eid
+        }
+        
+      })
       const { data: res } = await this.$http.post('ProductionController/savePPProduction', {
         ppProduction: this.PPProductionInfo,
         oneList: this.Needstock,

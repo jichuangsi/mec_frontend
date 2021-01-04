@@ -735,7 +735,7 @@ export default {
       this.equipmentXiaLa = res.data.equipmentXiaLa
       this.PPProductionInfo.teamId = res.data.OperationInfo.tteamId
       this.PPProductionInfo.frequency = res.data.OperationInfo.frequency
-
+      this.PPProductionInfo.staffId=res.data.OperationInfo.staffId
     },
     // 详情页面获取初始数据
     async getEditData() {
@@ -756,6 +756,7 @@ export default {
       this.staffXiaLa = res.data.staffXiaLa
       this.oneListName=res.data.oneListName
       this.twoListName=res.data.twoListName
+      
     },
     // 保存全部数据
     async saveAll(state) {

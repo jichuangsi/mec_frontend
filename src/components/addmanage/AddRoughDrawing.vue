@@ -237,7 +237,7 @@
           <el-button type="success" @click="saveAll(1)">转下班工序</el-button>
           <el-button type="warning" @click="saveAll(2)">重复当前工序</el-button>
           <el-button type="primary" @click="saveAll(3)">转退火</el-button>
-          <el-button type="warning" @click="saveAll(1)">完成生产</el-button>
+          <el-button type="warning" @click="saveAll(4)">完成生产</el-button>
         </div>
       </el-card>
 

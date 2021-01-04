@@ -249,7 +249,7 @@
           <el-button type="warning" @click="saveAll(2)">重复当前工序</el-button>
           <el-button type="success" @click="goBack()">撤回上班工序</el-button>
           <el-button type="primary" @click="saveAll(3)">转退火</el-button>
-          <el-button type="warning" @click="saveAll(1)">完成生产</el-button>
+          <el-button type="warning" @click="saveAll(4)">完成生产</el-button>
         </div>
       </el-card>
       <!--  新增本班产物的对话框-->

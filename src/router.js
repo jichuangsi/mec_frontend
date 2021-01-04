@@ -53,6 +53,7 @@ const ELTest = () =>
     import ('./components/manage/ELTest.vue')
 const Winding = () =>
     import ('./components/manage/Winding.vue')
+
 const Detour = () =>
     import ('./components/manage/Detour.vue')
     // 生产管理的添加项
@@ -68,8 +69,11 @@ const AddSuperThinPull = () =>
     import ('./components/addmanage/AddSuperThinPull.vue')
 const AddBackFire = () =>
     import ('./components/addmanage/AddBackFire.vue')
-
-// 质量检验
+const WindingDetail = () =>
+    import ('./components/addmanage/WindingDetail.vue')
+const AddWinding = () =>
+    import ('./components/addmanage/AddWinding.vue')
+    // 质量检验
 const QualitySetting = () =>
     import ('./components/qualitytesting/QualitySetting.vue')
     // 统计数据
@@ -242,6 +246,8 @@ const router = new Router({
                 { path: '/elTest', component: ELTest },
                 { path: '/winding', component: Winding },
                 { path: '/Detour', component: Detour },
+                { path: '/windingDetail', component: WindingDetail },
+                { path: '/addWinding', component: AddWinding },
                 { path: '/summaryTable', component: SummaryTable },
                 { path: '/thinTable', component: ThinTable },
                 { path: '/modelSetting', component: ModelSetting },

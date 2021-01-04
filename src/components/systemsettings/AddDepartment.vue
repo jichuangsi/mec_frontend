@@ -16,9 +16,8 @@
             </el-form-item>
             <el-form-item label="部门状态">
                 <el-switch
-                v-model="value"
-                active-color="#13ce66"
-                inactive-color="#ff4949">
+                v-model="addForm.state"
+                :active-value="0" :inactive-value="1">
                 </el-switch>
             </el-form-item>
             <el-form-item style="text-align:right;">
@@ -38,11 +37,14 @@ export default {
           departmentName: '',
           staffId: '',
           departmentRemark: '',
+          state:'',
         },
-        value: true//部门状态
+        value: true,//部门状态
+        id:-1,
       };
     },
     created(){
+        this.id=this.$route.query.id
         this.getSelectedData()
     },
     methods:{
@@ -51,6 +53,14 @@ export default {
             const { data: res } = await this.$http.post('SysController/getBasicInfo', this.addForm)
             if (res.code !== "0010") return this.$message.error(res.msg)
             this.selectedData=res.data.staffList
+            if(this.id>=0){
+                const { data: res } = await this.$http.post('SysController/getAllSysByNameId', {
+                    findById:this.id,
+                    findModelName:'department'
+                })
+                if (res.code !== "0010") return this.$message.error(res.msg)
+                this.addForm=res.data.data
+            }
         },
         // 点击取消
         cancel(){
@@ -58,10 +68,12 @@ export default {
         },
         // 保存
         async addFormSubmit(){
-            this.addForm.state=Number(this.value)+''
+            if(this.id>=0){
+                this.addForm.id=this.id
+            }
             const { data: res } = await this.$http.post('SysController/addDepartment', this.addForm)
             if (res.code !== "0010") return this.$message.error(res.msg)
-            this.$message.success('保存成功')
+            this.$message.success(this.id>=0?'编辑成功':'保存成功')
             this.$router.go(-1)
         }
     }

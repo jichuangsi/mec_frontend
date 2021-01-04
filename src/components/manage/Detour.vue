@@ -7,7 +7,6 @@
       <el-col :span="2"><div class="item" @click="todo('/thinPull')">半成品</div></el-col>
       <el-col :span="2"><div class="item" @click="todo('/superThinPull')">成品</div></el-col>
       <el-col :span="2"><div class="item " @click="todo('/backFire')">转退火</div></el-col>
-      <el-col :span="3"><div class="item" @click="todo('/elTest')">EL/BL测试</div></el-col>
       <el-col :span="2"><div class="item" @click="todo('/winding')">绕线</div></el-col>
       <el-col :span="2"><div class="item current">成品改绕</div></el-col>
     </el-row>
