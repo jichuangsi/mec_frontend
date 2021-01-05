@@ -127,7 +127,7 @@ export default {
             total:0,
             // 图片上传组件的headers请求头对象
             headerObj: {
-                Authorization: window.sessionStorage.getItem('token')
+                accessToken: window.sessionStorage.getItem('token')
             },
             fileList: [],
             id:-1,

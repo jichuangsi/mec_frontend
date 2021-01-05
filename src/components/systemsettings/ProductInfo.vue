@@ -48,7 +48,7 @@ export default {
         dialogVisible: false,
         // 图片上传组件的headers请求头对象
         headerObj: {
-            Authorization: window.sessionStorage.getItem('token')
+            accessToken: window.sessionStorage.getItem('token')
         },
       };
     },

@@ -274,8 +274,8 @@ export default {
       BobbinXiaLa: [],
       BobbinXiaLaInfo: '',
       equipmentInfo:{},
-      beforeWeight:'',
-      beforeLength:'',
+      beforeLength:0,
+      beforeWeight:0,
     }
   },
   computed:{

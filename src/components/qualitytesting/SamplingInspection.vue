@@ -27,7 +27,7 @@
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="currentPage4"
+      :current-page="1"
       :page-sizes="[100, 200, 300, 400]"
       :page-size="100"
       layout="total, sizes, prev, pager, next, jumper"
@@ -70,7 +70,7 @@
               <el-button size="mini">添加</el-button>
           </el-col>
       </el-row>
-      
+
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -104,7 +104,7 @@ export default {
           address: '上海市普陀区金沙江路 1516 弄'
         }
       ],
-      dialogVisible: true
+      dialogVisible: false,
     }
   },
   created() {},

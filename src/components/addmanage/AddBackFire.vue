@@ -294,7 +294,6 @@
           <el-button type="success" @click="saveAll(1)" v-if="PPProductionInfo.gxName.indexOf('中间退火')>=0">转下班工序</el-button>
           <el-button type="warning" @click="saveAll(2)">重复当前工序</el-button>
           <el-button type="success" @click="goBack()">撤回上班工序</el-button>
-          <el-button type="danger" @click="saveAll(3)">转退火</el-button>
           <el-button type="warning" @click="saveAll(4)">完成生产</el-button>
         </div>
       </el-card>
@@ -460,7 +459,7 @@ export default {
       },
       // 图片上传组件的headers请求头对象
       headerObj: {
-        Authorization: window.sessionStorage.getItem('token')
+        accessToken: window.sessionStorage.getItem('token')
       },
       aaa: '',
       tableData: [],

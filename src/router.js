@@ -69,10 +69,14 @@ const AddSuperThinPull = () =>
     import ('./components/addmanage/AddSuperThinPull.vue')
 const AddBackFire = () =>
     import ('./components/addmanage/AddBackFire.vue')
+const DetourDetail = () =>
+    import ('./components/addmanage/DetourDetail.vue')
 const WindingDetail = () =>
     import ('./components/addmanage/WindingDetail.vue')
 const AddWinding = () =>
     import ('./components/addmanage/AddWinding.vue')
+const AddDetour = () =>
+    import ('./components/addmanage/AddDetour.vue')
     // 质量检验
 const QualitySetting = () =>
     import ('./components/qualitytesting/QualitySetting.vue')
@@ -83,6 +87,10 @@ const SummaryTable = () =>
     import ('./components/statistics/SummaryTable.vue')
 const ThinTable = () =>
     import ('./components/statistics/ThinTable.vue')
+const FlashBack = () =>
+    import ('./components/statistics/FlashBack.vue')
+const FlashBackDetail = () =>
+    import ('./components/statistics/FlashBackDetail.vue')
     //基础设置
 const ModelSetting = () =>
     import ('./components/BasicSetting/ModelSetting.vue')
@@ -253,9 +261,13 @@ const router = new Router({
                 { path: '/winding', component: Winding },
                 { path: '/Detour', component: Detour },
                 { path: '/windingDetail', component: WindingDetail },
+                { path: '/detourDetail', component: DetourDetail },
                 { path: '/addWinding', component: AddWinding },
+                { path: '/addDetour', component: AddDetour },
                 { path: '/summaryTable', component: SummaryTable },
                 { path: '/thinTable', component: ThinTable },
+                { path: '/flashBack', component: FlashBack },
+                { path: '/flashBackDetail', component: FlashBackDetail },
                 { path: '/modelSetting', component: ModelSetting },
                 { path: '/modelSetting/addProduct', component: AddProduct },
                 { path: '/modelSetting/addRaw', component: AddRaw },

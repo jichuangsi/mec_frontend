@@ -61,7 +61,7 @@
       :total="total"
     >
     </el-pagination>
-    <el-dialog title="新增改绕" :visible.sync="dialogVisible" width="60%">
+    <el-dialog title="新增改绕" :visible.sync="dialogVisible" width="60%" @close="dialogClose">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-table :data="OneList" style="width: 100%" :cell-style="{ padding: '5px 0' }" highlight-current-row :header-cell-style="{ background: '#f0f5ff', padding: '0' }" @row-click="rowClick">
@@ -75,8 +75,8 @@
             <el-table-column prop="lengthM" label="长度/m"> </el-table-column>
             <el-table-column prop="numbers" label="数量"> </el-table-column>
             <el-table-column label="选定数量">
-              <template>
-                <el-input size="mini"></el-input>
+              <template slot-scope="scope">
+                <el-input size="mini" v-model="scope.row.pageNum"></el-input>
               </template>
             </el-table-column>
           </el-table>
@@ -85,30 +85,31 @@
       <el-row style="margin:20px 0">
         <el-col :span="3" style="font-weight:bold">待改绕产品</el-col>
         <el-col :span="3" :offset="18">
-          <el-button size="mini">添加</el-button>
+          <el-button size="mini"  @click="addAllData()">添加</el-button>
         </el-col>
       </el-row>
-      <el-table :data="tableData" style="width: 100%" :cell-style="{padding: '5px 0'}"
+      <el-table :data="listData" style="width: 100%" :cell-style="{padding: '5px 0'}"
                 :header-cell-style="{background:'#f0f5ff',padding:'0'}">
-        <el-table-column prop="date" label="生产批号" > </el-table-column>
-        <el-table-column prop="name" label="产品型号" > </el-table-column>
-        <el-table-column prop="address" label="线轴"> </el-table-column>
-        <el-table-column prop="address" label="长度/m"> </el-table-column>
-        <el-table-column prop="address" label="已选定数量"> </el-table-column>
+        <el-table-column prop="ppNumber" label="生产批号" > </el-table-column>
+        <el-table-column prop="productModel" label="产品型号" > </el-table-column>
+        <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
+        <el-table-column prop="lengthM" label="长度/m"> </el-table-column>
+        <el-table-column prop="pageNum" label="已选定数量"> </el-table-column>
         <el-table-column prop="address" label="操作">
-          <template>
-            <el-button type="text">删除</el-button>
+          <template slot-scope="scope">
+            <el-button type="text" @click="delDialog(scope.$index)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="dialogConfirm">确 定</el-button>
       </span>
     </el-dialog>
   </el-card>
 </template>
 <script>
+import _ from 'lodash'
 export default {
   inject: ['reload'],
   data() {
@@ -125,15 +126,54 @@ export default {
       total: 0,
       dialogVisible: false,
       TwoList: [],
-      OneList: []
+      OneList: [],
+      row:{},
+      listData:[],
     }
   },
   created() {
     this.getData()
   },
   methods: {
+    // 对话框删除
+    async delDialog(index){
+      const confirmResult = await this.$confirm('是否确认删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return
+      }
+      this.listData.splice(index, 1)
+      this.$message.success('删除成功')
+    },
+    // 对话框确认
+    dialogConfirm(){
+      if(!this.listData.length){
+        return this.$message.error("请填写选定数量")
+      }
+      sessionStorage.setItem('detour',JSON.stringify(this.listData))
+      this.$router.push('/detourDetail')
+    },
+    // 监听对话框关闭
+    dialogClose(){
+      this.listData=[]
+    },
+    // 添加数据合并
+    addAllData(){ 
+      this.listData.push(..._.cloneDeep(this.TwoList.filter(item => item.pageNum > 0 )))
+      
+      this.listData.forEach(item=>{
+        item.leftId=this.row.id
+        item.ppNumber=this.row.ppNumber
+        item.productModel=this.row.productModel
+      })
+      
+    },
     // 监听行点击
     async rowClick(row) {
+      this.row=row
       const { data: res } = await this.$http.post('ProductionController/getFinishedByPPPId', {
         findById: row.id
       })
@@ -147,6 +187,7 @@ export default {
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.OneList = res.data.oneList
       this.TwoList = res.data.twoList
+      this.rowClick(this.OneList[0])
     },
     clear() {
       this.submitForm = {

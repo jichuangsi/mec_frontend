@@ -195,9 +195,6 @@
           <el-button type="primary">打印标签</el-button>
         </div>
       </el-card>
-
-      
-
       <!-- 操作信息的对话框 -->
       <el-dialog title="操作信息" :visible.sync="dialogCZVisible" width="30%">
         <el-form label-width="120px">
@@ -320,15 +317,13 @@ export default {
     }
   },
   created() {
-    if (this.$route.query.Eid) {
-      this.Eid = this.$route.query.Eid
-      this.getEditData()
-    }
+
+    this.getEditData()
   },
   methods: {
     start(id){
       this.$router.push({
-        path:'/addWinding',
+        path:'/addDetour',
         query:{
           Eid:this.Eid,
           id:id,
@@ -407,9 +402,19 @@ export default {
 
     // 详情页面获取初始数据
     async getEditData() {
-      const { data: res } = await this.$http.post('ProductionController/getPWindingDetailByPPPId', {
-        findById: this.Eid
+      let list=JSON.parse(sessionStorage.getItem("detour"))
+      this.Eid=list[0].leftId
+      let arr=[]
+      let obj={}
+      list.forEach(item=>{
+        obj.findById=item.leftId
+        obj.findIdOne=item.id
+        obj.pageNum=+item.pageNum
+        arr.push(obj)
       })
+      const { data: res } = await this.$http.post('ProductionController/getPDetourDetailByPPPId', 
+        arr
+      )
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.Needstock = res.data.oneList ? res.data.oneList : []
       this.BasicInfo = res.data.BasicInfo
