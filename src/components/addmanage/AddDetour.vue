@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="cancel" content="新增绕线" style="margin-bottom:20px;"> </el-page-header>
+    <el-page-header @back="cancel" content="新增改绕" style="margin-bottom:20px;"> </el-page-header>
     <el-card>
       <div style="font-weight:bold">待绕线成品参数</div>
       <el-row :gutter="20" style="margin:20px 0">
@@ -302,7 +302,7 @@ export default {
   methods: {
     // 保存页面所有数据
     async saveAll(){
-
+      this.PPPWindingInfo.pppid=this.Eid
       this.PPPWindingInfo.ppppid=this.id
       this.twoList.forEach(item=>{
         item.fid=this.id
@@ -405,7 +405,7 @@ export default {
     },
     //   获取页面初始数据
     async getData() {
-      const { data: res } = await this.$http.post('ProductionController/getPWindingDetailByPPWindingDetailId', {
+      const { data: res } = await this.$http.post('ProductionController/getPDetourDetailByPPDetourDetailId', {
         findById: this.Eid,
         findIdOne: this.id
       })

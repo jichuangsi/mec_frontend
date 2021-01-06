@@ -43,10 +43,10 @@
         <el-table-column prop="frequencystr" label="班次"> </el-table-column>
         <el-table-column prop="statestr" label="完成情况"> </el-table-column>
         <el-table-column label="操作">
-          <template>
-            <el-button type="primary" size="mini" @click="toAddMedium">查看</el-button>
+          <template slot-scope="scope">
+            <el-button type="primary" size="mini" @click="toAddMedium(scope.row.id)">查看</el-button>
 
-            <el-button type="danger" size="mini">删除</el-button>
+            <el-button type="danger" size="mini" @click="del(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -64,13 +64,13 @@
     <el-dialog title="新增改绕" :visible.sync="dialogVisible" width="60%" @close="dialogClose">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-table :data="OneList" style="width: 100%" :cell-style="{ padding: '5px 0' }" highlight-current-row :header-cell-style="{ background: '#f0f5ff', padding: '0' }" @row-click="rowClick">
+          <el-table :data="OneList" style="width: 100%" height="300px" :cell-style="{ padding: '5px 0' }" highlight-current-row :header-cell-style="{ background: '#f0f5ff', padding: '0' }" @row-click="rowClick">
             <el-table-column prop="ppNumber" label="生产批号"> </el-table-column>
             <el-table-column prop="productModel" label="产品型号"> </el-table-column>
           </el-table>
         </el-col>
         <el-col :span="12">
-          <el-table :data="TwoList" style="width: 100%" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
+          <el-table :data="TwoList" style="width: 100%" height="300px" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
             <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
             <el-table-column prop="lengthM" label="长度/m"> </el-table-column>
             <el-table-column prop="numbers" label="数量"> </el-table-column>
@@ -135,6 +135,24 @@ export default {
     this.getData()
   },
   methods: {
+    // 删除单行数据
+    async del(id) {
+      const confirmResult = await this.$confirm('是否确认删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return
+      }     
+      const { data: res } = await this.$http.post('ProductionController/updatePPPByPPPId',{
+        updateID:id,
+        updateType:'D'
+      })
+      if (res.code !== "0010") return this.$message.error(res.msg)
+      this.$message.success('删除成功')
+      this.getData()
+    },
     // 对话框删除
     async delDialog(index){
       const confirmResult = await this.$confirm('是否确认删除？', '提示', {
@@ -162,7 +180,7 @@ export default {
     },
     // 添加数据合并
     addAllData(){ 
-      this.listData.push(..._.cloneDeep(this.TwoList.filter(item => item.pageNum > 0 )))
+      this.listData.push(..._.cloneDeep(this.TwoList.filter(item => item.pageNum > 0 && item.numbers>=item.pageNum)))
       
       this.listData.forEach(item=>{
         item.leftId=this.row.id
@@ -213,8 +231,13 @@ export default {
       this.reload()
     },
 
-    toAddMedium() {
-      this.$router.push('/addMediumPull')
+    toAddMedium(id) {
+      this.$router.push({
+        path:'/detourDetail',
+        query:{
+          id:id
+        }
+      })
     },
     handleSizeChange(e) {
       this.submitForm.pageSize = e
@@ -257,5 +280,8 @@ export default {
   .el-pagination {
     margin: 60px;
   }
+  /deep/.el-table::before {//去掉最下面的那一条线
+	height: 0px;
+}
 }
 </style>

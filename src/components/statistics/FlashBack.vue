@@ -23,6 +23,11 @@ export default {
       if (!this.findName.trim()) {
         return this.$message.error('请输入搜索批号')
       }
+      const { data: res } = await this.$http.post('ProductionDataController/getProductionInfoByNumber',{
+        findName:this.findName
+      })
+      if (res.code !== "0010") return this.$message.error(res.msg)
+
       sessionStorage.setItem('flashback', this.findName)
       this.$router.push('/flashBackDetail')
     }

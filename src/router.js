@@ -82,6 +82,10 @@ const QualitySetting = () =>
     import ('./components/qualitytesting/QualitySetting.vue')
 const SamplingInspection = () =>
     import ('./components/qualitytesting/SamplingInspection.vue')
+const AddSampling = () =>
+    import ('./components/qualitytesting/AddSampling.vue')
+const AddTemplate = () =>
+    import ('./components/qualitytesting/AddTemplate.vue')
     // 统计数据
 const SummaryTable = () =>
     import ('./components/statistics/SummaryTable.vue')
@@ -297,6 +301,8 @@ const router = new Router({
                 { path: '/staffManagement/AddRole', component: AddRole },
                 { path: '/QualitySetting', component: QualitySetting },
                 { path: '/samplingInspection', component: SamplingInspection },
+                { path: '/addSampling', component: AddSampling },
+                { path: '/addTemplate', component: AddTemplate },
                 { path: '/addMelting', component: AddMelting },
                 { path: '/addRoughDrawing', component: AddRoughDrawing },
                 { path: '/addMediumPull', component: AddMediumPull },

@@ -34,54 +34,105 @@
       :total="400"
     >
     </el-pagination>
-    <el-dialog title="新增抽检" :visible.sync="dialogVisible" width="60%">
-      <el-form>
-        <el-form-item label="生产批号">
-          <el-input style="width:20%;" suffix-icon="el-icon-search"></el-input>
-          <span style="margin-left:50px;">当前车库 车间1</span>
-        </el-form-item>
-      </el-form>
+    <el-dialog title="新增抽检" :visible.sync="dialogVisible" width="60%" >
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-table :data="tableData" style="width: 100%" :cell-style="{padding: '5px 0'}"
-                :header-cell-style="{background:'#f0f5ff',padding:'0'}">
-            <el-table-column prop="date" label="生产批号"  > </el-table-column>
-            <el-table-column prop="name" label="产品型号"  > </el-table-column>
-            <el-table-column prop="name" label="规格"> </el-table-column>
+          <el-table
+            :data="OneList"
+            style="width: 100%"
+            height="300px"
+            :cell-style="{ padding: '5px 0' }"
+            highlight-current-row
+            :header-cell-style="{ background: '#f0f5ff', padding: '0' }"
+            @row-click="rowClick"
+          >
+            <el-table-column prop="ppNumber" label="生产批号"> </el-table-column>
+            <el-table-column prop="productModel" label="产品型号"> </el-table-column>
           </el-table>
         </el-col>
         <el-col :span="12">
-          <el-table :data="tableData" style="width: 100%" :cell-style="{padding: '5px 0'}"
-                :header-cell-style="{background:'#f0f5ff',padding:'0'}">
-            <el-table-column prop="date" label="线轴"  > </el-table-column>
-            <el-table-column prop="name" label="长度m/轴" > </el-table-column>
-            <el-table-column prop="name" label="库存数量（轴）"> </el-table-column>
-            <el-table-column prop="name" label="进检数量">
-                <template>
-                    <el-input size="mini"></el-input>
-                </template>
+          <el-table :data="TwoList" style="width: 100%" height="300px" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
+            <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
+            <el-table-column prop="lengthM" label="长度/m"> </el-table-column>
+            <el-table-column prop="numbers" label="数量"> </el-table-column>
+            <el-table-column label="选定数量">
+              <template slot-scope="scope">
+                <el-input size="mini" v-model="scope.row.pageNum"></el-input>
+              </template>
             </el-table-column>
           </el-table>
         </el-col>
       </el-row>
-      <el-row style="margin:10px 0">
-          <el-col :span="4">待抽检成品  </el-col>
-          <el-col :span="4" :offset="16">
-              <el-button size="mini">添加</el-button>
-          </el-col>
+      <el-row style="margin:20px 0">
+        <el-col :span="3" style="font-weight:bold">待改绕产品</el-col>
+        <el-col :span="3" :offset="18">
+          <el-button size="mini" @click="addAllData()">添加</el-button>
+        </el-col>
       </el-row>
-
+      <el-table :data="listData" style="width: 100%" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
+        <el-table-column prop="ppNumber" label="生产批号"> </el-table-column>
+        <el-table-column prop="productModel" label="产品型号"> </el-table-column>
+        <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
+        <el-table-column prop="lengthM" label="长度/m"> </el-table-column>
+        <el-table-column prop="pageNum" label="选定数量"> </el-table-column>
+        <el-table-column prop="address" label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" @click="delDialog(scope.$index)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="dialogNext">确 定</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog title="新增抽检" :visible.sync="dialogNextVisible" width="60%"  >
+      <span>已选择待抽检成品</span>
+      <el-table :data="listData" style="width: 100%" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
+        <el-table-column prop="ppNumber" label="生产批号"> </el-table-column>
+        <el-table-column prop="productModel" label="产品型号"> </el-table-column>
+        <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
+        <el-table-column prop="lengthM" label="长度/m"> </el-table-column>
+        <el-table-column prop="pageNum" label="选定数量"> </el-table-column>
+        <el-table-column prop="address" label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" @click="delDialog(scope.$index)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-form   label-width="120px" style="margin-top:30px;">
+        <el-form-item label="抽检报告名称">
+          <el-input v-model="form.findName" style="width:30%"></el-input>
+        </el-form-item>
+        <el-form-item label="抽检生产批号">
+         {{listData[0]?listData[0].ppNumber:''}}
+        </el-form-item>
+        <el-form-item label="进检验轴数">
+          {{listData[0]?listData[0].pageNum:''}}
+        </el-form-item>
+        <el-form-item label="抽检轴数">
+          <el-input v-model="form.pageNum" style="width:30%"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogNextVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogNextConfirm">确 定</el-button>
       </span>
     </el-dialog>
   </el-card>
 </template>
 <script>
+import _ from 'lodash'
 export default {
   data() {
     return {
+      form:{
+        pageNum:'',
+        findName:'',
+        findById:'',
+        findIdOne:'',
+        pageSize:'',
+      },
       tableData: [
         {
           date: '2016-05-02',
@@ -105,13 +156,86 @@ export default {
         }
       ],
       dialogVisible: false,
+      OneList: [],
+      TwoList: [],
+      row: {},
+      listData: [],
+      dialogNextVisible: false,
     }
   },
   created() {},
   methods: {
+    // 确认跳转
+    dialogNextConfirm(){
+      this.form.findById=this.listData[0].leftId
+      this.form.findIdOne=this.listData[0].id
+      this.form.pageSize=this.listData[0].pageNum
+      sessionStorage.setItem("samplinginspection",JSON.stringify(this.form))
+      this.$router.push("/addSampling")
+    },
+    // 对话框删除
+    async delDialog(index) {
+      const confirmResult = await this.$confirm('是否确认删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return
+      }
+      this.listData.splice(index, 1)
+      this.$message.success('删除成功')
+    },
+    dialogNext() {
+      this.dialogVisible = false
+      this.dialogNextVisible = true
+    },
+    // 对话框确认
+    dialogConfirm() {
+      if (!this.listData.length) {
+        return this.$message.error('请填写选定数量')
+      }
+      sessionStorage.setItem('detour', JSON.stringify(this.listData))
+      this.$router.push('/detourDetail')
+    },
+    // 添加数据合并
+    addAllData() {
+      if (this.listData.length > 0) {
+        return
+      }
+      let arr=this.TwoList.filter((item, index) => item.pageNum > 0 && item.numbers >= item.pageNum  )
+      if(arr.length>1){
+        return this.$message.error("只能选择一项")
+      }
+      this.listData.push(..._.cloneDeep(arr))
+
+      this.listData.forEach(item => {
+        item.leftId = this.row.id
+        item.ppNumber = this.row.ppNumber
+        item.productModel = this.row.productModel
+      })
+    },
+    // 监听行点击
+    async rowClick(row) {
+      this.row = row
+      const { data: res } = await this.$http.post('ProductionController/getFinishedByPPPId', {
+        findById: row.id
+      })
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      this.TwoList = res.data.twoList
+    },
+    // 监听对话框关闭
+    dialogClose() {
+      this.listData = []
+    },
     //   打开新增抽检的对话框
-    showDialog() {
+    async showDialog() {
       this.dialogVisible = true
+      const { data: res } = await this.$http.post('ProductionController/getAllFinished')
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      this.OneList = res.data.oneList
+      this.TwoList = res.data.twoList
+      this.rowClick(this.OneList[0])
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`)
@@ -126,4 +250,8 @@ export default {
 .el-pagination {
   margin: 60px;
 }
+/deep/.el-table::before {//去掉最下面的那一条线
+	height: 0px;
+}
+
 </style>

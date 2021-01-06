@@ -123,7 +123,7 @@
       </el-card>
 
       <el-card style="margin-top:20px;width:100%;">
-        <el-tabs v-model="activeName" >
+        <el-tabs v-model="activeName">
           <el-tab-pane label="待绕线成品" name="first">
             <template>
               <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="Needstock" style="width: 100%">
@@ -135,7 +135,7 @@
                 </el-table-column>
                 <el-table-column label="上班工序">
                   <template>
-                    {{oneListName }}
+                    {{ oneListName }}
                   </template>
                 </el-table-column>
                 <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
@@ -149,12 +149,12 @@
                 <el-table-column prop="netWeightgSum" label="总净重g"> </el-table-column>
                 <el-table-column prop="payingOff" label="是否改绕">
                   <template slot-scope="scope">
-                    {{scope.row.state==0?'否':'是'}}
+                    {{ scope.row.state == 0 ? '否' : '是' }}
                   </template>
                 </el-table-column>
-                <el-table-column label="操作" width="180">
+                <el-table-column label="操作" width="180" v-if="PPProductionInfo.id">
                   <template slot-scope="scope">
-                    <el-button type="primary" size="mini" @click="start(scope.row.id)">开始绕线</el-button>
+                    <el-button type="primary" size="mini" @click="start(scope.row)">开始绕线</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -162,15 +162,17 @@
           </el-tab-pane>
           <el-tab-pane label="绕线明细" name="second">
             <template>
-              <el-table :data="SmeltingProducts"  :header-cell-style="{background:'#f0f5ff' }">
+              <el-table :data="SmeltingProducts" :header-cell-style="{ background: '#f0f5ff' }">
                 <el-table-column type="index" label="序号"></el-table-column>
                 <el-table-column label="生产时间">
                   <template slot-scope="scope">
                     {{ scope.row.createTime | dateFormat }}
                   </template>
                 </el-table-column>
-                <el-table-column   label="本班工序">
-                  <template>绕线</template>
+                <el-table-column label="本班工序">
+                  <template
+                    >绕线</template
+                  >
                 </el-table-column>
                 <el-table-column prop="bobbinName" label="线轴"></el-table-column>
                 <el-table-column prop="standards" label="线轴规格"></el-table-column>
@@ -189,9 +191,9 @@
             </template>
           </el-tab-pane>
         </el-tabs>
-        <div class="card-footer" v-if="PPProductionInfo.state === 0  ">
+        <div class="card-footer" v-if="PPProductionInfo.state === 0">
           <el-button type="primary" @click="saveAll(0)">草稿</el-button>
-          <el-button type="primary"  @click="saveAll(1)">保存</el-button>
+          <el-button type="primary" @click="saveAll(1)">保存</el-button>
           <el-button type="primary">打印标签</el-button>
         </div>
       </el-card>
@@ -231,7 +233,7 @@ export default {
       form: {
         name: ''
       },
-      oneListName:'',
+      oneListName: '',
       elblDataList: [],
       historyList: [],
       //退火基本信息：
@@ -271,93 +273,33 @@ export default {
       }, //需要提交的数据
       Needstock: [], //生产所需原材料
       SmeltingProducts: [], //生产产物 熔炼
-      SmeltingProductsItem: {
-        gxName: '', //工序名称
-        createTime: '',
-        bobbinDetailId: '', //线轴规格id
-        bobbinName: '', //线轴名称
-        standards: '', //线轴规格
-        createTime: '', //生产时间
-        deleteNo: '',
-        grossWeight: '', //毛重g
-        gxId: '', //工序id
-        id: '',
-        lengthM: '', //长度m/轴
-        lossg: '', //损耗g
-        netWeightg: '', //净重g
-        netWeightgSum: '', //总净重g
-        payingOff: '', //放线
-        pppid: '', //生产id
-        slip: '', //滑差
-        straightLine: '', //直线
-        surface: '', //表面
-        takeUpSpeed: '', //收线速度
-        totalLength: '', //总长度
-        tractionSpeed: '', //牵引速度
-        wastageg: '', //废料g
-        wireDiameterUm: '' //线径um
-      },
-      NeedstockItem: {
-        quantityChoose: '', //选择数量
-        totalNet: '', //总净数g
-        unitName: '', //单位
-        standards: '', //规格
-        stockName: '', //名称
-        stockNumber: '', //编号
-        inventoryStatusId: '' //库存原料id
-      },
 
       type: '',
       activeName: 'first',
       BobbinXiaLa: [],
-      BobbinXiaLaInfo: [],
-      fileList: [],
       oneListName: '',
-      twoListName: ''
+      twoListName: '',
+      id: -1
     }
   },
   created() {
-
+    if (this.$route.query.id) {
+      this.id = this.$route.query.id
+    }
     this.getEditData()
   },
   methods: {
-    start(id){
+    start(row) {
       this.$router.push({
-        path:'/addDetour',
-        query:{
-          Eid:this.Eid,
-          id:id,
-        }
-      })
-    },
-    toDetail(id) {
-      this.$router.replace({
-        path: '/addBackFire',
+        path: '/addDetour',
         query: {
-          Eid: id
+          Eid: row.pppid,
+          id: row.id
         }
       })
     },
-    // 撤回当前工序
-    async goBack() {
-      const confirmResult = await this.$confirm('是否确认撤回？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).catch(err => err)
-      if (confirmResult !== 'confirm') {
-        return
-      }
-      const { data: res } = await this.$http.post('ProductionController/backToPPProduction', {
-        findById: this.Eid
-      })
-      if (res.code !== '0010') return this.$message.error(res.msg)
-      this.$message.success('撤回成功')
-      this.$router.go(-1)
-    },
- 
- 
-  
+
+
     //   更改操作信息
     dialogCZConfirm() {
       this.staffXiaLa.forEach(item => {
@@ -378,83 +320,78 @@ export default {
       }
       this.dialogCZVisible = false
     },
-   
-    // 编辑本班产物
-    editSmeltingProducts(index) {
-      this.SmeltingProductsItem = _.cloneDeep(this.SmeltingProducts[index])
-      this.addClassDialogVisible = true
-    },
-    // 删除本班产物
-    async delSmeltingProducts(index) {
-      const confirmResult = await this.$confirm('是否确认删除？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).catch(err => err)
-      if (confirmResult !== 'confirm') {
-        return
-      }
-      this.SmeltingProducts.splice(index, 1)
-      this.$message.success('删除成功')
-    },
-   
-    
+
 
     // 详情页面获取初始数据
     async getEditData() {
-      let list=JSON.parse(sessionStorage.getItem("detour"))
-      this.Eid=list[0].leftId
-      let arr=[]
-      let obj={}
-      list.forEach(item=>{
-        obj.findById=item.leftId
-        obj.findIdOne=item.id
-        obj.pageNum=+item.pageNum
-        arr.push(obj)
-      })
-      const { data: res } = await this.$http.post('ProductionController/getPDetourDetailByPPPId', 
-        arr
-      )
-      if (res.code !== '0010') return this.$message.error(res.msg)
-      this.Needstock = res.data.oneList ? res.data.oneList : []
-      this.BasicInfo = res.data.BasicInfo
-      this.SmeltingProducts = res.data.twoList
-      this.TeamXiaLa = res.data.TeamXiaLa
-      this.equipmentXiaLa = res.data.equipmentXiaLa
-      this.staffXiaLa = res.data.staffXiaLa
-      this.BobbinXiaLa = res.data.BobbinXiaLa
-      this.oneListName=res.data.oneListName
-      this.PPProductionInfo=res.data.PPProductionInfo
-      this.dialogCZConfirm()
+      if (this.id >= 0) {
+        const { data: res } = await this.$http.post('ProductionController/getPDetourDetailByPPPId', {
+          findById:this.id
+        })
+        if (res.code !== '0010') return this.$message.error(res.msg)
+        this.Needstock = res.data.oneList ? res.data.oneList : []
+        this.BasicInfo = res.data.BasicInfo
+        this.SmeltingProducts = res.data.twoList
+        this.TeamXiaLa = res.data.TeamXiaLa
+        this.equipmentXiaLa = res.data.equipmentXiaLa
+        this.staffXiaLa = res.data.staffXiaLa
+        this.BobbinXiaLa = res.data.BobbinXiaLa
+        this.oneListName = res.data.oneListName
+        this.PPProductionInfo = res.data.PPProductionInfo
+        this.dialogCZConfirm()
+      } else {
+        let list = JSON.parse(sessionStorage.getItem('detour'))
+        this.Eid = list[0].leftId
+        let arr = []
+        list.forEach(item => {
+          let obj = {}
+          obj.findById = item.leftId
+          obj.findIdOne = item.id
+          obj.pageNum = +item.pageNum
+          arr.push(obj)
+        })
+        const { data: res } = await this.$http.post('ProductionController/getPDetourDetailByChooseIds', arr)
+        if (res.code !== '0010') return this.$message.error(res.msg)
+        this.Needstock = res.data.oneList ? res.data.oneList : []
+        this.BasicInfo = res.data.BasicInfo
+        this.SmeltingProducts = res.data.twoList
+        this.TeamXiaLa = res.data.TeamXiaLa
+        this.equipmentXiaLa = res.data.equipmentXiaLa
+        this.staffXiaLa = res.data.staffXiaLa
+        this.BobbinXiaLa = res.data.BobbinXiaLa
+        this.oneListName = res.data.oneListName
+        this.PPProductionInfo = res.data.PPProductionInfo
+        this.dialogCZConfirm()
+      }
     },
     // 保存全部数据
     async saveAll(state) {
-      if (this.Eid >= 0) {
-        this.PPProductionInfo.id = this.Eid
-      } else {
-        this.PPProductionInfo.suitId = this.ProcessTechnology.id
-        this.PPProductionInfo.pproductId = this.id
-        this.PPProductionInfo.gxid = 1
-        this.PPProductionInfo.productionNumber = this.BasicInfo.productModel
-      }
-      if (!this.PPProductionInfo.teamId || !this.PPProductionInfo.staffId|| !this.PPProductionInfo.frequency) {
-        return this.$message.error('请填写必要项')
-      }
+      // if (this.Eid >= 0) {
+      //   // this.PPProductionInfo.id = this.Eid
+      // } else {
+      //   this.PPProductionInfo.suitId = this.ProcessTechnology.id
+      //   this.PPProductionInfo.pproductId = this.id
+      //   this.PPProductionInfo.gxid = 1
+      //   this.PPProductionInfo.productionNumber = this.BasicInfo.productModel
+      // }
+      // if (!this.PPProductionInfo.teamId || !this.PPProductionInfo.staffId|| !this.PPProductionInfo.frequency) {
+      //   return this.$message.error('请填写必要项')
+      // }
       this.ppAnnealingInfo.pppId = this.Eid
       this.PPProductionInfo.state = state
       this.SmeltingProducts.forEach(item => {
         item.gxId = this.PPProductionInfo.gxid
       })
 
-      const { data: res } = await this.$http.post('ProductionController/savePWinding', {
+      const { data: res } = await this.$http.post('ProductionController/savePDetour', {
         ppProduction: this.PPProductionInfo,
+        twoList: this.Needstock
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
-      this.$message.success( '保存成功')
+      this.$message.success('保存成功')
       this.$router.go(-1)
     },
-    
-    
+
     showCZDialog() {
       this.dialogCZVisible = true
     },

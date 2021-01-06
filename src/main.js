@@ -29,7 +29,10 @@ axios.interceptors.request.use(config => {
         // console.log(config)
         NProgress.start()
         config.headers.accessToken = window.sessionStorage.getItem('token')
-            // 在最后必须 return config
+        if (config.headers.accessToken == null) {
+            config.headers.accessToken = ''
+        }
+        // 在最后必须 return config
         return config
     })
     // 在 response 拦截器中，隐藏进度条 NProgress.done()
