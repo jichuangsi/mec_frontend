@@ -84,10 +84,10 @@
         </template>
       </el-tab-pane>
     </el-tabs>
-    <!-- <div id="printMe">
+    <div id="printMe">
       <canvas id="barcode"></canvas>
     </div>
-    <button v-print="'#printMe'">打印</button> -->
+    <button v-print="'#printMe'">打印</button>
   </el-card>
 </template>
 <script>

@@ -65,7 +65,7 @@
           <div class="header-right">
             <img src="../assets/image/avatar.svg" />
             <el-dropdown>
-              <span class="el-dropdown-link" style="cursor:pointer;"> 用户名称<i class="el-icon-arrow-down el-icon--right"></i> </span>
+              <span class="el-dropdown-link" style="cursor:pointer;"> {{user.userName}}<i class="el-icon-arrow-down el-icon--right"></i> </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item><div @click="toAccountInfo">账号资料</div></el-dropdown-item>
                 <el-dropdown-item><div @click="loginout()">退出登录</div> </el-dropdown-item>
@@ -87,10 +87,13 @@ export default {
   data() {
     return {
       // 被激活的链接地址
-      activePath: ''
+      activePath: '',
+      user:{},
     }
   },
   created() {
+    let user=sessionStorage.getItem("user")
+    this.user=JSON.parse(user)
     this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
@@ -104,14 +107,13 @@ export default {
     },
     loginout() {
       this.$router.push('/login')
+      sessionStorage.clear()
     },
     // 跳转到ems系统
     toems() {
       this.$router.push('/home')
       this.$message.warning('切换到EMS系统成功')
-      let token = window.sessionStorage.getItem('token')
-      window.sessionStorage.clear()
-      window.sessionStorage.setItem('token', token)
+      sessionStorage.removeItem("activePath")
     }
   }
 }

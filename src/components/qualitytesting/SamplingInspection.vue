@@ -2,36 +2,40 @@
   <el-card>
     <el-form label-width="120px">
       <el-form-item label="抽检报告">
-        <el-input style="width:20%;" placeholder="请输入搜索内容"></el-input>
-        <el-button type="primary" style="margin-left:50%;">筛选</el-button>
+        <el-input style="width:20%;" placeholder="请输入搜索内容" v-model="submitForm.findName"></el-input>
+        <el-button type="primary" style="margin-left:50%;" @click="getData">筛选</el-button>
         <el-button @click="showDialog">新增抽检</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%" :header-cell-style="{ background: '#f0f5ff' }">
       <el-table-column type="index" label="序号"> </el-table-column>
-      <el-table-column prop="name" label="创建时间"> </el-table-column>
-      <el-table-column prop="date" label="抽检报告名称"> </el-table-column>
-      <el-table-column prop="date" label="抽检批号"> </el-table-column>
-      <el-table-column prop="date" label="进检轴数"> </el-table-column>
-      <el-table-column prop="date" label="抽检轴数"> </el-table-column>
-      <el-table-column prop="date" label="合格轴数"> </el-table-column>
-      <el-table-column prop="date" label="不合格轴数"> </el-table-column>
-      <el-table-column width="250" prop="address" label="操作">
-        <template>
+      <el-table-column   label="创建时间">
+        <template slot-scope="scope">
+          {{scope.row.createTime|dateFormat}}
+        </template>
+      </el-table-column>
+      <el-table-column prop="reportName" label="抽检报告名称"> </el-table-column>
+      <el-table-column prop="pppNumbers" label="抽检批号"> </el-table-column>
+      <el-table-column prop="inspectionSum" label="进检轴数"> </el-table-column>
+      <el-table-column prop="samplesNums" label="抽检轴数"> </el-table-column>
+      <el-table-column prop="qualifiedNum" label="合格轴数"> </el-table-column>
+      <el-table-column prop="unqualifiedNum" label="不合格轴数"> </el-table-column>
+      <el-table-column width="250" label="操作">
+        <template slot-scope="scope">
           <el-button size="mini" type="primary">查看</el-button>
-          <el-button size="mini" type="primary">编辑</el-button>
-          <el-button size="mini" type="danger">删除</el-button>
+          <el-button size="mini" type="primary" @click="edit(scope.row.id)">编辑</el-button>
+          <el-button size="mini" type="danger" @click="del(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="1"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      :current-page="submitForm.pageNum"
+      :page-sizes="[5, 10, 15, 20]"
+      :page-size="submitForm.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="400"
+      :total="total"
     >
     </el-pagination>
     <el-dialog title="新增抽检" :visible.sync="dialogVisible" width="60%" >
@@ -133,43 +137,69 @@ export default {
         findIdOne:'',
         pageSize:'',
       },
-      tableData: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ],
+      tableData: [],
       dialogVisible: false,
       OneList: [],
       TwoList: [],
       row: {},
       listData: [],
       dialogNextVisible: false,
+      submitForm:{
+        findName:'',
+        pageNum:1,
+        pageSize:10
+      },
+      total:0,
     }
   },
-  created() {},
+  created() {
+    this.getData()
+  },
   methods: {
+    // 编辑页面
+    edit(id){
+      this.$router.push({
+        path:"/addSampling",
+        query:{
+          id:id
+        }
+      })
+    },
+    async del(id) {
+      const confirmResult = await this.$confirm('是否确认删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return
+      }
+      const { data: res } = await this.$http.post('templatesController/updateTSamplingReportById',{
+        updateID:id,
+        updateType:'D'
+      })
+      if (res.code !== "0010") return this.$message.error(res.msg)
+      this.$message.success('删除成功')
+      this.getData()
+    },
+    // 获取页面初始数据
+    async getData(){
+      const { data: res } = await this.$http.post('templatesController/getAllTSamplingReport',this.submitForm)
+      if (res.code !== "0010") return this.$message.error(res.msg)
+      this.total=res.data.total
+      this.tableData=res.data.list
+    },
     // 确认跳转
     dialogNextConfirm(){
       this.form.findById=this.listData[0].leftId
       this.form.findIdOne=this.listData[0].id
       this.form.pageSize=this.listData[0].pageNum
+      if(!this.form.findName||!this.form.pageNum){
+        return this.$message.error("请填写必要信息")
+      }
+      if(Number(this.form.pageNum)>Number(this.listData[0].pageNum)){
+        return this.$message.error("抽检数不能大于进检数")
+      }
       sessionStorage.setItem("samplinginspection",JSON.stringify(this.form))
       this.$router.push("/addSampling")
     },
@@ -238,10 +268,12 @@ export default {
       this.rowClick(this.OneList[0])
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
+      this.submitForm.pageSize=val
+      this.getData()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
+      this.submitForm.pageNum=val
+      this.getData()
     }
   }
 }

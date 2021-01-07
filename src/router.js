@@ -86,6 +86,10 @@ const AddSampling = () =>
     import ('./components/qualitytesting/AddSampling.vue')
 const AddTemplate = () =>
     import ('./components/qualitytesting/AddTemplate.vue')
+const Certificate = () =>
+    import ('./components/qualitytesting/Certificate.vue')
+const AddCertificate = () =>
+    import ('./components/qualitytesting/AddCertificate.vue')
     // 统计数据
 const SummaryTable = () =>
     import ('./components/statistics/SummaryTable.vue')
@@ -303,6 +307,8 @@ const router = new Router({
                 { path: '/samplingInspection', component: SamplingInspection },
                 { path: '/addSampling', component: AddSampling },
                 { path: '/addTemplate', component: AddTemplate },
+                { path: '/certificate', component: Certificate },
+                { path: '/addCertificate', component: AddCertificate },
                 { path: '/addMelting', component: AddMelting },
                 { path: '/addRoughDrawing', component: AddRoughDrawing },
                 { path: '/addMediumPull', component: AddMediumPull },

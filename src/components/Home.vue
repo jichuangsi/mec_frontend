@@ -48,7 +48,7 @@
               >
               <el-menu-item index="/QualitySetting" @click="saveNavState('/QualitySetting')">证书模板设置</el-menu-item>
               <el-menu-item index="/samplingInspection">抽样检验</el-menu-item>
-              <el-menu-item index="/homepage1">生成证书</el-menu-item>
+              <el-menu-item index="/certificate">生成证书</el-menu-item>
             </el-submenu>
             <el-submenu index="6">
               <template slot="title"
@@ -68,7 +68,7 @@
               <el-menu-item index="/modelSetting" @click="saveNavState('/modelSetting')">规格型号设置</el-menu-item>
               <el-menu-item index="/maintainManage" @click="saveNavState('/maintainManage')">仪器设备管理维护</el-menu-item>
               <el-menu-item index="/accountChecking" @click="saveNavState('/accountChecking')">模具管理核账</el-menu-item>
-              <el-menu-item index="/printer" @click="saveNavState('/accountChecking')">打印机管理</el-menu-item>
+              <!-- <el-menu-item index="/printer" @click="saveNavState('/accountChecking')">打印机管理</el-menu-item> -->
             </el-submenu>
             <el-submenu index="8">
               <template slot="title"
@@ -91,7 +91,7 @@
           <div class="header-right">
             <img src="../assets/image/avatar.svg" />
             <el-dropdown>
-              <span class="el-dropdown-link" style="cursor:pointer;"> 用户名称<i class="el-icon-arrow-down el-icon--right"></i> </span>
+              <span class="el-dropdown-link" style="cursor:pointer;"> {{user.userName}}<i class="el-icon-arrow-down el-icon--right"></i> </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item><div @click="toAccountInfo">账号资料</div></el-dropdown-item>
                 <el-dropdown-item><div @click="loginout()">退出登录</div> </el-dropdown-item>
@@ -113,20 +113,21 @@ export default {
   data() {
     return {
       // 被激活的链接地址
-      activePath: ''
+      activePath: '',
+      user:{},
     }
   },
   created() {
     this.activePath = window.sessionStorage.getItem('activePath')
+    let user=sessionStorage.getItem("user")
+    this.user=JSON.parse(user)
   },
   methods: {
     // 跳转到erp系统
     toggleSystem() {
       this.$router.push('/erpHome')
       this.$message.warning('切换到ERP系统成功')
-      let token = window.sessionStorage.getItem('token')
-      window.sessionStorage.clear()
-      window.sessionStorage.setItem('token', token)
+      window.sessionStorage.removeItem("activePath")
     },
     // 保存链接的激活状态
     saveNavState(activePath) {
@@ -138,6 +139,7 @@ export default {
     },
     loginout() {
       this.$router.push('/login')
+      sessionStorage.clear()
     }
   }
 }
