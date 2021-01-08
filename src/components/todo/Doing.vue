@@ -2,84 +2,38 @@
   <el-card class="box-card">
     <el-row :gutter="20">
       <el-col :span="3">
-        <div
-          class="card-top "
-          @click="todo('/todo')"
-        >待办事项</div>
+        <div class="card-top  " @click="todo('/todo')">待办事项</div>
       </el-col>
       <el-col :span="3">
-        <div class="card-top current">进行事项</div>
+        <div class="card-top current" >进行事项</div>
       </el-col>
       <el-col :span="3">
-        <div
-          class="card-top"
-          @click="todo('/done')"
-        >完成事项</div>
+        <div class="card-top" @click="todo('/done')">完成事项</div>
       </el-col>
     </el-row>
-    <el-row
-      :gutter="20"
-      style="margin:30px 0;"
-    >
-      <el-col
-        :span="2"
-        style="margin-top:10px;"
-      >待办事项</el-col>
-      <el-col :span="8">
-        <el-input
-          placeholder="请输入内容"
-          v-model="query"
-          clearable
-        >
-          <el-button
-            slot="append"
-            icon="el-icon-search"
-          ></el-button>
+    <el-row :gutter="20" style="margin:30px 0;">
+      <el-col :span="2" style="margin-top:10px;">待办事项</el-col>
+      <el-col :span="6">
+        <el-input placeholder="请输入内容" v-model="submitForm.findName"  clearable>
+          <el-button slot="append" icon="el-icon-search" @click="getData"></el-button>
         </el-input>
       </el-col>
     </el-row>
-    <el-table
-      :data="tableData"
-      style="width: 100%"
-      :header-cell-style="{background:'#f0f5ff'}"
-    >
-      <el-table-column
-        type="index"
-        width="50"
-        label="序号"
-      >
+    <el-table :data="tableData" style="width: 100%" :header-cell-style="{ background: '#f0f5ff' }">
+      <el-table-column type="index" label="序号"> </el-table-column>
+      <el-table-column prop="createTime" label="时间">
+        <template slot-scope="scope">
+          {{ scope.row.createTime | dateFormat }}
+        </template>
       </el-table-column>
-      <el-table-column
-        prop="date"
-        label="日期"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="姓名"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="address"
-        label="地址"
-      >
-      </el-table-column>
+      <el-table-column prop="matterNews" label="待办事项"> </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button
-            type="primary"
-            size="small"
-          >前往</el-button>
+          <el-button type="primary" size="small" @click="toDetail(scope.row.type)">前往</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="400"
-    >
-    </el-pagination>
+    <el-pagination :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
   </el-card>
 </template>
 
@@ -89,48 +43,64 @@ export default {
   data() {
     return {
       query: '',
-      tableData: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ]
+      tableData: [],
+      submitForm: {
+        findName:'',
+        findById: 2,
+        pageNum: 1,
+        pageSize: 10
+      },
+      total:0,
     }
   },
+  created() {
+    this.getData()
+  },
   methods: {
+    async getData() {
+      const { data: res } = await this.$http.post('HomeController/findMattersByState', this.submitForm)
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      this.tableData = res.data.list
+      this.total = res.data.total
+    },
     todo(path) {
       window.sessionStorage.setItem('activePath', path)
       this.$router.push(path)
       this.reload()
-    }
+    },
+    toDetail(type) {
+      switch (type) {
+        case 1:
+          this.$router.push('/orderreview')
+          this.saveNavState('/orderreview')
+          break
+        case 2:
+          this.$router.push('/incominginspection')
+          this.saveNavState('/incominginspection')
+          break
+        case 3:
+          this.$router.push('/saleOrderReview')
+          this.saveNavState('/saleOrderReview')
+          break
+        case 4:
+          this.$router.push('/saleOrderBack')
+          this.saveNavState('/saleOrderBack')
+          break
+        default:
+          break
+      }
+    },
+    // 保存链接的激活状态
+    saveNavState(activePath) {
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
+    },
   }
 }
 </script>
 <style lang="less" scoped>
-.table-header {
-  background-color: #f0f5ff;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-}
 .box-card {
   width: 100%;
-  height: 100%;
   position: relative;
   .card-top {
     font-size: 20px;
@@ -154,11 +124,7 @@ export default {
     }
   }
   .el-pagination {
-    position: absolute;
-    bottom: 30px;
-    right: 30px;
+    margin: 60px;
   }
 }
 </style>
-
-

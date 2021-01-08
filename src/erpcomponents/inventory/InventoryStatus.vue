@@ -28,7 +28,7 @@
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
-              <el-table-column prop="stockName" label="产品编号"> </el-table-column>
+              <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
               <el-table-column prop="standards" label="规格"> </el-table-column>
               <el-table-column prop="unitName" label="单位"> </el-table-column>
               <el-table-column prop="inventorysum" label="库存数量"> </el-table-column>
@@ -78,13 +78,13 @@
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
-              <el-table-column prop="stockName" label="产品编号"> </el-table-column>
+              <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
               <el-table-column prop="standards" label="规格"> </el-table-column>
               <el-table-column prop="unitName" label="单位"> </el-table-column>
               <el-table-column prop="inventorysum" label="库存数量"> </el-table-column>
               <el-table-column label="操作">
-                <template>
-                  <el-button type="primary" size="mini" @click="toDetail">查看</el-button>
+                <template slot-scope="scope">
+                  <el-button type="primary" size="mini" @click="toDetail(scope.row.id)">查看</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -120,13 +120,13 @@
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
-              <el-table-column prop="stockName" label="产品编号"> </el-table-column>
+              <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
               <el-table-column prop="standards" label="规格"> </el-table-column>
               <el-table-column prop="unitName" label="单位"> </el-table-column>
               <el-table-column prop="inventorysum" label="库存数量"> </el-table-column>
               <el-table-column label="操作">
-                <template>
-                  <el-button type="primary" size="mini" @click="toDetail">查看</el-button>
+                <template slot-scope="scope">
+                  <el-button type="primary" size="mini" @click="toDetail(scope.row.id)">查看</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -162,13 +162,13 @@
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
-              <el-table-column prop="stockName" label="产品编号"> </el-table-column>
+              <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
               <el-table-column prop="standards" label="规格"> </el-table-column>
               <el-table-column prop="unitName" label="单位"> </el-table-column>
               <el-table-column prop="inventorysum" label="库存数量"> </el-table-column>
               <el-table-column label="操作">
-                <template>
-                  <el-button type="primary" size="mini" @click="toDetail">查看</el-button>
+                <template slot-scope="scope">
+                  <el-button type="primary" size="mini" @click="toDetail(scope.row.id)">查看</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -204,13 +204,13 @@
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
-              <el-table-column prop="stockName" label="产品编号"> </el-table-column>
+              <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
               <el-table-column prop="standards" label="规格"> </el-table-column>
               <el-table-column prop="unitName" label="单位"> </el-table-column>
               <el-table-column prop="inventorysum" label="库存数量"> </el-table-column>
               <el-table-column label="操作">
-                <template>
-                  <el-button type="primary" size="mini" @click="toDetail">查看</el-button>
+                <template slot-scope="scope">
+                  <el-button type="primary" size="mini" @click="toDetail(scope.row.id)">查看</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -246,13 +246,13 @@
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
-              <el-table-column prop="stockName" label="产品编号"> </el-table-column>
+              <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
               <el-table-column prop="standards" label="规格"> </el-table-column>
               <el-table-column prop="unitName" label="单位"> </el-table-column>
               <el-table-column prop="inventorysum" label="库存数量"> </el-table-column>
               <el-table-column label="操作">
-                <template>
-                  <el-button type="primary" size="mini" @click="toDetail">查看</el-button>
+                <template slot-scope="scope">
+                  <el-button type="primary" size="mini" @click="toDetail(scope.row.id)">查看</el-button>
                 </template>
               </el-table-column>
             </el-table>

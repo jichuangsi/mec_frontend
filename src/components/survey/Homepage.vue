@@ -13,7 +13,7 @@
                     生产
                   </div>
                   <h2>
-                    {{production}}
+                    {{ production }}
                   </h2>
                   <img src="../../assets/image/line.svg" />
                 </div>
@@ -24,7 +24,7 @@
                     生产订单量
                   </div>
                   <h2>
-                    {{productionOrderMatter}}
+                    {{ productionOrderMatter }}
                   </h2>
                   <img src="../../assets/image/line.svg" />
                 </div>
@@ -35,7 +35,7 @@
                     采购金额
                   </div>
                   <h2>
-                    {{purchaseAmount}}
+                    {{ purchaseAmount }}
                   </h2>
                   <img src="../../assets/image/line.svg" />
                 </div>
@@ -46,7 +46,7 @@
                     销售金额
                   </div>
                   <h2>
-                    {{salesAmount}}
+                    {{ salesAmount }}
                   </h2>
                   <img src="../../assets/image/line.svg" />
                 </div>
@@ -93,7 +93,7 @@
                   <img src="../../assets/image/arraw.svg" class="arraw" />
                 </div>
               </el-col>
-              
+
               <el-col :span="4">
                 <div class="production-item">
                   <img src="../../assets/image/melting.svg" />
@@ -103,7 +103,7 @@
               </el-col>
               <el-col :span="3">
                 <div class="production-item">
-                  <img src="../../assets/image/melting.svg"  />
+                  <img src="../../assets/image/melting.svg" />
                   <div>退火</div>
                 </div>
               </el-col>
@@ -117,19 +117,23 @@
       </el-col>
       <el-col :span="8">
         <div class="message">
-          <h1 >系统消息</h1>
+          <h1>系统消息</h1>
           <el-card>
             <h4 style="margin:0">系统公告</h4>
-            <el-row :gutter="20" v-for="(item,index) in noticeList" :key="item.id" class="system">
-              <el-col :span="1" >{{index+1}}</el-col>
-              <el-col :span="11" :offset="1" >{{item.noticeName}}</el-col>
-              <el-col :span="10" >{{item.createTime|dateFormat}}</el-col>
+            <el-row :gutter="20" v-for="(item, index) in noticeList" :key="item.id" class="system">
+              <el-col :span="1">{{ index + 1 }}</el-col>
+              <el-col :span="11" :offset="1">{{ item.noticeName }}</el-col>
+              <el-col :span="10">{{ item.createTime | dateFormat }}</el-col>
             </el-row>
           </el-card>
 
           <el-card style="margin-top:30px;">
-            <div class="message-title">代办事项</div>
-
+            <h4 style="margin:0">待办事项</h4>
+            <el-row :gutter="20" v-for="(item, index) in myMatter" :key="item.id" class="system">
+              <el-col :span="1">{{ index + 1 }}</el-col>
+              <el-col :span="15" :offset="1">{{ item.matterNews }}</el-col>
+              <el-col :span="6" @click.native="toDetail(item.type)">前往</el-col>
+            </el-row>
           </el-card>
         </div>
       </el-col>
@@ -168,12 +172,12 @@ export default {
           name: '年末公司年会通知'
         }
       ],
-      myMatter:[],
-      noticeList:[],
-      production:'',
-      productionOrderMatter:'',
-      purchaseAmount:'',
-      salesAmount:'',
+      myMatter: [],
+      noticeList: [],
+      production: '',
+      productionOrderMatter: '',
+      purchaseAmount: '',
+      salesAmount: ''
     }
   },
   created() {
@@ -207,15 +211,42 @@ export default {
     myChart.setOption(option)
   },
   methods: {
-    async getData(){
+    toDetail(type) {
+      switch (type) {
+        case 1:
+          this.$router.push('/orderreview')
+          this.saveNavState('/orderreview')
+          break
+        case 2:
+          this.$router.push('/incominginspection')
+          this.saveNavState('/incominginspection')
+          break
+        case 3:
+          this.$router.push('/saleOrderReview')
+          this.saveNavState('/saleOrderReview')
+          break
+        case 4:
+          this.$router.push('/saleOrderBack')
+          this.saveNavState('/saleOrderBack')
+          break
+        default:
+          break
+      }
+    },
+    async getData() {
       const { data: res } = await this.$http.post('HomeController/findMyMatters')
-      if (res.code !== "0010") return this.$message.error(res.msg)
-      this.myMatter=res.data.myMatter
-      this.noticeList=res.data.noticeList
-      this.production=res.data.production
-      this.productionOrderMatter=res.data.productionOrderMatter
-      this.purchaseAmount=res.data.purchaseAmount
-      this.salesAmount=res.data.salesAmount
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      this.myMatter = res.data.myMatter
+      this.noticeList = res.data.noticeList
+      this.production = res.data.production
+      this.productionOrderMatter = res.data.productionOrderMatter
+      this.purchaseAmount = res.data.purchaseAmount
+      this.salesAmount = res.data.salesAmount
+    },
+    // 保存链接的激活状态
+    saveNavState(activePath) {
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
     },
   }
 }
@@ -339,9 +370,9 @@ h1 {
     }
   }
 }
-.system{
+.system {
   cursor: pointer;
-  margin:30px 0;
-  color:#bdbec4;
+  margin: 30px 0;
+  color: #bdbec4;
 }
 </style>

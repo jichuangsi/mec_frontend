@@ -145,7 +145,11 @@ export default {
     },
     // 监听对话框关闭
     dialogClose() {
-      this.$refs.form.resetFields()
+      this.form= {
+        levelName: '',
+        auditLevel: '',
+        staffId: ''
+      },
       this.zhicheng = ''
       this.id = -1
     },
