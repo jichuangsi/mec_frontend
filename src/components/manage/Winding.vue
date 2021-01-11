@@ -7,7 +7,6 @@
       <el-col :span="2"><div class="item" @click="todo('/thinPull')">半成品</div></el-col>
       <el-col :span="2"><div class="item" @click="todo('/superThinPull')">成品</div></el-col>
       <el-col :span="2"><div class="item " @click="todo('/backFire')">转退火</div></el-col>
-      <el-col :span="3"><div class="item" @click="todo('/elTest')">EL/BL测试</div></el-col>
       <el-col :span="2"><div class="item current">绕线</div></el-col>
       <el-col :span="2"><div class="item" @click="todo('/detour')">成品改绕</div></el-col>
     </el-row>
@@ -43,8 +42,8 @@
         <el-table-column prop="frequencystr" label="班次"> </el-table-column>
         <el-table-column prop="statestr" label="完成情况"> </el-table-column>
         <el-table-column label="操作">
-          <template>
-            <el-button type="primary" size="mini" @click="toAddMedium">查看</el-button>
+          <template slot-scope="scope">
+            <el-button type="primary" size="mini" @click="toDetail(scope.row.id)">查看</el-button>
 
             <el-button type="danger" size="mini">删除</el-button>
           </template>
@@ -61,7 +60,7 @@ export default {
     return {
       tableData: [],
       submitForm: {
-        findById: 5,
+        findById: 8,
         findDate: '',
         findModelName: '',
         findName: '',
@@ -75,6 +74,14 @@ export default {
     this.getData()
   },
   methods: {
+    toDetail(id){
+      this.$router.push({
+        path:'/windingDetail',
+        query:{
+          Eid:id
+        }
+      })
+    },
     clear() {
       this.submitForm = {
         findById: 8,

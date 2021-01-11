@@ -35,12 +35,13 @@
 </template>
 
 <script>
+import md5 from 'js-md5';
 export default {
   data() {
     return {
       // 这是登录表单的数据绑定对象
       loginForm: {
-        account: '666666',
+        account: '123123',
         pwd: '123123',
         sysType:1,
       },
@@ -68,10 +69,18 @@ export default {
     login() {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
-        const { data: res } = await this.$http.post('userController/loginUser', this.loginForm)
+        const { data: res } = await this.$http.post('userController/loginUser', {
+          account:this.loginForm.account,
+          sysType:this.loginForm.sysType,
+           pwd:md5(this.loginForm.pwd),
+           //pwd:this.loginForm.pwd
+        })
         if (res.code !== "0010") return this.$message.error(res.msg)
+        
+        sessionStorage.setItem("user",JSON.stringify(res.data))
         this.$message.success('登录成功')
-        window.sessionStorage.setItem('token', res.data)
+        window.sessionStorage.setItem('token', res.data.accessToken)
+        res.data.accessToken
         if(this.loginForm.sysType===1){
           this.$router.push('/home')
         }else{

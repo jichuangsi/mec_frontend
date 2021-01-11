@@ -19,16 +19,22 @@ import JsonExcel from 'vue-json-excel'
 // 导入 NProgress 包对应的JS和CSS
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-
+import Print from 'vue-print-nb'
 import axios from 'axios'
-// 配置请求的跟路径
+Vue.use(Print)
+    // 配置请求的跟路径
+//axios.defaults.baseURL = 'http://192.168.31.92:8080/'
 axios.defaults.baseURL = 'http://192.168.1.3:9090/'
     // 在 request 拦截器中，展示进度条 NProgress.start()
 axios.interceptors.request.use(config => {
         // console.log(config)
         NProgress.start()
-        config.headers.Authorization = window.sessionStorage.getItem('token')
-            // 在最后必须 return config
+        //config.headers.Authorization = window.sessionStorage.getItem('token')
+        config.headers.accessToken = window.sessionStorage.getItem('token')
+        if (config.headers.accessToken == null) {
+            config.headers.accessToken = ''
+        }
+        // 在最后必须 return config
         return config
     })
     // 在 response 拦截器中，隐藏进度条 NProgress.done()

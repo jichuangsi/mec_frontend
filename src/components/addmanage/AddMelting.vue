@@ -149,7 +149,7 @@
         </el-row>
         <el-row>
           <el-col :span="6"><div class="col-left">设备类型</div></el-col>
-          <el-col :span="16" :offset="2"><div class="col-right">熔炼设备</div></el-col>
+          <el-col :span="16" :offset="2"><div class="col-right">{{equipmentInfo.equipmentInfo}}</div></el-col>
         </el-row>
         <el-row>
           <el-col :span="6"><div class="col-left">最近一次检修员</div></el-col>
@@ -204,7 +204,7 @@
       <!-- 原材料 -->
       <el-card style="width:100%;margin-top:20px;">
         <div class="j-c-s">
-          <div class="meta">原材料</div>
+          <div class="meta">{{oneListName?oneListName:'原材料'}}</div>
           <el-button type="primary" plain @click="showAllocatDialog('diaobo')" v-if="PPProductionInfo.state === 0 || id >= 0">新增</el-button>
         </div>
         <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="Needstock" style="width: 100%">
@@ -224,7 +224,7 @@
       </el-card>
       <el-card style="width:100%;margin-top:20px;">
         <div class="j-c-s">
-          <div class="meta">本班生产产物（熔炼）</div>
+          <div class="meta">{{twoListName?'本班生产产物（'+twoListName+')':'本班生产产物（熔炼）'}}</div>
           <el-button type="primary" plain @click="showAddClassDialog" v-if="PPProductionInfo.state === 0 || id >= 0">新增</el-button>
         </div>
         <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="SmeltingProducts" style="width: 100%">
@@ -234,7 +234,11 @@
               {{ scope.row.createTime | dateFormat }}
             </template>
           </el-table-column>
-          <el-table-column  label="工序">熔炼</el-table-column>
+          <el-table-column  label="工序">
+            <template>
+              {{twoListName?twoListName:'熔炼'}}
+            </template>
+          </el-table-column>
           <el-table-column prop="grossWeight" label="毛重"> </el-table-column>
           <el-table-column prop="netWeightg" label="净重"> </el-table-column>
           <el-table-column prop="wastageg" label="废料(g)"> </el-table-column>
@@ -444,6 +448,8 @@ export default {
       form: {
         name: ''
       },
+      oneListName:'',
+      twoListName:'',
       tableData: [],
       addClassDialogVisible: false,
       dialogCZVisible: false,
@@ -542,6 +548,9 @@ export default {
     }
   },
   methods: {
+    del(index){
+      this.listdataDetailAll.splice(index,1)
+    },
     // 最后确认调拨
     async allocatConfirm() {
       this.listdataDetailAll.forEach(item => {
@@ -582,10 +591,7 @@ export default {
         findModelName: this.activeName
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
-      this.listdataDetail = res.data.listdataDetail
-      this.listdataObj.stockName = row.stockName
-      this.listdataObj.stockNumber = row.stockNumber
-      this.listdataObj.pppid = row.dictionarier
+      this.listdataDetail = res.data.RData
     },
     //展示调拨下一步
     allocatNext() {
@@ -596,11 +602,11 @@ export default {
     async getAllocat() {
       const { data: ress } = await this.$http.post('warehouseController/getAllWarehousingChuKu', this.ChuKuForm)
       if (ress.code !== '0010') return this.$message.error(ress.msg)
-      this.listdata = ress.data.listdata
-      this.listdataDetail = ress.data.listdataDetail
-      this.listdataObj.stockName = ress.data.listdata[0].stockName
-      this.listdataObj.stockNumber = ress.data.listdata[0].stockNumber
-      this.listdataObj.pppid = ress.data.listdata[0].dictionarier
+      this.listdata = ress.data.LData
+      this.rowClick(this.listdata[0])
+      this.listdataObj.stockName = this.listdata[0].stockName
+      this.listdataObj.stockNumber = this.listdata[0].stockNumber
+      this.listdataObj.pppid = this.listdata[0].dictionarier
     },
     //展示调拨的对话框
     async showAllocatDialog(type) {
@@ -726,6 +732,7 @@ export default {
       this.equipmentXiaLa = res.data.equipmentXiaLa
       this.PPProductionInfo.teamId = res.data.OperationInfo.tteamId
       this.PPProductionInfo.frequency = res.data.OperationInfo.frequency
+      this.PPProductionInfo.staffId=res.data.OperationInfo.staffId
     },
     // 详情页面获取初始数据
     async getEditData() {
@@ -744,6 +751,9 @@ export default {
       this.equipmentInfo = res.data.equipmentInfo
       this.equipmentXiaLa = res.data.equipmentXiaLa
       this.staffXiaLa = res.data.staffXiaLa
+      this.oneListName=res.data.oneListName
+      this.twoListName=res.data.twoListName
+      
     },
     // 保存全部数据
     async saveAll(state) {

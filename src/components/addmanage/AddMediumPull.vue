@@ -178,7 +178,7 @@
       <!-- 上班生产产物（粗拉） -->
       <el-card style="width:100%;margin-top:20px;">
         <div class="j-c-s">
-          <div class="meta">上班生产产物（粗拉）</div>
+          <div class="meta">上班生产产物（{{oneListName}}）</div>
         </div>
         <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="Needstock" style="width: 100%">
           <el-table-column type="index" label="序号"> </el-table-column>
@@ -187,7 +187,11 @@
               {{ scope.row.createTime | dateFormat }}
             </template>
           </el-table-column>
-          <el-table-column label="工序">粗拉</el-table-column>
+          <el-table-column  label="工序">
+            <template>
+              {{oneListName}}
+            </template>
+          </el-table-column>
           <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
           <el-table-column prop="standards" label="线轴规格"> </el-table-column>
           <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
@@ -196,18 +200,13 @@
           <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
           <el-table-column prop="wastageg" label="废料g"> </el-table-column>
           <el-table-column prop="lossg" label="损耗g"> </el-table-column>
-          <el-table-column label="操作" v-if="PPProductionInfo.state === 0">
-            <template slot-scope="scope">
-              <el-button type="primary" size="mini" @click="editSmeltingProducts(scope.$index)">编辑</el-button>
-              <el-button type="danger" size="mini" @click="delSmeltingProducts(scope.$index)">删除</el-button>
-            </template>
-          </el-table-column>
+          
         </el-table>
       </el-card>
         <!-- 本班生产产物（粗拉） -->
       <el-card style="width:100%;margin-top:20px;">
         <div class="j-c-s">
-          <div class="meta">本班生产产物（中拉）</div>
+          <div class="meta">本班生产产物（{{twoListName}}）</div>
           <el-button type="primary" plain @click="showAddClassDialog" v-if="PPProductionInfo.state === 0">新增</el-button>
         </div>
         <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="SmeltingProducts" style="width: 100%">
@@ -217,7 +216,9 @@
               {{ scope.row.createTime | dateFormat }}
             </template>
           </el-table-column>
-          <el-table-column label="工序">粗拉</el-table-column>
+          <el-table-column label="工序"  >
+            {{twoListName}}
+          </el-table-column>
           <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
           <el-table-column prop="standards" label="线轴规格"> </el-table-column>
           <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
@@ -244,7 +245,7 @@
           <el-button type="warning" @click="saveAll(2)">重复当前工序</el-button>
           <el-button type="success" @click="goBack()">撤回上班工序</el-button>
           <el-button type="info" @click="saveAll(3)">转退火</el-button>
-          <el-button type="warning" @click="saveAll(1)">完成生产</el-button>
+          <el-button type="warning" @click="saveAll(4)">完成生产</el-button>
         </div>
       </el-card>
       <!--  新增本班产物的对话框-->
@@ -461,7 +462,9 @@ export default {
       },
       activeName: 'stock',
       BobbinXiaLa: [],
-      BobbinXiaLaInfo: []
+      BobbinXiaLaInfo: [],
+      twoListName:'',
+      oneListName:'',
     }
   },
   created() {
@@ -602,6 +605,7 @@ export default {
         wastageg: '', //废料g
         wireDiameterUm:'' //线径um
       }
+      this.aaa=''
     },
     //   获取页面的初始数据
     async getData() {
@@ -639,6 +643,8 @@ export default {
       this.equipmentXiaLa = res.data.equipmentXiaLa
       this.staffXiaLa = res.data.staffXiaLa
       this.BobbinXiaLa = res.data.BobbinXiaLa
+      this.twoListName=res.data.twoListName
+      this.oneListName=res.data.oneListName
     },
     // 保存全部数据
     async saveAll(state) {

@@ -7,7 +7,6 @@
       <el-col :span="2"><div class="item" @click="todo('/thinPull')">半成品</div></el-col>
       <el-col :span="2"><div class="item" @click="todo('/superThinPull')">成品</div></el-col>
       <el-col :span="2"><div class="item current">转退火</div></el-col>
-      <el-col :span="3"><div class="item" @click="todo('/elTest')">EL/BL测试</div></el-col>
       <el-col :span="2"><div class="item" @click="todo('/winding')">绕线</div></el-col>
       <el-col :span="2"><div class="item" @click="todo('/detour')">成品改绕</div></el-col>
     </el-row>
@@ -44,8 +43,7 @@
         <el-table-column prop="statestr" label="完成情况"> </el-table-column>
         <el-table-column label="操作" width="300">
           <template slot-scope="scope" >
-            <el-button type="primary" size="mini" @click="toDetail(scope.row.id)">中间退火</el-button>
-            <el-button type="primary" size="mini" @click="toDetail(scope.row.id)">成品退火</el-button>
+            <el-button type="primary" size="mini" @click="toDetail(scope.row.id)">查看</el-button>
             <el-button type="danger" size="mini" @click="del(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
@@ -61,7 +59,7 @@ export default {
     return {
       tableData: [],
       submitForm: {
-        findById: 5,
+        findById: 6,
         findDate: '',
         findModelName: '',
         findName: '',

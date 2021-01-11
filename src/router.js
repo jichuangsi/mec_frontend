@@ -53,6 +53,7 @@ const ELTest = () =>
     import ('./components/manage/ELTest.vue')
 const Winding = () =>
     import ('./components/manage/Winding.vue')
+
 const Detour = () =>
     import ('./components/manage/Detour.vue')
     // 生产管理的添加项
@@ -68,15 +69,36 @@ const AddSuperThinPull = () =>
     import ('./components/addmanage/AddSuperThinPull.vue')
 const AddBackFire = () =>
     import ('./components/addmanage/AddBackFire.vue')
-
-// 质量检验
+const DetourDetail = () =>
+    import ('./components/addmanage/DetourDetail.vue')
+const WindingDetail = () =>
+    import ('./components/addmanage/WindingDetail.vue')
+const AddWinding = () =>
+    import ('./components/addmanage/AddWinding.vue')
+const AddDetour = () =>
+    import ('./components/addmanage/AddDetour.vue')
+    // 质量检验
 const QualitySetting = () =>
     import ('./components/qualitytesting/QualitySetting.vue')
+const SamplingInspection = () =>
+    import ('./components/qualitytesting/SamplingInspection.vue')
+const AddSampling = () =>
+    import ('./components/qualitytesting/AddSampling.vue')
+const AddTemplate = () =>
+    import ('./components/qualitytesting/AddTemplate.vue')
+const Certificate = () =>
+    import ('./components/qualitytesting/Certificate.vue')
+const AddCertificate = () =>
+    import ('./components/qualitytesting/AddCertificate.vue')
     // 统计数据
 const SummaryTable = () =>
     import ('./components/statistics/SummaryTable.vue')
 const ThinTable = () =>
     import ('./components/statistics/ThinTable.vue')
+const FlashBack = () =>
+    import ('./components/statistics/FlashBack.vue')
+const FlashBackDetail = () =>
+    import ('./components/statistics/FlashBackDetail.vue')
     //基础设置
 const ModelSetting = () =>
     import ('./components/BasicSetting/ModelSetting.vue')
@@ -204,6 +226,10 @@ const WarehouseAllocation = () =>
     import ('./erpcomponents/inventory/WarehouseAllocation.vue')
 const WarehouseManage = () =>
     import ('./erpcomponents/inventory/WarehouseManage.vue')
+const PackagingManage = () =>
+    import ('./erpcomponents/inventory/PackagingManage.vue')
+const PackagingSetting = () =>
+    import ('./erpcomponents/inventory/PackagingSetting.vue')
     // 文件管理
 const FileManage = () =>
     import ('./erpcomponents/file/FileManage.vue')
@@ -242,8 +268,14 @@ const router = new Router({
                 { path: '/elTest', component: ELTest },
                 { path: '/winding', component: Winding },
                 { path: '/Detour', component: Detour },
+                { path: '/windingDetail', component: WindingDetail },
+                { path: '/detourDetail', component: DetourDetail },
+                { path: '/addWinding', component: AddWinding },
+                { path: '/addDetour', component: AddDetour },
                 { path: '/summaryTable', component: SummaryTable },
                 { path: '/thinTable', component: ThinTable },
+                { path: '/flashBack', component: FlashBack },
+                { path: '/flashBackDetail', component: FlashBackDetail },
                 { path: '/modelSetting', component: ModelSetting },
                 { path: '/modelSetting/addProduct', component: AddProduct },
                 { path: '/modelSetting/addRaw', component: AddRaw },
@@ -272,6 +304,11 @@ const router = new Router({
                 { path: '/staffManagement/addClass', component: AddClass },
                 { path: '/staffManagement/AddRole', component: AddRole },
                 { path: '/QualitySetting', component: QualitySetting },
+                { path: '/samplingInspection', component: SamplingInspection },
+                { path: '/addSampling', component: AddSampling },
+                { path: '/addTemplate', component: AddTemplate },
+                { path: '/certificate', component: Certificate },
+                { path: '/addCertificate', component: AddCertificate },
                 { path: '/addMelting', component: AddMelting },
                 { path: '/addRoughDrawing', component: AddRoughDrawing },
                 { path: '/addMediumPull', component: AddMediumPull },
@@ -315,6 +352,8 @@ const router = new Router({
                 { path: '/inventoryStatusDetail', component: InventoryStatusDetail },
                 { path: '/warehouseallocation', component: WarehouseAllocation },
                 { path: '/warehouseManage', component: WarehouseManage },
+                { path: '/packagingSetting', component: PackagingSetting },
+                { path: '/packagingManage', component: PackagingManage },
                 { path: '/fileManage', component: FileManage },
                 { path: '/systemAnnounce', component: SystemAnnounce },
             ]

@@ -243,7 +243,7 @@
       </el-tab-pane>
     </el-tabs>
     <!--原材料调拨的对话框  -->
-    <el-dialog title="原材料调拨" :visible.sync="allocatDialogVisible" width="60%" @close="allocatDialogClose">
+    <el-dialog :title="type == 'diaobo' ? '原材料调拨 ' : type =='chuku' ? '出库' : '入库' " :visible.sync="allocatDialogVisible" width="60%" @close="allocatDialogClose">
       <!-- 上一部分的表格 -->
       <el-row>
         <el-col :span="7">
@@ -273,13 +273,13 @@
       </el-row>
       <el-row>
         <el-col :span="11">
-          <el-table stripe :data="listdata" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%" @row-click="rowClick">
+          <el-table stripe :data="listdata" height="300px" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%" @row-click="rowClick">
             <el-table-column prop="stockName" label="产品名称"> </el-table-column>
             <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
           </el-table>
         </el-col>
         <el-col :span="11" :offset="1">
-          <el-table stripe :data="listdataDetail" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
+          <el-table stripe height="300px" :data="listdataDetail" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
             <el-table-column prop="updateRemark" label="规格"> </el-table-column>
             <el-table-column prop="updateNum" label="库存数量">
               <template slot-scope="scope">
@@ -439,12 +439,14 @@ export default {
       this.listdataDetailAll.forEach(item=>{
         obj.updateID=item.updateID
         obj.updateNum=item.xuandingNum
+        obj.unitId=item.unitId
+        obj.stockModel=item.stockModel
+        obj.stockName=item.stockName
+        obj.stockNumber=item.stockNumber
+        obj.standards=item.updateRemark
         list.push(_.cloneDeep(obj))
       })      
-      if(this.type=='diaobo'){
-        if(!this.updateWarehourseID){
-          return this.$message.error("请选择仓库")
-        }
+      if(this.type=='diaobo'){      
         const { data: res } = await this.$http.post('warehouseController/updateWarehouseAllocation',list)
         if (res.code !== '0010') return this.$message.error(res.msg)
         this.$message.success("调拨成功")
@@ -452,10 +454,7 @@ export default {
         const { data: res } = await this.$http.post('warehouseController/updateWarehouseOut',list)
         if (res.code !== '0010') return this.$message.error(res.msg)
         this.$message.success("出库成功")
-      }else{
-        if(!this.updateWarehourseID){
-          return this.$message.error("请选择仓库")
-        }
+      }else{      
         const { data: res } = await this.$http.post('warehouseController/updateWarehouseIn',list)
         if (res.code !== '0010') return this.$message.error(res.msg)
         this.$message.success("入库成功")
@@ -468,12 +467,21 @@ export default {
     },
     // 添加数据合并
     addAllData(){
+
       this.listdataDetailAll.push(..._.cloneDeep(this.listdataDetail))
+      this.listdataDetail.forEach(item=>{
+        item.xuandingNum=''
+      })
       this.listdataDetailAll.forEach(item=>{
         item.stockName=item.stockName?item.stockName:this.listdataObj.stockName
+        item.stockModel=item.stockModel?item.stockModel:this.listdataObj.stockModel
+        item.unitId=item.unitId?item.unitId:this.listdataObj.unitId
         item.stockNumber=item.stockNumber?item.stockNumber:this.listdataObj.stockNumber
       })
-      this.listdataDetailAll=this.listdataDetailAll.filter(item => item.xuandingNum > 0 && item.xuandingNum<=item.updateNum)
+      this.listdataDetailAll=this.listdataDetailAll.filter(item => item.xuandingNum > 0 )
+      if(this.type=="diaobo"||this.type=="chuku"){
+        this.listdataDetailAll=this.listdataDetailAll.filter(item =>  item.xuandingNum<=item.updateNum )
+      }
     },
     // 每一行点击
     async rowClick(row){
@@ -483,18 +491,23 @@ export default {
         findModelName:this.activeName
         })
         if (res.code !== '0010') return this.$message.error(res.msg)
-        this.listdataDetail=res.data.liststockDetail
+        this.listdataDetail=res.data.RData
         this.listdataObj.stockName=row.stockName
         this.listdataObj.stockNumber=row.stockNumber
+        this.listdataObj.unitId=row.dictionarierId
+        this.listdataObj.stockModel=row.stockModel
       }else{
         const { data: res } = await this.$http.post('warehouseController/getAllWarehousingChuKuById',{
         findById:row.id,
-        findModelName:this.activeName
+        findModelName:this.activeName,
+        findIdOne:this.ChuKuForm.findIdOne
         })
         if (res.code !== '0010') return this.$message.error(res.msg)
-        this.listdataDetail=res.data.listdataDetail
+        this.listdataDetail=res.data.RData
         this.listdataObj.stockName=row.stockName
         this.listdataObj.stockNumber=row.stockNumber
+        this.listdataObj.unitId=row.dictionarierId
+        this.listdataObj.stockModel=row.stockModel
       }
       
     },
@@ -513,6 +526,10 @@ export default {
     },
     //展示调拨下一步
     allocatNext() {
+      if(this.type=='diaobo'||this.type=='ruku')
+       if(!this.updateWarehourseID){
+          return this.$message.error("请选择仓库")
+        }
       this.allocatDialogVisible = false
       this.allocatNextDialogVisible = true
     },
@@ -521,17 +538,20 @@ export default {
       if(this.type=='ruku'){
         const { data: ress } = await this.$http.post('warehouseController/getAllWarehousingProduct',this.ChuKuForm)
         if (ress.code !== '0010') return this.$message.error(ress.msg)
-        this.listdata=ress.data.liststock
-        this.listdataDetail=ress.data.liststockDetail
-        this.listdataObj.stockName=ress.data.liststock[0].stockName
-        this.listdataObj.stockNumber=ress.data.liststock[0].stockNumber
+        this.listdata=ress.data.LData
+        this.listdataDetail=ress.data.RData
+        this.listdataObj.stockName=ress.data.LData[0].stockName
+        this.listdataObj.stockNumber=ress.data.LData[0].stockNumber
+        this.rowClick(ress.data.LData[0])
       }else{
         const { data: ress } = await this.$http.post('warehouseController/getAllWarehousingChuKu',this.ChuKuForm)
         if (ress.code !== '0010') return this.$message.error(ress.msg)
-        this.listdata=ress.data.listdata
-        this.listdataDetail=ress.data.listdataDetail
-        this.listdataObj.stockName=ress.data.listdata[0].stockName
-        this.listdataObj.stockNumber=ress.data.listdata[0].stockNumber
+        this.listdata=ress.data.LData
+        this.listdataDetail=ress.data.RData
+
+        this.listdataObj.stockName=ress.data.LData[0].stockName
+        this.listdataObj.stockNumber=ress.data.LData[0].stockNumber
+        this.rowClick(ress.data.LData[0])
       } 
     },
     //展示调拨的对话框

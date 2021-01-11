@@ -1,214 +1,144 @@
 /* eslint-disable */
 <template>
-    <div class="container">
-        <el-row :gutter="40">
-            <el-col :span="16">
-
-                <div class="data">
-                    <h1>今日数据</h1>
-                    <el-card
-                        class="box-card"
-                        shadow="always"
-                        style="border-radius:16px"
-                    >
-
-                        <el-row>
-                            <el-col :span="6">
-                                <div class="card-item">
-                                    <div class="card-item-title">
-                                        生产
-                                    </div>
-                                    <h2>
-                                        2685
-                                    </h2>
-                                    <img src="../../assets/image/line.svg" />
-                                </div>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="card-item">
-                                    <div class="card-item-title">
-                                        生产
-                                    </div>
-                                    <h2>
-                                        2685
-                                    </h2>
-                                    <img src="../../assets/image/line.svg" />
-                                </div>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="card-item">
-                                    <div class="card-item-title">
-                                        生产
-                                    </div>
-                                    <h2>
-                                        2685
-                                    </h2>
-                                    <img src="../../assets/image/line.svg" />
-                                </div>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="card-item">
-                                    <div class="card-item-title">
-                                        生产
-                                    </div>
-                                    <h2>
-                                        2685
-                                    </h2>
-                                    <img src="../../assets/image/line.svg" />
-                                </div>
-                            </el-col>
-                        </el-row>
-
-                    </el-card>
-                    <el-card
-                        class="production"
-                        style="border-radius:16px"
-                    >
-                        <div class="production-title">
-                            生产流程
-                        </div>
-                        <el-row>
-                            <el-col :span="4">
-                                <div class="production-item">
-                                    <img src="../../assets/image/melting.svg" />
-                                    <div>熔炼</div>
-                                    <img
-                                        src="../../assets/image/arraw.svg"
-                                        class="arraw"
-                                    />
-                                </div>
-
-                            </el-col>
-                            <el-col :span="4">
-                                <div class="production-item">
-                                    <img src="../../assets/image/melting.svg" />
-                                    <div>熔炼</div>
-                                    <img
-                                        src="../../assets/image/arraw.svg"
-                                        class="arraw"
-                                    />
-                                </div>
-
-                            </el-col>
-                            <el-col :span="4">
-                                <div class="production-item">
-                                    <img src="../../assets/image/melting.svg" />
-                                    <div>熔炼</div>
-                                    <img
-                                        src="../../assets/image/arraw.svg"
-                                        class="arraw"
-                                    />
-                                </div>
-
-                            </el-col>
-                            <el-col :span="4">
-                                <div class="production-item">
-                                    <img src="../../assets/image/melting.svg" />
-                                    <div>熔炼</div>
-                                    <img
-                                        src="../../assets/image/arraw.svg"
-                                        class="arraw"
-                                    />
-                                </div>
-
-                            </el-col>
-                            <el-col :span="4">
-                                <div class="production-item">
-                                    <img src="../../assets/image/melting.svg" />
-                                    <div>熔炼</div>
-                                    <img
-                                        src="../../assets/image/arraw.svg"
-                                        class="arraw"
-                                    />
-                                </div>
-
-                            </el-col>
-                            <el-col :span="4">
-                                <div class="production-item">
-                                    <img src="../../assets/image/melting.svg" />
-                                    <div>熔炼</div>
-
-                                </div>
-
-                            </el-col>
-
-                        </el-row>
-                    </el-card>
-                    <el-card
-                        style="border-radius:16px"
-                        class="chart"
-                    >
-                        <!-- 2. 为ECharts准备一个具备大小（宽高）的Dom -->
-                        <div
-                            id="main"
-                            style="width: 750px;height:400px;"
-                        ></div>
-                    </el-card>
+  <div class="container">
+    <el-row :gutter="40">
+      <el-col :span="16">
+        <div class="data">
+          <h1>今日数据</h1>
+          <el-card class="box-card" shadow="always" style="border-radius:16px">
+            <el-row>
+              <el-col :span="6">
+                <div class="card-item">
+                  <div class="card-item-title">
+                    生产
+                  </div>
+                  <h2>
+                    {{ production }}
+                  </h2>
+                  <img src="../../assets/image/line.svg" />
                 </div>
-
-            </el-col>
-            <el-col :span="8">
-                <div class="message">
-                    <h1>系统消息</h1>
-                    <el-card>
-                        <div class="message-title">系统公告</div>
-                        <el-table
-                            class="customer-table"
-                            :row-class-name="tableRowClassName"
-                            :data="tableData"
-                            style="padding:10px;"
-                            height="400"
-                        >
-                            <el-table-column
-                                type="index"
-                                width="60"
-                            >
-                            </el-table-column>
-                            <el-table-column
-                                prop="name"
-                                width="160"
-                            >
-                            </el-table-column>
-                            <el-table-column
-                                prop="date"
-                                width="160"
-                            >
-                            </el-table-column>
-                        </el-table>
-                    </el-card>
-
-                    <el-card style="margin-top:20px;">
-                        <div class="message-title">系统公告</div>
-                        <el-table
-                            class="customer-table"
-                            :row-class-name="tableRowClassName"
-                            :data="tableData"
-                            style="padding:10px;width:100%;"
-                            height="400"
-                        >
-                            <el-table-column
-                                type="index"
-                                width="60"
-                            >
-                            </el-table-column>
-                            <el-table-column
-                                prop="name"
-                                
-                            >
-                            </el-table-column>
-                            <el-table-column
-                                prop="date"
-                                
-                            >
-                            </el-table-column>
-                        </el-table>
-                    </el-card>
+              </el-col>
+              <el-col :span="6">
+                <div class="card-item">
+                  <div class="card-item-title">
+                    生产订单量
+                  </div>
+                  <h2>
+                    {{ productionOrderMatter }}
+                  </h2>
+                  <img src="../../assets/image/line.svg" />
                 </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="card-item">
+                  <div class="card-item-title">
+                    采购金额
+                  </div>
+                  <h2>
+                    {{ purchaseAmount }}
+                  </h2>
+                  <img src="../../assets/image/line.svg" />
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="card-item">
+                  <div class="card-item-title">
+                    销售金额
+                  </div>
+                  <h2>
+                    {{ salesAmount }}
+                  </h2>
+                  <img src="../../assets/image/line.svg" />
+                </div>
+              </el-col>
+            </el-row>
+          </el-card>
+          <el-card class="production" style="border-radius:16px">
+            <div class="production-title">
+              生产流程
+            </div>
+            <el-row>
+              <el-col :span="3">
+                <div class="production-item">
+                  <img src="../../assets/image/melting.svg" />
+                  <div>熔炼</div>
+                  <img src="../../assets/image/arraw.svg" class="arraw" />
+                </div>
+              </el-col>
+              <el-col :span="3">
+                <div class="production-item">
+                  <img src="../../assets/image/melting.svg" />
+                  <div>粗拉</div>
+                  <img src="../../assets/image/arraw.svg" class="arraw" />
+                </div>
+              </el-col>
+              <el-col :span="3">
+                <div class="production-item">
+                  <img src="../../assets/image/melting.svg" />
+                  <div>中拉</div>
+                  <img src="../../assets/image/arraw.svg" class="arraw" />
+                </div>
+              </el-col>
+              <el-col :span="4">
+                <div class="production-item">
+                  <img src="../../assets/image/melting.svg" />
+                  <div>半成品</div>
+                  <img src="../../assets/image/arraw.svg" class="arraw" />
+                </div>
+              </el-col>
+              <el-col :span="4">
+                <div class="production-item">
+                  <img src="../../assets/image/melting.svg" />
+                  <div>成品</div>
+                  <img src="../../assets/image/arraw.svg" class="arraw" />
+                </div>
+              </el-col>
 
-            </el-col>
-        </el-row>
+              <el-col :span="4">
+                <div class="production-item">
+                  <img src="../../assets/image/melting.svg" />
+                  <div>退火</div>
+                  <img src="../../assets/image/arraw.svg" class="arraw" />
+                </div>
+              </el-col>
+              <el-col :span="3">
+                <div class="production-item">
+                  <img src="../../assets/image/melting.svg" />
+                  <div>退火</div>
+                </div>
+              </el-col>
+            </el-row>
+          </el-card>
+          <el-card style="border-radius:16px" class="chart">
+            <!-- 2. 为ECharts准备一个具备大小（宽高）的Dom -->
+            <div id="main" style="width: 750px;height:400px;"></div>
+          </el-card>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="message">
+          <h1>系统消息</h1>
+          <el-card>
+            <h4 style="margin:0">系统公告</h4>
+            <el-row :gutter="20" v-for="(item, index) in noticeList" :key="item.id" class="system">
+              <el-col :span="1">{{ index + 1 }}</el-col>
+              <el-col :span="11" :offset="1">{{ item.noticeName }}</el-col>
+              <el-col :span="10">{{ item.createTime | dateFormat }}</el-col>
+            </el-row>
+          </el-card>
 
-    </div>
+          <el-card style="margin-top:30px;">
+            <h4 style="margin:0">待办事项</h4>
+            <el-row :gutter="20" v-for="(item, index) in myMatter" :key="item.id" class="system">
+              <el-col :span="1">{{ index + 1 }}</el-col>
+              <el-col :span="15" :offset="1">{{ item.matterNews }}</el-col>
+              <el-col :span="6" @click.native="toDetail(item.type)">前往</el-col>
+            </el-row>
+          </el-card>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
@@ -219,33 +149,40 @@ export default {
       tableData: [
         {
           date: '2016-05-02',
-          name: '元旦放假通知',
+          name: '元旦放假通知'
         },
         {
           date: '2016-05-04',
-          name: '关于2020年度总结',
+          name: '关于2020年度总结'
         },
         {
           date: '2016-05-01',
-          name: '年末公司年会通知',
+          name: '年末公司年会通知'
         },
         {
           date: '2016-05-01',
-          name: '年末公司年会通知',
+          name: '年末公司年会通知'
         },
         {
           date: '2016-05-01',
-          name: '年末公司年会通知',
+          name: '年末公司年会通知'
         },
         {
           date: '2016-05-01',
-          name: '年末公司年会通知',
-        },
-        
-      ]
+          name: '年末公司年会通知'
+        }
+      ],
+      myMatter: [],
+      noticeList: [],
+      production: '',
+      productionOrderMatter: '',
+      purchaseAmount: '',
+      salesAmount: ''
     }
   },
-  created() {},
+  created() {
+    this.getData()
+  },
   mounted() {
     var myChart = echarts.init(document.getElementById('main'))
     var option = {
@@ -274,25 +211,60 @@ export default {
     myChart.setOption(option)
   },
   methods: {
-    tableRowClassName({ row, rowIndex }) {
-      return 'tablerow'
-    }
+    toDetail(type) {
+      switch (type) {
+        case 1:
+          this.$router.push('/orderreview')
+          this.saveNavState('/orderreview')
+          break
+        case 2:
+          this.$router.push('/incominginspection')
+          this.saveNavState('/incominginspection')
+          break
+        case 3:
+          this.$router.push('/saleOrderReview')
+          this.saveNavState('/saleOrderReview')
+          break
+        case 4:
+          this.$router.push('/saleOrderBack')
+          this.saveNavState('/saleOrderBack')
+          break
+        default:
+          break
+      }
+    },
+    async getData() {
+      const { data: res } = await this.$http.post('HomeController/findMyMatters')
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      this.myMatter = res.data.myMatter
+      this.noticeList = res.data.noticeList
+      this.production = res.data.production
+      this.productionOrderMatter = res.data.productionOrderMatter
+      this.purchaseAmount = res.data.purchaseAmount
+      this.salesAmount = res.data.salesAmount
+    },
+    // 保存链接的激活状态
+    saveNavState(activePath) {
+      window.sessionStorage.setItem('activePath', activePath)
+      this.activePath = activePath
+    },
   }
 }
 </script>
 
 <style lang="less" scoped>
-/deep/  .el-table__body{
+/deep/ .el-table__body {
   width: 100% !important;
 }
-/deep/.el-table th{
-    border:none;
-  }
-/deep/.el-table__row>td{
-	border: none;
+/deep/.el-table th {
+  border: none;
 }
-/deep/.el-table::before {//去掉最下面的那一条线
-	height: 0px;
+/deep/.el-table__row > td {
+  border: none;
+}
+/deep/.el-table::before {
+  //去掉最下面的那一条线
+  height: 0px;
 }
 .el-table /deep/ .tablerow {
   font-weight: bold;
@@ -376,11 +348,11 @@ h1 {
       width: 100%;
     }
   }
-//   系统消息
+  //   系统消息
   .message {
     .el-card {
       position: relative;
-      height: 450px;
+      height: 410px;
       .message-title {
         font-weight: bold;
         color: #474a61;
@@ -397,5 +369,10 @@ h1 {
       }
     }
   }
+}
+.system {
+  cursor: pointer;
+  margin: 30px 0;
+  color: #bdbec4;
 }
 </style>

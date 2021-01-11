@@ -96,11 +96,25 @@
           <div class="meta">工艺参数</div>
           <el-button type="text" @click="showGYDialog">编辑</el-button>
         </div>
-        <el-row style="margin:30px 0">
-          <el-col :span="4" style="padding-top:10px;">套模方案</el-col>
-          <el-col :span="10" style="padding-top:10px;">{{ ProcessTechnology.constituteNumber }}</el-col>
-          <el-col :span="5" style="padding-top:10px;"> {{ ProcessTechnology.constituteName }}</el-col>
-          <el-col :span="4"><el-button>预览套模</el-button></el-col>
+        <el-row style="margin:20px 0">
+          <el-col :span="8" style="text-align:right">温度℃</el-col>
+          <el-col :span="8" :offset="4" style="color:#9896a9;">{{ ppAnnealingInfo.temperature }}</el-col>
+        </el-row>
+        <el-row style="margin:20px 0">
+          <el-col :span="8" style="text-align:right">速度m/s</el-col>
+          <el-col :span="8" :offset="4" style="color:#9896a9;">{{ ppAnnealingInfo.speed }}</el-col>
+        </el-row>
+        <el-row style="margin:20px 0">
+          <el-col :span="8" style="text-align:right">张力</el-col>
+          <el-col :span="8" :offset="4" style="color:#9896a9;">{{ ppAnnealingInfo.tension }}</el-col>
+        </el-row>
+        <el-row style="margin:20px 0">
+          <el-col :span="8" style="text-align:right">气体流量</el-col>
+          <el-col :span="8" :offset="4" style="color:#9896a9;">{{ ppAnnealingInfo.gasFlow }}</el-col>
+        </el-row>
+        <el-row style="margin:20px 0">
+          <el-col :span="8" style="text-align:right">炉管号</el-col>
+          <el-col :span="8" :offset="4" style="color:#9896a9;">{{ ppAnnealingInfo.furnaceNumber }}</el-col>
         </el-row>
       </el-card>
       <!-- 设备信息 -->
@@ -176,20 +190,45 @@
         </el-row>
       </el-card>
       <!-- 导入本次退火的EL/BL数据 -->
-      <el-card style="margin-top:20px;">
-        <div style="font-weight:bold">导入本次退火的EL/BL数据<el-button type="primary" plain>导入</el-button></div>
-        <el-table>
-          <el-table-column label="EL数据">
-            <el-table-column label="序号" type="index"></el-table-column>
-            <el-table-column label="序号" type="index"></el-table-column>
+      <el-card style="margin-top:20px;width:100%;">
+        <div style="font-weight:bold">导入本次退火的EL/BL数据<el-button type="primary" plain style="margin-left:80%;" @click="showELDialog">导入</el-button></div>
+        <el-table style="width:100%;" :data="elblDataList" :header-cell-style="{ background: '#f0f5ff' }">
+          <el-table-column label="EL数据" align="center">
+            <el-table-column label="x1" align="center" prop="elX1"></el-table-column>
+            <el-table-column label="x2" align="center" prop="elX2"></el-table-column>
+            <el-table-column label="x3" align="center" prop="elX3"></el-table-column>
+            <el-table-column label="x4" align="center" prop="elX4"></el-table-column>
+            <el-table-column label="x5" align="center" prop="elX5"></el-table-column>
+          </el-table-column>
+          <el-table-column label="BL数据" align="center">
+            <el-table-column label="x1" align="center" prop="blX1"></el-table-column>
+            <el-table-column label="x2" align="center" prop="blX2"></el-table-column>
+            <el-table-column label="x3" align="center" prop="blX3"></el-table-column>
+            <el-table-column label="x4" align="center" prop="blX4"></el-table-column>
+            <el-table-column label="x5" align="center" prop="blX5"></el-table-column>
+          </el-table-column>
+        </el-table>
+      </el-card>
+      <!-- 同批号历史退火数据 -->
+      <el-card style="margin-top:20px;width:100%;"  >
+        <div style="font-weight:bold">同批号历史退火数据</div>
+        <el-table  :data="historyList" style="width:100%" :header-cell-style="{background:'#f0f5ff'}">
+          <el-table-column type="index" label="序号"></el-table-column>
+          <el-table-column prop="createTime" label="时间"></el-table-column>
+          <el-table-column prop="gxname" label="工序"></el-table-column>
+          <el-table-column prop="teamName" label="班组"></el-table-column>
+          <el-table-column prop="frequencystr" label="班次"></el-table-column>
+          <el-table-column  label="操作">
+            <template slot-scope="scope">
+              <el-button size="mini" @click="toDetail(scope.row.id)">查看</el-button>
+            </template>
           </el-table-column>
         </el-table>
       </el-card>
       <!-- 上班生产产物（粗拉） -->
       <el-card style="width:100%;margin-top:20px;">
         <div class="j-c-s">
-          <div class="meta">上班生产产物（中拉）</div>
-
+          <div class="meta">上班生产产物（{{ oneListName }}）</div>
         </div>
         <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="Needstock" style="width: 100%">
           <el-table-column type="index" label="序号"> </el-table-column>
@@ -198,7 +237,11 @@
               {{ scope.row.createTime | dateFormat }}
             </template>
           </el-table-column>
-          <el-table-column label="工序">粗拉</el-table-column>
+          <el-table-column label="工序">
+            <template>
+              {{ oneListName }}
+            </template>
+          </el-table-column>
           <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
           <el-table-column prop="standards" label="线轴规格"> </el-table-column>
           <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
@@ -207,12 +250,12 @@
           <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
           <el-table-column prop="wastageg" label="废料g"> </el-table-column>
           <el-table-column prop="lossg" label="损耗g"> </el-table-column>
-        </el-table>       
+        </el-table>
       </el-card>
       <!-- 本班生产产物（粗拉） -->
       <el-card style="width:100%;margin-top:20px;">
         <div class="j-c-s">
-          <div class="meta">本班生产产物（粗拉）</div>
+          <div class="meta">本班生产产物（{{ twoListName }}）</div>
           <el-button type="primary" plain @click="showAddClassDialog">新增</el-button>
         </div>
         <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="SmeltingProducts" style="width: 100%">
@@ -222,7 +265,11 @@
               {{ scope.row.createTime | dateFormat }}
             </template>
           </el-table-column>
-          <el-table-column label="工序">粗拉</el-table-column>
+          <el-table-column label="工序">
+            <template>
+              {{ twoListName }}
+            </template>
+          </el-table-column>
           <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
           <el-table-column prop="standards" label="线轴规格"> </el-table-column>
           <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
@@ -231,7 +278,10 @@
           <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
           <el-table-column prop="wastageg" label="废料g"> </el-table-column>
           <el-table-column prop="lossg" label="损耗g"> </el-table-column>
-          <el-table-column label="操作">
+          <el-table-column prop="surface" label="表面"> </el-table-column>
+          <el-table-column prop="payingOff" label="放线"> </el-table-column>
+          <el-table-column prop="straightLine" label="直线"> </el-table-column>
+          <el-table-column label="操作" width="180">
             <template slot-scope="scope">
               <el-button type="primary" size="mini" @click="editSmeltingProducts(scope.$index)">编辑</el-button>
               <el-button type="danger" size="mini" @click="delSmeltingProducts(scope.$index)">删除</el-button>
@@ -240,7 +290,11 @@
         </el-table>
         <div class="card-footer" v-if="PPProductionInfo.state === 0 || id >= 0">
           <el-button type="primary" @click="saveAll(0)">草稿</el-button>
-          <el-button type="primary" @click="saveAll(1)">转下班工序</el-button>
+          <el-button type="danger">打印标签</el-button>
+          <el-button type="success" @click="saveAll(1)" v-if="PPProductionInfo.gxName.indexOf('中间退火')>=0">转下班工序</el-button>
+          <el-button type="warning" @click="saveAll(2)">重复当前工序</el-button>
+          <el-button type="success" @click="goBack()">撤回上班工序</el-button>
+          <el-button type="warning" @click="saveAll(4)">完成生产</el-button>
         </div>
       </el-card>
       <!--  新增本班产物的对话框-->
@@ -274,7 +328,15 @@
           <el-form-item label="损耗g">
             <el-input v-model="SmeltingProductsItem.lossg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
-          
+          <el-form-item label="表面">
+            <el-input v-model="SmeltingProductsItem.surface" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+          </el-form-item>
+          <el-form-item label="放线">
+            <el-input v-model="SmeltingProductsItem.payingOff" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+          </el-form-item>
+          <el-form-item label="直线">
+            <el-input v-model="SmeltingProductsItem.straightLine" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+          </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="addClassDialogVisible = false">取 消</el-button>
@@ -284,20 +346,20 @@
       <!-- 编辑工艺参数的对话框 -->
       <el-dialog title="工艺参数" :visible.sync="dialogGYVisible" width="30%">
         <el-form label-width="120px">
-          <el-form-item label="铸造温度℃">
-            <el-input v-model="PPProductionInfo.moldTemp" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+          <el-form-item label="温度℃">
+            <el-input v-model="ppAnnealingInfo.temperature" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
-          <el-form-item label="牵引参数">
-            <el-input v-model="PPProductionInfo.towParameters" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+          <el-form-item label="速度m/s">
+            <el-input v-model="ppAnnealingInfo.speed" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
-          <el-form-item label="牵引时间min">
-            <el-input v-model="PPProductionInfo.towTime" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+          <el-form-item label="张力">
+            <el-input v-model="ppAnnealingInfo.tension" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
-          <el-form-item label="停止时间min">
-            <el-input v-model="PPProductionInfo.stopTime" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+          <el-form-item label="气体流量">
+            <el-input v-model="ppAnnealingInfo.gasFlow" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
-          <el-form-item label="水温℃">
-            <el-input v-model="PPProductionInfo.waterTemp" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+          <el-form-item label="炉管号">
+            <el-input v-model="ppAnnealingInfo.furnaceNumber" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -345,6 +407,33 @@
           <el-button type="primary" @click="dialogCZConfirm">确 定</el-button>
         </span>
       </el-dialog>
+      <!-- 导入EL BL数据的对话框 -->
+      <el-dialog title="导入EL BL数据" :visible.sync="dialogELVisible" width="30%">
+        <el-form label-width="120px">
+          <el-form-item label="文件上传">
+            <el-upload
+              :data="{ findById: Eid }"
+              class="upload-demo"
+              action="http://192.168.31.92:8080/ProductionController/importFilePPProduction"
+              :on-success="handleSuccess"
+              :on-remove="handleRemove"
+              :before-remove="beforeRemove"
+              :headers="headerObj"
+              multiple
+              :limit="3"
+              :on-exceed="handleExceed"
+              :file-list="fileList"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传Excel文件，且不超过100M</div>
+            </el-upload>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogELVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogELVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -356,6 +445,22 @@ export default {
       form: {
         name: ''
       },
+      elblDataList: [],
+      historyList:[],
+      //退火基本信息：
+      ppAnnealingInfo: {
+        id: '',
+        pppId: '', //生产id
+        temperature: '', //温度
+        speed: '', //速度
+        tension: '', //张力
+        gasFlow: '', //气体流量
+        furnaceNumber: '' //炉管号
+      },
+      // 图片上传组件的headers请求头对象
+      headerObj: {
+        accessToken: window.sessionStorage.getItem('token')
+      },
       aaa: '',
       tableData: [],
       addClassDialogVisible: false,
@@ -364,6 +469,7 @@ export default {
       dialogInfoVisible: false,
       allocatDialogVisible: false,
       allocatNextDialogVisible: false,
+      dialogELVisible: false,
       id: -1,
       Eid: -1,
       OperationInfo: {},
@@ -415,7 +521,7 @@ export default {
         totalLength: '', //总长度
         tractionSpeed: '', //牵引速度
         wastageg: '', //废料g
-        wireDiameterUm:'' //线径um
+        wireDiameterUm: '' //线径um
       },
       NeedstockItem: {
         quantityChoose: '', //选择数量
@@ -446,20 +552,63 @@ export default {
       },
       activeName: 'stock',
       BobbinXiaLa: [],
-      BobbinXiaLaInfo: []
+      BobbinXiaLaInfo: [],
+      fileList: [],
+      oneListName: '',
+      twoListName: ''
     }
   },
   created() {
-    if (this.$route.query.id) {
-      this.id = this.$route.query.id
-      this.getData()
-    }
     if (this.$route.query.Eid) {
       this.Eid = this.$route.query.Eid
       this.getEditData()
     }
   },
   methods: {
+    toDetail(id){
+      this.$router.replace({
+        path:'/addBackFire',
+        query:{
+          Eid:id
+        }
+      })
+    },
+    // 撤回当前工序
+    async goBack(){
+      const confirmResult = await this.$confirm('是否确认撤回？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return
+      }
+      const { data: res } = await this.$http.post('ProductionController/backToPPProduction',{
+        findById:this.Eid
+      })
+      if (res.code !== "0010") return this.$message.error(res.msg)
+      this.$message.success("撤回成功")
+      this.$router.go(-1)
+    },
+    //   监听图片上传成功
+    handleSuccess(response) {
+      this.elblDataList = response.data
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePreview(file) {
+      console.log(file)
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    showELDialog() {
+      this.dialogELVisible = true
+    },
     async selectedChange(e) {
       const { data: res } = await this.$http.post('ProductionController/getBobbinXiaLaInfoByBId', {
         findById: e
@@ -530,14 +679,14 @@ export default {
     // 确认新增本班产物对话框
     addClassDialogConfirm() {
       this.SmeltingProductsItem.createTime = new Date()
-      this.BobbinXiaLaInfo.forEach(item=>{
-        if(item.id==this.SmeltingProductsItem.bobbinDetailId){
-          this.SmeltingProductsItem.standards=item.standards
+      this.BobbinXiaLaInfo.forEach(item => {
+        if (item.id == this.SmeltingProductsItem.bobbinDetailId) {
+          this.SmeltingProductsItem.standards = item.standards
         }
       })
-      this.BobbinXiaLa.forEach(item=>{
-        if(item.mapKey==this.aaa){
-          this.SmeltingProductsItem.bobbinName=item.mapValue + '--' + item.mapValue2
+      this.BobbinXiaLa.forEach(item => {
+        if (item.mapKey == this.aaa) {
+          this.SmeltingProductsItem.bobbinName = item.mapValue + '--' + item.mapValue2
         }
       })
       this.SmeltingProducts.push(_.cloneDeep(this.SmeltingProductsItem))
@@ -569,26 +718,10 @@ export default {
         tractionSpeed: '', //牵引速度
         wastageg: '', //废料g
         wireDiameterUm:'' //线径um
-      }
+      },
+      this.aaa=''
     },
-    //   获取页面的初始数据
-    async getData() {
-      const { data: res } = await this.$http.post('ProductionController/getMeltingBasicInfoById', {
-        findById: this.id
-      })
-      if (res.code !== '0010') return this.$message.error(res.msg)
-      this.OperationInfo = res.data.OperationInfo
-      this.staffXiaLa = res.data.staffXiaLa
-      this.PPProductionInfo = res.data.PPProductionInfo
-      this.TeamXiaLa = res.data.TeamXiaLa
-      this.BasicInfo = res.data.BasicInfo
-      this.RawMaterialRatio = res.data.RawMaterialRatio
-      this.ProcessTechnology = res.data.ProcessTechnology
-      this.equipmentInfo = res.data.equipmentInfo ? res.data.equipmentInfo : {}
-      this.equipmentXiaLa = res.data.equipmentXiaLa
-      this.PPProductionInfo.teamId = res.data.OperationInfo.tteamId
-      this.PPProductionInfo.frequency = res.data.OperationInfo.frequency
-    },
+
     // 详情页面获取初始数据
     async getEditData() {
       const { data: res } = await this.$http.post('ProductionController/getProductionDetailByPPPId', {
@@ -607,26 +740,53 @@ export default {
       this.equipmentXiaLa = res.data.equipmentXiaLa
       this.staffXiaLa = res.data.staffXiaLa
       this.BobbinXiaLa = res.data.BobbinXiaLa
+      this.elblDataList = res.data.elblDataList
+      this.oneListName = res.data.oneListName
+      this.twoListName = res.data.twoListName
+      this.ppAnnealingInfo = res.data.ppAnnealingInfo //退火信息
+      this.historyList=res.data.historyList
     },
     // 保存全部数据
     async saveAll(state) {
+      if(state===2){
+        const confirmResult = await this.$confirm('是否确认重复当前工序？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).catch(err => err)
+        if (confirmResult !== 'confirm') {
+          return
+        }
+      }
       if (this.Eid >= 0) {
-        this.PPProductionInfo.id = this.Eid
-        this.PPProductionInfo.state = state
+        this.PPProductionInfo.id = this.Eid      
       } else {
-        this.PPProductionInfo.suitId = this.ProcessTechnology.id
-        this.PPProductionInfo.state = state
+        this.PPProductionInfo.suitId = this.ProcessTechnology.id       
         this.PPProductionInfo.pproductId = this.id
         this.PPProductionInfo.gxid = 1
         this.PPProductionInfo.productionNumber = this.BasicInfo.productModel
       }
+      if(!this.PPProductionInfo.pproductId || !this.PPProductionInfo.equipmentId|| !this.PPProductionInfo.suitId|| !this.PPProductionInfo.staffId ){
+        return this.$message.error("请填写必要项")
+      }
+      this.ppAnnealingInfo.pppId=this.Eid
+      this.PPProductionInfo.state = state
       this.SmeltingProducts.forEach(item => {
         item.gxId = this.PPProductionInfo.gxid
+      })
+      this.elblDataList.forEach(item=>{
+        if(!item.gxId||!item.pppid){
+          item.gxId=this.PPProductionInfo.gxid
+          item.pppid=this.Eid
+        }
+        
       })
       const { data: res } = await this.$http.post('ProductionController/savePPProduction', {
         ppProduction: this.PPProductionInfo,
         oneList: this.Needstock,
-        twoList: this.SmeltingProducts
+        twoList: this.SmeltingProducts,
+        elblDataList:this.elblDataList,
+        ppAnnealingInfo:this.ppAnnealingInfo
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.$message.success(this.Eid >= 0 ? '编辑成功' : '新增成功')
