@@ -35,7 +35,8 @@
         </el-table-column>
       </el-table>
     </el-form>
-    <el-pagination :current-page="submitForm.submitForm" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+    <el-pagination :current-page="submitForm.pageNum" @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
     </el-pagination>
     <!-- 关联销售订单对话框 -->
     <el-dialog title="请关联销售订单" :visible.sync="linkDialogVisible" width="50%">
@@ -118,6 +119,16 @@ export default {
     this.getData()
   },
   methods: {
+    // 监听 pagesize 改变
+    handleSizeChange(newSize) {
+      this.submitForm.pageSize = newSize
+      this.getData()
+    },
+    // 监听 pagenum 改变
+    handleCurrentChange(newPage) {
+      this.submitForm.pageNum = newPage
+      this.getData()
+    },
     async del(id) {
       const confirmResult = await this.$confirm('是否确认删除？', '提示', {
         confirmButtonText: '确定',

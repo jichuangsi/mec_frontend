@@ -8,31 +8,31 @@
           <el-row style="margin:40px 0;">
             <el-col :span="12">
               <el-col :span="12">原材料编号</el-col>
-              <el-col :span="12" style="color:#ccc;">{{ stockDetail.stockNumber }}</el-col>
+              <el-col :span="12" style="color:#7a9697;">{{ stockDetail.stockNumber }}</el-col>
             </el-col>
             <el-col :span="12">
               <el-col :span="12">原材料线别</el-col>
-              <el-col :span="12" style="color:#ccc;">{{ stockDetail.stockType }}</el-col>
+              <el-col :span="12" style="color:#7a9697;">{{ stockDetail.stockType }}</el-col>
             </el-col>
           </el-row>
           <el-row style="margin:40px 0;">
             <el-col :span="12">
               <el-col :span="12">原材料名称</el-col>
-              <el-col :span="12" style="color:#ccc;">{{ stockDetail.stockName }}</el-col>
+              <el-col :span="12" style="color:#7a9697;">{{ stockDetail.stockName }}</el-col>
             </el-col>
             <el-col :span="12">
               <el-col :span="12">原材料说明</el-col>
-              <el-col :span="12" style="color:#ccc;">{{ stockDetail.stockRemarks }}</el-col>
+              <el-col :span="12" style="color:#7a9697;">{{ stockDetail.stockRemarks }}</el-col>
             </el-col>
           </el-row>
           <el-row style="margin:40px 0;">
             <el-col :span="12">
               <el-col :span="12">原材料型号</el-col>
-              <el-col :span="12" style="color:#ccc;">{{ stockDetail.stockModel }}</el-col>
+              <el-col :span="12" style="color:#7a9697;">{{ stockDetail.stockModel }}</el-col>
             </el-col>
             <el-col :span="12">
               <el-col :span="12">单位</el-col>
-              <el-col :span="12" style="color:#ccc;">{{ stockDetail.dictionarier }}</el-col>
+              <el-col :span="12" style="color:#7a9697;">{{ stockDetail.dictionarier }}</el-col>
             </el-col>
           </el-row>
         </el-card>
@@ -43,6 +43,7 @@
           <div style="margin:20px 0;">
             <span style="display:inline-block;width:20%;">仓库名称:</span>
             <el-select placeholder="请选择 " v-model="submitForm.pageSize" @change="getData">
+              <el-option  label="全部" :value="0" :key="-1"></el-option> 
               <el-option :label="item.mapValue + '--' + item.mapValue2" :value="item.mapKey" v-for="item in selecteds.warehouseXiaLa" :key="item.mapKey"></el-option>
             </el-select>
           </div>
@@ -67,7 +68,7 @@
       <el-tabs v-model="activeName">
         <el-tab-pane label="当前库存" name="1">
           <template>
-            <el-table :data="[currentInventory]" style="width: 100%">
+            <el-table :data="currentInventory" style="width: 100%">
               <el-table-column type="index" label="序号"> </el-table-column>
               <el-table-column prop="standards" label="规格"> </el-table-column>
               <el-table-column prop="unitName" label="单位"> </el-table-column>
@@ -136,7 +137,7 @@ export default {
         pageNum: '', //规格id
         pageSize: '' //仓库id
       },
-      currentInventory: {}, //当前库存
+      currentInventory: [], //当前库存
       stockDetail: {}, //原材料参数
       currentInventoryNum: '', //当前库存数量
       InventorySum: '', //总库存数量
@@ -172,6 +173,7 @@ export default {
     },
     async getData() {
       const { data: res } = await this.$http.post('warehouseController/getwarehouseInventoryStatesBasicInfo', {
+        findById:this.id,
         findModelName: this.findModelName
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
@@ -185,8 +187,8 @@ export default {
       this.currentInventoryNum = ress.data.currentInventoryNum
       this.InventorySum = ress.data.InventorySum
       this.InventoryRecord = ress.data.InventoryRecord
-      this.submitForm.pageSize = ress.data.stockDetail.warehouseId
-      this.submitForm.pageNum = ress.data.stockDetail.stockDetailId
+      this.submitForm.pageSize = ress.data.warehoureId
+      this.submitForm.pageNum = ress.data.productDetailId
     },
     showDialog(row) {
       this.row = row

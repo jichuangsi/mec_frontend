@@ -591,10 +591,7 @@ export default {
         findModelName: this.activeName
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
-      this.listdataDetail = res.data.listdataDetail
-      this.listdataObj.stockName = row.stockName
-      this.listdataObj.stockNumber = row.stockNumber
-      this.listdataObj.pppid = row.dictionarier
+      this.listdataDetail = res.data.RData
     },
     //展示调拨下一步
     allocatNext() {
@@ -605,11 +602,11 @@ export default {
     async getAllocat() {
       const { data: ress } = await this.$http.post('warehouseController/getAllWarehousingChuKu', this.ChuKuForm)
       if (ress.code !== '0010') return this.$message.error(ress.msg)
-      this.listdata = ress.data.listdata
-      this.listdataDetail = ress.data.listdataDetail
-      this.listdataObj.stockName = ress.data.listdata[0].stockName
-      this.listdataObj.stockNumber = ress.data.listdata[0].stockNumber
-      this.listdataObj.pppid = ress.data.listdata[0].dictionarier
+      this.listdata = ress.data.LData
+      this.rowClick(this.listdata[0])
+      this.listdataObj.stockName = this.listdata[0].stockName
+      this.listdataObj.stockNumber = this.listdata[0].stockNumber
+      this.listdataObj.pppid = this.listdata[0].dictionarier
     },
     //展示调拨的对话框
     async showAllocatDialog(type) {

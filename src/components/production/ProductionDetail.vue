@@ -133,7 +133,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="mouldNumber" label="模具编号" > </el-table-column>
-        <el-table-column prop="sonmouldModel" label="模具型号" > </el-table-column>
+        <el-table-column prop="mouldModel" label="模具型号" > </el-table-column>
         <el-table-column prop="sonmouldModel" label="套模编号" > </el-table-column>
       </el-table>
     </el-card>

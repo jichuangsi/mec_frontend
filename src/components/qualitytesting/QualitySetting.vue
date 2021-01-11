@@ -85,7 +85,7 @@
       </el-tab-pane>
     </el-tabs>
     <div id="printMe">
-      <canvas id="barcode"></canvas>
+      <canvas id="barcode" width="110px"  height="26px"></canvas>
     </div>
     <button v-print="'#printMe'">打印</button>
   </el-card>

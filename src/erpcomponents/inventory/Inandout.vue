@@ -503,7 +503,7 @@ export default {
         findIdOne:this.ChuKuForm.findIdOne
         })
         if (res.code !== '0010') return this.$message.error(res.msg)
-        this.listdataDetail=res.data.listdataDetail
+        this.listdataDetail=res.data.RData
         this.listdataObj.stockName=row.stockName
         this.listdataObj.stockNumber=row.stockNumber
         this.listdataObj.unitId=row.dictionarierId
@@ -548,6 +548,7 @@ export default {
         if (ress.code !== '0010') return this.$message.error(ress.msg)
         this.listdata=ress.data.LData
         this.listdataDetail=ress.data.RData
+
         this.listdataObj.stockName=ress.data.LData[0].stockName
         this.listdataObj.stockNumber=ress.data.LData[0].stockNumber
         this.rowClick(ress.data.LData[0])

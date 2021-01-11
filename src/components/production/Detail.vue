@@ -170,7 +170,7 @@
     :visible.sync="dialogVisible"
     width="40%"
     >
-    <el-form label-width="40px" >
+    <el-form label-width="60px" >
         <el-form-item label="备注">
             <el-input  v-model="remark"></el-input>
         </el-form-item>
