@@ -23,8 +23,16 @@
         <el-table-column prop="saleOrder" label="关联销售单号"> </el-table-column>
         <el-table-column prop="ppNumber" label="生产单号"> </el-table-column>
         <el-table-column prop="ppName" label="生产计划单名称"> </el-table-column>
-        <el-table-column prop="createTime" label="计划下达日期"> </el-table-column>
-        <el-table-column prop="finishedTime" label="计划完工日期"> </el-table-column>
+        <el-table-column prop="createTime" label="计划下达日期">
+          <template slot-scope="scope">
+            {{scope.row.createTime|dateFormat}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="finishedTime" label="计划完工日期">
+          <template slot-scope="scope">
+            {{scope.row.finishedTime|dateFormat}}
+          </template>
+        </el-table-column>
         <el-table-column prop="ppstate" label="审核状态"> </el-table-column>
         <el-table-column label="操作" width="250">
           <template slot-scope="scope">

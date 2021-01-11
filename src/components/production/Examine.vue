@@ -54,6 +54,9 @@
               <el-col :span="18">
                 <span class="tips">*审核层级按数字由小到大排序，数字越小越先审核，如：审核层级为1的人先审核，然后按数字依次审核。</span>
               </el-col>
+              <el-col :span="2">
+                <el-button @click="showDialog()" type="primary">新增</el-button>
+              </el-col>
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData1" style="width: 100%">
               <el-table-column type="index" label="序号"> </el-table-column>

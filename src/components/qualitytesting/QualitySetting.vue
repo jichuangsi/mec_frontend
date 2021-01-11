@@ -84,8 +84,11 @@
         </template>
       </el-tab-pane>
     </el-tabs>
-    <div id="printMe">
-      <canvas id="barcode" width="110px"  height="26px"></canvas>
+    <!-- <div id="printMe" style="width:220px;height:52px;">
+      <canvas id="barcode"  style="width:100%;height:100%;"></canvas>
+    </div> -->
+    <div id="printMe" style="width:220px;height:52px;">
+      <canvas id="barcode"  style="width:100%;height:100%;"></canvas>
     </div>
     <button v-print="'#printMe'">打印</button>
   </el-card>

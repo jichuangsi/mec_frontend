@@ -121,11 +121,11 @@
         <div v-for="item in equipmentOverhauls" :key="item.id" :class="['card',{current:status==item.id}]" @click="toggle(item.id)">
           <div>{{item.equipmentTime.substring(0,4)}}</div>
           <h2 style="margin:10px 0;">{{item.equipmentTime.substring(5)}}月</h2>
-          <div>当前选择</div>
+          <div v-if="status==item.id">当前选择</div>
         </div>
       </div>
       <!-- 表格部分 -->
-        <el-table :data="tableData3" style="margin-left:20px;margin-bottom:40px;width:96.84%;" :cell-style="{padding: '0'}">
+        <el-table v-if="equipmentOverhauls.length" :data="tableData3" style="margin-left:20px;margin-bottom:40px;width:96.84%;" :cell-style="{padding: '0'}">
           <el-table-column label="时间" align="right" width="121">
             <el-table-column prop="name" label="检项" width="121" align="center"> </el-table-column>
           </el-table-column>
@@ -246,7 +246,7 @@ export default {
         { name: '项目E', overhaulState:1 ,equipmentOverhaulId:'' }
       ],
       equipmentCheckRecord: {
-        equipmentTime: (new Date).getFullYear() + '-' + ((new Date).getMonth() + 1) + '-' + (new Date).getDate(),
+        equipmentTime: (new Date).getFullYear() + '-' + ((new Date).getMonth() + 1 + '').padStart(2, '0') + '-' + (new Date).getDate(),
         equipmentId: 1,
         frequency: 1,
         id: 0,
@@ -286,20 +286,23 @@ export default {
     },
     // 获取 已创建的年月点检信息
     async getData(){
-      
-      const { data: res } = await this.$http.post('BasicSettingController/getEquipmentRecordYMByEquipmentId',{
-        findById:this.id 
-      })
-      if (res.code !== "0010") return this.$message.error(res.msg)
-      this.equipmentOverhauls=res.data.equipmentOverhauls
-      this.status=this.equipmentOverhauls[0].id
-      this.getAllTable()
-      const { data: ress } = await this.$http.post('BasicSettingController/getAllEquipmentById',{
+      const { data: ress } = await this.$http.post('BasicSettingController/getAllEquipmentOverhaulById',{
         findById:this.id
       })
       if (ress.code !== "0010") return this.$message.error(ress.msg)
       this.equipment=ress.data.equipment
       this.sumTime=ress.data.sumTime
+      const { data: res } = await this.$http.post('BasicSettingController/getEquipmentRecordYMByEquipmentId',{
+        findById:this.id 
+      })
+      if (res.code !== "0010") return this.$message.error(res.msg)
+      this.equipmentOverhauls=res.data.equipmentOverhauls
+      if(this.equipmentOverhauls==null){
+        return
+      }
+      this.status=this.equipmentOverhauls[0].id
+      this.getAllTable()
+      
     },
     // 监听新增年月对话框关闭
     yearDialogClose(){
