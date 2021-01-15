@@ -11,7 +11,7 @@
         </el-form-item>
         <el-form-item label="权限配置">
           <el-row :gutter="20">
-            <el-col :span="6">
+            <el-col :span="9">
               <el-card style="margin:20px 0;min-height:400px;">
                 <el-tree
                   ref="tree"

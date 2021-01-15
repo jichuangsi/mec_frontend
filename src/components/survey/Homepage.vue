@@ -56,7 +56,7 @@
             <div class="production-title">
               生产流程
             </div>
-            <el-row>
+            <el-row style="margin-left:10%;">
               <el-col :span="3">
                 <div class="production-item">
                   <img src="../../assets/image/melting.svg" />
@@ -78,14 +78,14 @@
                   <img src="../../assets/image/arraw.svg" class="arraw" />
                 </div>
               </el-col>
-              <el-col :span="4">
+              <el-col :span="3">
                 <div class="production-item">
                   <img src="../../assets/image/melting.svg" />
                   <div>半成品</div>
                   <img src="../../assets/image/arraw.svg" class="arraw" />
                 </div>
               </el-col>
-              <el-col :span="4">
+              <el-col :span="3">
                 <div class="production-item">
                   <img src="../../assets/image/melting.svg" />
                   <div>成品</div>
@@ -93,7 +93,7 @@
                 </div>
               </el-col>
 
-              <el-col :span="4">
+              <el-col :span="3">
                 <div class="production-item">
                   <img src="../../assets/image/melting.svg" />
                   <div>退火</div>

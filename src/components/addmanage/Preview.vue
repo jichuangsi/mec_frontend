@@ -1,32 +1,34 @@
 <template>
-  <div style="display:flex">
-    <table class="pure-table pure-table-bordered" v-for="(el, rindex) in list" :key="rindex" :style="{ borderRight: rindex + 1 < list.length ? 'none' : '' }">
-      <thead :style="{ backgroundColor: el.color }">
-        <tr>
-          <th colspan="3">{{ el.name }}</th>
-        </tr>
-      </thead>
+  <el-card>
+    <div style="display:flex">
+      <table class="pure-table pure-table-bordered" v-for="(el, rindex) in list" :key="rindex" :style="{ borderRight: rindex + 1 < list.length ? 'none' : '' }">
+        <thead :style="{ backgroundColor: el.color }">
+          <tr>
+            <th colspan="3">{{ el.name }}</th>
+          </tr>
+        </thead>
 
-      <tr :style="{ backgroundColor: el.color }">
-        <th>序号</th>
-        <th>型号</th>
-        <th>直径</th>
-      </tr>
+        <tr :style="{ backgroundColor: el.color }">
+          <th>序号</th>
+          <th>型号</th>
+          <th>直径</th>
+        </tr>
 
-      <tbody>
-        <tr v-for="(row, index) in el.tableList" :key="index" :style="{ backgroundColor: el.color }">
-          <td>{{ index + 1 }}</td>
-          <td>{{ row.type }}</td>
-          <td>{{ row.long }}</td>
-        </tr>
-        <tr v-for="(row, index) in maxNum - el.tableList.length" :key="index">
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+        <tbody>
+          <tr v-for="(row, index) in el.tableList" :key="index" :style="{ backgroundColor: el.color }">
+            <td>{{ index + 1 }}</td>
+            <td>{{ row.type }}</td>
+            <td>{{ row.long }}</td>
+          </tr>
+          <tr v-for="(row, index) in maxNum - el.tableList.length" :key="index">
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </el-card>
 </template>
 <script>
 export default {
@@ -93,6 +95,9 @@ export default {
 }
 </script>
 <style type="text/css">
+.el-card{
+  min-height: 100%;
+}
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;

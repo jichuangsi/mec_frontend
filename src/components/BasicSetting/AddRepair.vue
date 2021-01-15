@@ -38,10 +38,10 @@
         </el-timeline>
       </div>
       <div class="footer">
-        <el-button type="primary" @click="showDialog" v-if=" equipmentVo.state==1">提交处理意见</el-button>
-        <el-button type="primary"  @click="showDialog" v-if="equipmentVo.state==2">提交检修记录</el-button>
-      <el-button type="primary"  @click="showDialog" v-if="equipmentVo.state==3">提交验收记录</el-button>
-      <el-button type="primary"  @click="showDialog" v-if="equipmentVo.state===0">提交保修单</el-button>
+        <el-button type="primary" @click="showDialog" v-if=" equipmentVo.state===0">提交处理意见</el-button>
+        <el-button type="primary"  @click="showDialog" v-if="equipmentVo.state===1">提交检修记录</el-button>
+      <el-button type="primary"  @click="showDialog" v-if="equipmentVo.state===2">提交验收记录</el-button>
+      <el-button type="primary"  @click="showDialog" v-if="equipmentVo.state===''">提交保修单</el-button>
       </div>
     </el-card>
     <el-dialog

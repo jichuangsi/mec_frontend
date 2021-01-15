@@ -44,7 +44,7 @@
               <el-table-column prop="wiredrawSum" label="累计拉丝量"> </el-table-column>
               <el-table-column label="启用状态">
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.scrapNo" :active-value="1" :inactive-value="0" @change="switchChange(scope.row.id)"> </el-switch>
+                  <el-switch v-model="scope.row.scrapNo" :active-value="0" :inactive-value="1" @change="switchChange(scope.row.id)"> </el-switch>
                 </template>
               </el-table-column>
               <el-table-column label="操作" width="240">
@@ -110,7 +110,7 @@
               <el-table-column prop="wiredrawSum" label="累计拉丝量"> </el-table-column>
               <el-table-column label="启用状态">
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.scrapNo" :active-value="1" :inactive-value="0" @change="switchChange(scope.row.id)"> </el-switch>
+                  <el-switch v-model="scope.row.scrapNo" :active-value="0" :inactive-value="1" @change="switchChange(scope.row.id)"> </el-switch>
                 </template>
               </el-table-column>
               <el-table-column label="操作" width="240">
@@ -175,7 +175,7 @@
               <el-table-column prop="scopeApplication" label="使用范围描述" width="300"> </el-table-column>
               <el-table-column label="启用状态">
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.stateNo" :active-value="1" :inactive-value="0" @change="switchChange(scope.row.id)"> </el-switch>
+                  <el-switch v-model="scope.row.stateNo" :active-value="0" :inactive-value="1" @change="switchChange(scope.row.id)"> </el-switch>
                 </template>
               </el-table-column>
               <el-table-column label="操作" width="240">

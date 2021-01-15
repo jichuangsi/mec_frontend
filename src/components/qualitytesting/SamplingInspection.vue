@@ -22,7 +22,7 @@
       <el-table-column prop="unqualifiedNum" label="不合格轴数"> </el-table-column>
       <el-table-column width="250" label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary">查看</el-button>
+          <el-button size="mini" type="primary" @click="toInfo(scope.row.id)">查看</el-button>
           <el-button size="mini" type="primary" @click="edit(scope.row.id)">编辑</el-button>
           <el-button size="mini" type="danger" @click="del(scope.row.id)">删除</el-button>
         </template>
@@ -156,6 +156,14 @@ export default {
     this.getData()
   },
   methods: {
+    toInfo( id){
+      this.$router.push({
+        path:'/samplingInfo',
+        query:{
+          id:id
+        }
+      })
+    },
     // 编辑页面
     edit(id){
       this.$router.push({

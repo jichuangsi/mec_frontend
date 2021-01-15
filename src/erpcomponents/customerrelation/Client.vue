@@ -28,7 +28,7 @@
         <el-table-column prop="remark" width="200" label="备注"> </el-table-column>
         <el-table-column label="客户状态">
           <template slot-scope="scope">
-            <el-switch v-model="scope.row.state" @change="switchChange(scope.row)" :active-value="1" :inactive-value="0"></el-switch>
+            <el-switch v-model="scope.row.state" @change="switchChange(scope.row)" :active-value="0" :inactive-value="1"></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作">

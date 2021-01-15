@@ -63,7 +63,7 @@
             当前位置: 主页
           </div>
           <div class="header-right">
-            <img src="../assets/image/avatar.svg" />
+            
             <el-dropdown>
               <span class="el-dropdown-link" style="cursor:pointer;"> {{user.userName}}<i class="el-icon-arrow-down el-icon--right"></i> </span>
               <el-dropdown-menu slot="dropdown">

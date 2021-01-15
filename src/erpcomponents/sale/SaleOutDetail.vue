@@ -116,10 +116,10 @@
         <el-button>清空</el-button>
       </div>
       <el-table :data="tableData" style="width: 100%" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
-        <el-table-column prop="ppNumber" label="生产批号"> </el-table-column>
-        <el-table-column prop="productModel" label="产品型号"> </el-table-column>
-        <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
-        <el-table-column prop="lengthM" label="长度/m"> </el-table-column>
+        <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
+        <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
+        <el-table-column prop="updateRemark" label="线轴"> </el-table-column>
+        <el-table-column prop="standards" label="长度/m"> </el-table-column>
         <el-table-column prop="pageNum" label="已选定数量"> </el-table-column>
         <el-table-column prop="address" label="操作">
           <template slot-scope="scope">
@@ -192,15 +192,15 @@
             :header-cell-style="{ background: '#f0f5ff', padding: '0' }"
             @row-click="rowClick"
           >
-            <el-table-column prop="ppNumber" label="生产批号"> </el-table-column>
-            <el-table-column prop="productModel" label="产品型号"> </el-table-column>
+            <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
+            <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
           </el-table>
         </el-col>
         <el-col :span="12">
           <el-table :data="TwoList" style="width: 100%" height="300px" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
-            <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
-            <el-table-column prop="lengthM" label="长度/m"> </el-table-column>
-            <el-table-column prop="numbers" label="数量"> </el-table-column>
+            <el-table-column prop="updateRemark" label="线轴"> </el-table-column>
+            <el-table-column prop="standards" label="长度/m"> </el-table-column>
+            <el-table-column prop="updateNum" label="数量"> </el-table-column>
             <el-table-column label="选定数量">
               <template slot-scope="scope">
                 <el-input size="mini" v-model="scope.row.pageNum" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
@@ -216,10 +216,10 @@
         </el-col>
       </el-row>
       <el-table :data="listData" style="width: 100%" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
-        <el-table-column prop="ppNumber" label="生产批号"> </el-table-column>
-        <el-table-column prop="productModel" label="产品型号"> </el-table-column>
-        <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
-        <el-table-column prop="lengthM" label="长度/m"> </el-table-column>
+        <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
+        <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
+        <el-table-column prop="updateRemark" label="线轴"> </el-table-column>
+        <el-table-column prop="standards" label="长度/m"> </el-table-column>
         <el-table-column prop="pageNum" label="已选定数量"> </el-table-column>
         <el-table-column prop="address" label="操作">
           <template slot-scope="scope">
@@ -291,7 +291,7 @@ export default {
       TwoList: [],
       row: {},
       listData: [],
-      tableData:[],
+      tableData: []
     }
   },
   created() {
@@ -344,12 +344,11 @@ export default {
     },
     // 对话框确认
     dialogConfirm1() {
-      
       if (!this.listData.length) {
         return this.$message.error('请填写选定数量')
       }
       this.tableData.push(..._.cloneDeep(this.listData))
-      this.dialogVisible1=false
+      this.dialogVisible1 = false
     },
     // 监听对话框关闭
     dialogClose1() {
@@ -357,33 +356,39 @@ export default {
     },
     // 添加数据合并
     addAllData() {
-      this.listData.push(..._.cloneDeep(this.TwoList.filter(item => item.pageNum > 0 && item.numbers >= item.pageNum)))
+      this.listData.push(..._.cloneDeep(this.TwoList.filter(item => item.pageNum > 0 && item.updateNum >= item.pageNum)))
       this.TwoList.forEach(item => {
         item.pageNum = ''
       })
       this.listData.forEach(item => {
-        item.leftId = this.row.id
-        item.ppNumber = this.row.ppNumber
-        item.productModel = this.row.productModel
+        item.leftId = item.leftId?item.leftId:this.row.id
+        item.stockModel = item.stockModel?item.stockModel:this.row.stockModel
+        item.stockNumber =item.stockModel?item.stockModel: this.row.stockNumber
       })
     },
     // 点击新增
     async showDialog() {
       this.dialogVisible1 = true
-      const { data: res } = await this.$http.post('ProductionController/getAllFinished')
+      const { data: res } = await this.$http.post('warehouseController/getAllWarehousingChuKu', {
+        findName: '',
+        findModelName: 'product',
+        findIdOne: ''
+      })
       if (res.code !== '0010') return this.$message.error(res.msg)
-      this.OneList = res.data.oneList
-      this.TwoList = res.data.twoList
+      this.OneList = res.data.LData
+      this.TwoList = res.data.RData
       this.rowClick(this.OneList[0])
     },
     // 监听行点击
     async rowClick(row) {
       this.row = row
-      const { data: res } = await this.$http.post('ProductionController/getFinishedByPPPId', {
-        findById: row.id
+      const { data: res } = await this.$http.post('warehouseController/getAllWarehousingChuKuById', {
+        findById:row.id,
+        findModelName:'product',
+        findIdOne:''
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
-      this.TwoList = res.data.twoList
+      this.TwoList = res.data.RData
     },
     //监听销售出库对话框关闭
     updateMaterialOuterClose() {
@@ -392,17 +397,17 @@ export default {
     //确认销售出库
     async updateMaterialOuterConfirm() {
       this.updateMaterialOuterForm.updateID = this.id
-      let arr=[]
-      this.tableData.forEach(item=>{
-        let obj={
-          findModelName: "product", 
-          updateID: item.id, 
+      let arr = []
+      this.tableData.forEach(item => {
+        let obj = {
+          findModelName: 'product',
+          updateID: item.id,
           updateNum: item.pageNum,
-          updateRemark: "销售成品出库" 
+          updateRemark: '销售成品出库'
         }
         arr.push(obj)
       })
-      this.updateMaterialOuterForm.list=arr
+      this.updateMaterialOuterForm.list = arr
       const { data: res } = await this.$http.post('saleController/updateMaterialOuter', this.updateMaterialOuterForm)
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.$message.success('编辑成功')

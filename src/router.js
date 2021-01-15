@@ -86,6 +86,8 @@ const SamplingInspection = () =>
     import ('./components/qualitytesting/SamplingInspection.vue')
 const AddSampling = () =>
     import ('./components/qualitytesting/AddSampling.vue')
+const SamplingInfo = () =>
+    import ('./components/qualitytesting/SamplingInfo.vue')
 const AddTemplate = () =>
     import ('./components/qualitytesting/AddTemplate.vue')
 const Certificate = () =>
@@ -252,15 +254,16 @@ const router = new Router({
             path: '/home',
             component: Home,
             redirect: '/homepage',
+            label: '首页',
             children: [
-                { path: '/welcome', component: Homepage },
-                { path: '/homepage', component: Homepage },
-                { path: '/workbench', component: Workbench },
-                { path: '/todo', component: Todo },
-                { path: '/doing', component: Doing },
-                { path: '/done', component: Done },
-                { path: '/production', component: Production },
-                { path: '/production/newLink', component: NewLink },
+                { path: '/welcome', component: Homepage, meta: '首页', },
+                { path: '/homepage', component: Homepage, meta: '概况', },
+                { path: '/workbench', component: Workbench, meta: '概况', },
+                { path: '/todo', component: Todo, label: '待办事项', },
+                { path: '/doing', component: Doing, label: '待办事项' },
+                { path: '/done', component: Done, label: '待办事项' },
+                { path: '/production', component: Production, label: '生产计划' },
+                { path: '/production/newLink', component: NewLink, label: '生产计划' },
                 { path: '/production/newNotLink', component: NewNotLink },
                 { path: '/examine/detail', component: Detail },
                 { path: '/ProductionDetail', component: ProductionDetail },
@@ -315,6 +318,7 @@ const router = new Router({
                 { path: '/QualitySetting', component: QualitySetting },
                 { path: '/samplingInspection', component: SamplingInspection },
                 { path: '/addSampling', component: AddSampling },
+                { path: '/samplingInfo', component: SamplingInfo },
                 { path: '/addTemplate', component: AddTemplate },
                 { path: '/certificate', component: Certificate },
                 { path: '/addCertificate', component: AddCertificate },

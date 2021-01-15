@@ -70,7 +70,7 @@
             <el-col :span="7" :offset="1">
               <div class="info">
                 <div>设备状态</div>
-                <div style="color:#8494a9;">{{equipment.state==0?'未启动':'启动'}}</div>
+                <div style="color:#8494a9;">{{equipment.state==1?'未启动':'启动'}}</div>
               </div>
             </el-col>
             <el-col :span="7" :offset="1">
@@ -90,7 +90,7 @@
             <el-col :span="7" :offset="1">
               <div class="info">
                 <div>检修状态</div>
-                <div style="color:#8494a9;">{{equipment.SumOutMonth===0?'未检修':'已检修'}}</div>
+                <div style="color:#8494a9;">{{equipment.checkNo==0?'未检修':'已检修'}}</div>
               </div>
             </el-col>
 

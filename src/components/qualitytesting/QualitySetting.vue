@@ -12,7 +12,7 @@
               <el-button type="primary" plain @click="toAdd()">新增</el-button>
             </el-form-item>
           </el-form>
-          <el-table :data="tableData" style="width: 100%"  :header-cell-style="{background:'#f0f5ff' }">
+          <el-table :data="tableData" style="width: 100%" :header-cell-style="{ background: '#f0f5ff' }">
             <el-table-column type="index" label="序号"> </el-table-column>
             <el-table-column prop="number" label="模板编号"> </el-table-column>
             <el-table-column prop="name" label="模板名称"> </el-table-column>
@@ -44,7 +44,7 @@
       </el-tab-pane>
       <el-tab-pane label="质量证书" name="2">
         <template>
-          <el-form :inline="true" ref="form" :model="form" label-width="80px" >
+          <el-form :inline="true" ref="form" :model="form" label-width="80px">
             <el-form-item label="模板编号" style="width:60%;">
               <el-input v-model="submitForm.findName" placeholder="请输入搜索内容"></el-input>
             </el-form-item>
@@ -53,7 +53,7 @@
               <el-button type="primary" plain @click="toAdd()">新增</el-button>
             </el-form-item>
           </el-form>
-          <el-table :data="tableData" style="width: 100%"  :header-cell-style="{background:'#f0f5ff' }">
+          <el-table :data="tableData" style="width: 100%" :header-cell-style="{ background: '#f0f5ff' }">
             <el-table-column type="index" label="序号"> </el-table-column>
             <el-table-column prop="number" label="模板编号"> </el-table-column>
             <el-table-column prop="name" label="模板名称"> </el-table-column>
@@ -87,13 +87,30 @@
     <!-- <div id="printMe" style="width:220px;height:52px;">
       <canvas id="barcode"  style="width:100%;height:100%;"></canvas>
     </div> -->
-    <div id="printMe" style="width:330px;height:78px;">
-      <canvas id="barcode"  style="width:100%;height:100%;"></canvas>
+    <div id="printMe" >
+      <!-- <canvas id="barcode"  style="width:100%;height:100%;"></canvas> -->
+      <div style="padding-left:20px; display:flex;width:250px;height:100px">
+        <div style="height:100px">
+          <p>生产计划单号</p>
+          <p>01.06 09：24 A白</p>
+          <p>销售单号</p>
+          <p>生产批号</p>
+          <p>生产型号/规格/粗细/净重/每轴长度</p>
+        </div>
+          
+        
+        <div>
+        
+          <div class="qrcode" ref="qrCodeUrl"></div>
+          <span style="margin-left:30px;margin-top:10px;">熔铸</span>
+        </div>
+      </div>
     </div>
     <button v-print="'#printMe'">打印</button>
   </el-card>
 </template>
 <script>
+import QRCode from 'qrcodejs2'
 import jsbarcode from 'jsbarcode'
 export default {
   data() {
@@ -119,27 +136,38 @@ export default {
     this.getData()
   },
   mounted() {
+    this.creatQrCode();
     // 生成条形码
-    jsbarcode(
-      '#barcode',
-      '978754 112291170',
-      {
-        displayValue: true // 是否在条形码下方显示文字
-      }
-    )
+    // jsbarcode(
+    //   '#barcode',
+    //   '978754 112291170',
+    //   {
+    //     displayValue: true // 是否在条形码下方显示文字
+    //   }
+    // )
   },
   methods: {
-    async preview(id){
-      const { data: res } = await this.$http.post('templatesController/getTemplateById/'+id)
-      if (res.code !== "0010") return this.$message.error(res.msg)
-      window.location.href ='http://192.168.31.93:8080/'+ res.data;
+    creatQrCode() {
+      var qrcode = new QRCode(this.$refs.qrCodeUrl, {
+        text: 'xxxx',
+        width: 100,
+        height: 100,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      })
     },
-    edit(id){
+    async preview(id) {
+      const { data: res } = await this.$http.post('templatesController/getTemplateById/' + id)
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      window.location.href = 'http://192.168.31.92:8080/' + res.data
+    },
+    edit(id) {
       this.$router.push({
-        path:"/addTemplate",
-        query:{
-          id:id,
-          type:this.activeName
+        path: '/addTemplate',
+        query: {
+          id: id,
+          type: this.activeName
         }
       })
     },
@@ -152,11 +180,11 @@ export default {
       if (confirmResult !== 'confirm') {
         return
       }
-      const { data: res } = await this.$http.post('templatesController/updateTemplateStatus',{
-        updateID:id,
-        updateType:'D'
+      const { data: res } = await this.$http.post('templatesController/updateTemplateStatus', {
+        updateID: id,
+        updateType: 'D'
       })
-      if (res.code !== "0010") return this.$message.error(res.msg)
+      if (res.code !== '0010') return this.$message.error(res.msg)
       this.$message.success('删除成功')
       this.getData()
     },
@@ -168,9 +196,9 @@ export default {
     // 前往新增页面
     toAdd() {
       this.$router.push({
-        path:"/addTemplate",
-        query:{
-          type:this.activeName
+        path: '/addTemplate',
+        query: {
+          type: this.activeName
         }
       })
     },
@@ -205,8 +233,15 @@ export default {
   }
 }
 </script>
-<style lang="less" scoped>
+<style type="text/css" scoped media="print">
+
 .el-pagination {
   margin: 20px 200px;
 }
+.qrcode{
+  margin-top: 40px;;
+  margin-bottom: 10px;
+}
+
+
 </style>

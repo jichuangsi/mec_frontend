@@ -138,7 +138,9 @@ export default {
         this.form.id = this.id
       }
       let form1={...this.form}
-      form1.loginPassword=md5(this.form.loginPassword)
+      if(form1.loginPassword){
+        form1.loginPassword=md5(this.form.loginPassword)
+      }
       const { data: res } = await this.$http.post('userController/registUser', form1)
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.$message.success(this.id >= 0 ? '编辑成功' : '新增成功')

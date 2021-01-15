@@ -178,7 +178,7 @@
       </div>
     </el-card>
     <!--  新增本班产物的对话框-->
-    <el-dialog title="新增本班产物" :visible.sync="addClassDialogVisible" width="30%" @close="addClassDialogClose">
+    <el-dialog :title="this.index>=0?'编辑':'新增本班产物'" :visible.sync="addClassDialogVisible" width="30%" @close="addClassDialogClose">
       <el-form label-width="120px">
         <el-form-item label="线轴名称">
           <el-select v-model="aaa" placeholder="请选择 " style="width:60%" @change="selectedChange">
@@ -276,6 +276,7 @@ export default {
       equipmentInfo:{},
       beforeWeight:'',
       beforeLength:'',
+      index:-1,
     }
   },
   computed:{
@@ -326,6 +327,7 @@ export default {
     },
     // 编辑本班产物
     editSmeltingProducts(index) {
+      this.index=index
       this.twoListItem = _.cloneDeep(this.twoList[index])
       this.addClassDialogVisible = true
     },
@@ -356,11 +358,17 @@ export default {
           this.twoListItem.bobbinName = item.mapValue + '--' + item.mapValue2
         }
       })
-      this.twoList.push(_.cloneDeep(this.twoListItem))
+      if(this.index>=0){
+        this.twoList.splice(this.index,1,_.cloneDeep(this.twoListItem))
+      }else{
+        this.twoList.push(_.cloneDeep(this.twoListItem))
+      }
+      
       this.addClassDialogVisible = false
     },
     // 监听添加本班对话框关闭
     addClassDialogClose() {
+      this.index=-1,
       this.twoListItem = {
         id: '', //id
         gxId: '',

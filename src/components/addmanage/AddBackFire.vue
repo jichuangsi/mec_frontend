@@ -414,7 +414,7 @@
             <el-upload
               :data="{ findById: Eid }"
               class="upload-demo"
-              action="http://192.168.31.93:8080/ProductionController/importFilePPProduction"
+              action="http://192.168.31.92:8080/ProductionController/importFilePPProduction"
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :before-remove="beforeRemove"

@@ -513,8 +513,10 @@ export default {
     // 监听调拨的对话框关闭
     allocatDialogClose(){      
       this.listdataDetail=[]
+      this.ChuKuForm.findIdOne=''
     },
     // 最后确认调拨
+    
     async allocatConfirm(){
       let list=[]
       let obj={

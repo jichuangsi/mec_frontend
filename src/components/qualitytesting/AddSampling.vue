@@ -2,7 +2,7 @@
   <div>
     <el-page-header @back="cancel" content="新增抽检" style="margin-bottom:20px;"> </el-page-header>
     <el-card style="width:100%">
-      <div class="meta">基本信息</div>
+      <div style="font-weight:bold">基本信息</div>
       <el-row style="margin:15px 0">
         <el-col :span="8">
           <el-col :span="12" class="col-left">生产计划单号</el-col>
@@ -168,7 +168,7 @@
           <el-input style="width:6%;margin:0 50px;" oninput = "value=value.replace(/[^\d.]/g,'')" v-model="TSamplingReport.elongation5" ></el-input>
           平均值 {{average1}}
         </el-form-item>
-        <el-form-item label="断裂符合（BL）">
+        <el-form-item label="断裂负荷（BL）">
           1
           <el-input style="width:6%;margin:0 50px;" oninput = "value=value.replace(/[^\d.]/g,'')" v-model="TSamplingReport.crack1"></el-input>
           2
@@ -255,10 +255,10 @@ export default {
   },
   computed: {
     unqualifiedNum() {
-      return this.twoList.filter(item => item.qualifiedNo == '1').length
+      return this.twoList.filter(item => item.qualifiedNo == '0').length
     },
     qualifiedNum() {
-      return this.twoList.filter(item => item.qualifiedNo == '0').length
+      return this.twoList.filter(item => item.qualifiedNo == '1').length
     },
     average1(){
         return (Number(this.TSamplingReport.elongation1)+Number(this.TSamplingReport.elongation2)+Number(this.TSamplingReport.elongation3)+Number(this.TSamplingReport.elongation4)+Number(this.TSamplingReport.elongation5))/5
