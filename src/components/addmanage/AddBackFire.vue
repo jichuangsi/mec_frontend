@@ -256,7 +256,7 @@
       <el-card style="width:100%;margin-top:20px;">
         <div class="j-c-s">
           <div class="meta">本班生产产物（{{ twoListName }}）</div>
-          <el-button type="primary" plain @click="showAddClassDialog">新增</el-button>
+          <el-button type="primary" plain @click="showAddClassDialog" v-if="PPProductionInfo.state === 0 || id >= 0">新增</el-button>
         </div>
         <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="SmeltingProducts" style="width: 100%">
           <el-table-column type="index" label="序号"> </el-table-column>
@@ -281,7 +281,7 @@
           <el-table-column prop="surface" label="表面"> </el-table-column>
           <el-table-column prop="payingOff" label="放线"> </el-table-column>
           <el-table-column prop="straightLine" label="直线"> </el-table-column>
-          <el-table-column label="操作" width="180">
+          <el-table-column label="操作" width="180" v-if="PPProductionInfo.state === 0 || id >= 0">
             <template slot-scope="scope">
               <el-button type="primary" size="mini" @click="editSmeltingProducts(scope.$index)">编辑</el-button>
               <el-button type="danger" size="mini" @click="delSmeltingProducts(scope.$index)">删除</el-button>
@@ -298,7 +298,7 @@
         </div>
       </el-card>
       <!--  新增本班产物的对话框-->
-      <el-dialog title="新增本班产物" :visible.sync="addClassDialogVisible" width="30%" @close="addClassDialogClose">
+      <el-dialog :title="SmeltingProductsIndex<0?'新增本班产物':'编辑'" :visible.sync="addClassDialogVisible" width="30%" @close="addClassDialogClose">
         <el-form label-width="120px">
           <el-form-item label="线轴名称">
             <el-select v-model="aaa" placeholder="请选择 " style="width:60%" @change="selectedChange">
@@ -414,7 +414,7 @@
             <el-upload
               :data="{ findById: Eid }"
               class="upload-demo"
-              action="http://192.168.31.92:8080/ProductionController/importFilePPProduction"
+              action="http://192.168.31.93:8080/ProductionController/importFilePPProduction"
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :before-remove="beforeRemove"
@@ -555,7 +555,8 @@ export default {
       BobbinXiaLaInfo: [],
       fileList: [],
       oneListName: '',
-      twoListName: ''
+      twoListName: '',
+      SmeltingProductsIndex:-1,
     }
   },
   created() {
@@ -651,6 +652,7 @@ export default {
     },
     // 编辑本班产物
     editSmeltingProducts(index) {
+      this.SmeltingProductsIndex=index
       this.SmeltingProductsItem = _.cloneDeep(this.SmeltingProducts[index])
       this.addClassDialogVisible = true
     },
@@ -689,7 +691,12 @@ export default {
           this.SmeltingProductsItem.bobbinName = item.mapValue + '--' + item.mapValue2
         }
       })
-      this.SmeltingProducts.push(_.cloneDeep(this.SmeltingProductsItem))
+      if(this.SmeltingProductsIndex>=0){
+        this.SmeltingProducts.splice(this.SmeltingProductsIndex,1,_.cloneDeep(this.SmeltingProductsItem))
+      }else{
+        this.SmeltingProducts.push(_.cloneDeep(this.SmeltingProductsItem))
+      }
+      
       this.addClassDialogVisible = false
     },
     addClassDialogClose() {
@@ -719,7 +726,8 @@ export default {
         wastageg: '', //废料g
         wireDiameterUm:'' //线径um
       },
-      this.aaa=''
+      this.aaa='',
+      this.SmeltingProductsIndex=-1
     },
 
     // 详情页面获取初始数据

@@ -1,13 +1,7 @@
 <template>
   <div>
-    <el-card>
-      <el-row>
-        <el-col :span="1">
-          <div @click="goback" class="top"><i class="el-icon-back" style="font-size:20px;"></i><span style="margin-left:5px;">返回</span></div>
-        </el-col>
-        <el-col :span="2">| 新增设备</el-col>
-      </el-row>
-    </el-card>
+    <el-page-header @back="goback" content="设备" style="margin-bottom:20px;"> </el-page-header>
+
     <el-card style="margin-top:20px;">
       <div style="font-weight:bold;margin-bottom:20px;">基本信息</div>
       <el-row style="margin:10px;">
@@ -79,95 +73,89 @@ export default {
     return {
       value1: '',
 
-      dialogVisible:false,
-      SBNumber:'',//设别编号
-      SBType:'',//设备类型下拉框
-      id:-1,//编辑操作的id
-      equipment:{
-        equipmentTypeId:'',
-        equipmentNumber:'',
-        equipmentName:'',
-        equipmentModel:'',
-        id:'',
+      dialogVisible: false,
+      SBNumber: '', //设别编号
+      SBType: '', //设备类型下拉框
+      id: -1, //编辑操作的id
+      equipment: {
+        equipmentTypeId: '',
+        equipmentNumber: '',
+        equipmentName: '',
+        equipmentModel: '',
+        id: ''
       },
-      equipmentItemsList:[],
-      equipmentItemsListItem:{
-        equipmentItems:''
+      equipmentItemsList: [],
+      equipmentItemsListItem: {
+        equipmentItems: ''
       },
-      index:-1,
+      index: -1
     }
   },
-  created(){
-    this.id=this.$route.query.id
+  created() {
+    this.id = this.$route.query.id
     this.getData()
   },
   methods: {
     //保存全部
-    async saveAll(){
-      if(this.id>=0){
-        this.equipment.id=this.id
+    async saveAll() {
+      if (this.id >= 0) {
+        this.equipment.id = this.id
       }
-      const { data: res } = await this.$http.post('BasicSettingController/saveEquipment',{
-        equipment:this.equipment,
-        equipmentItemsList:this.equipmentItemsList
-      } )
-      if (res.code !== "0010") return this.$message.error(res.msg)
-      this.$message.success(this.id>=0?'编辑成功':'新增成功')
+      const { data: res } = await this.$http.post('BasicSettingController/saveEquipment', {
+        equipment: this.equipment,
+        equipmentItemsList: this.equipmentItemsList
+      })
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      this.$message.success(this.id >= 0 ? '编辑成功' : '新增成功')
       this.$router.go(-1)
     },
     // 点击删除
-    async del(index){
-      const confirmResult = await this.$confirm(
-                '是否确认删除？',
-                '提示',
-                {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-                }
-        ).catch(err => err)
-        if (confirmResult !== 'confirm') {
-                return
-          }
-            this.equipmentItemsList.splice(index,1)
-            this.$message.success('删除成功')
-        },
+    async del(index) {
+      const confirmResult = await this.$confirm('是否确认删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return
+      }
+      this.equipmentItemsList.splice(index, 1)
+      this.$message.success('删除成功')
+    },
     // 监听对话框关闭
-    dialogClose(){
-      this.equipmentItemsListItem.equipmentItems='',
-      this.index=-1
+    dialogClose() {
+      ;(this.equipmentItemsListItem.equipmentItems = ''), (this.index = -1)
     },
     // 对话框点击确认
-    dialogConfirm(){
-      if(this.index>=0){
-        this.equipmentItemsList.splice(this.index,1,{...this.equipmentItemsListItem})
-      }else{
-        this.equipmentItemsList.push({...this.equipmentItemsListItem})
+    dialogConfirm() {
+      if (this.index >= 0) {
+        this.equipmentItemsList.splice(this.index, 1, { ...this.equipmentItemsListItem })
+      } else {
+        this.equipmentItemsList.push({ ...this.equipmentItemsListItem })
       }
-      this.dialogVisible=false
+      this.dialogVisible = false
     },
     //  获取页面初始数
-    async getData(){
-      const { data: res } = await this.$http.post('BasicSettingController/getEquipmentBasicInfo' )
-      if (res.code !== "0010") return this.$message.error(res.msg)
-      this.SBNumber=res.data.SBNumber
-      this.SBType=res.data.SBType
-      this.equipment.equipmentNumber=this.SBNumber
-      if(this.id>=0){
-        const { data: res } = await this.$http.post('BasicSettingController/getAllEquipmentById',{findById:this.id} )
-        if (res.code !== "0010") return this.$message.error(res.msg)
-        this.equipment=res.data.equipment
-        this.equipmentItemsList=res.data.equipmentItems
+    async getData() {
+      const { data: res } = await this.$http.post('BasicSettingController/getEquipmentBasicInfo')
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      this.SBNumber = res.data.SBNumber
+      this.SBType = res.data.SBType
+      this.equipment.equipmentNumber = this.SBNumber
+      if (this.id >= 0) {
+        const { data: res } = await this.$http.post('BasicSettingController/getAllEquipmentById', { findById: this.id })
+        if (res.code !== '0010') return this.$message.error(res.msg)
+        this.equipment = res.data.equipment
+        this.equipmentItemsList = res.data.equipmentOverhauls
       }
     },
     //打开新增的对话框
-    showDialog(index=-1){
-      this.dialogVisible =true
-      if(index>=0){
-        this.index=index
-        this.equipmentItemsListItem=_.cloneDeep(this.equipmentItemsList[index])
+    showDialog(index = -1) {
+      this.dialogVisible = true
+      if (index >= 0) {
+        this.index = index
+        this.equipmentItemsListItem = _.cloneDeep(this.equipmentItemsList[index])
       }
-
     },
     //返回
     goback() {
@@ -185,7 +173,7 @@ export default {
   text-align: right;
   padding-left: 80px;
 }
-.top{
+.top {
   cursor: pointer;
 }
 </style>

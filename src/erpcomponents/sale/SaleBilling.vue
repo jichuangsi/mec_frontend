@@ -86,7 +86,7 @@
       <el-row>
         <el-col :span="4"><div class="meta">销售条目</div></el-col>
         <el-col :span="8" :offset="12">
-          <el-button type="primary" @click="add()">新增</el-button>
+          <el-button type="primary" @click="add()" v-if="tsaleorder.orderStateId == 0">新增</el-button>
         </el-col>
       </el-row>
       <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="saleOrderDetail" style="width: 100%">
@@ -100,7 +100,7 @@
         <el-table-column prop="productPrice" label="单价(元)"> </el-table-column>
         <el-table-column prop="remark" label="备注"> </el-table-column>
         <el-table-column prop="productSum" label="合计(元)"> </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" v-if="tsaleorder.orderStateId == 0">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="add(scope.$index)">编辑</el-button>
             <el-button type="danger" size="mini" @click="del(scope.$index)">删除</el-button>

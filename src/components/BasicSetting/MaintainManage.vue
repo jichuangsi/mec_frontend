@@ -5,6 +5,7 @@
         <template>
           <el-form label-width="80px">
             <el-row :gutter="20">
+              
               <el-col :span="6">
                 <el-form-item label="设备型号">
                   <el-input v-model="submitForm.findName"></el-input>
@@ -74,7 +75,10 @@
         <template>
           <el-form label-width="80px">
             <el-row :gutter="20">
-              <el-col :span="4" :offset="20">
+              <el-col :span="20">
+                <span style="color:red;font-size:14px;">*审核层级按数字由小到大排序，数字越小越先审核，如：审核层级为1的人先审核，然后按数字依次审核。</span>
+              </el-col>
+              <el-col :span="4" >
                 <el-button type="primary" @click="showDialog">新增</el-button>
               </el-col>
             </el-row>
@@ -86,7 +90,7 @@
               <el-table-column prop="staffPost" label="审核职称"> </el-table-column>
               <el-table-column label="操作">
                 <template slot-scope="scope">
-                  <el-button type="warning" size="mini" @click="showDialog(scope.row.id)">
+                  <el-button type="primary" size="mini" @click="showDialog(scope.row.id)">
                     编辑
                   </el-button>
                 </template>
@@ -116,7 +120,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="审核层级">
-          <el-input v-model="form.auditLevel" style="width:60%;" disabled></el-input>
+          <el-input v-model="form.auditLevel" style="width:60%;" type="number" ></el-input>
         </el-form-item>
         <el-form-item label="审核人">
           <el-select v-model="form.staffId" placeholder="请选择" style="width:60%;" @change="selectedChange">
@@ -331,7 +335,6 @@ export default {
 <style lang="less" scoped>
 .el-card {
   width: 100%;
-  height: 100%;
   position: relative;
   .nav {
     text-align: center;

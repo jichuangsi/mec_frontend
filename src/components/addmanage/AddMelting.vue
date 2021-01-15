@@ -110,7 +110,7 @@
           <el-col :span="4" style="padding-top:10px;">套模方案</el-col>
           <el-col :span="10" style="padding-top:10px;">{{ ProcessTechnology.constituteNumber }}</el-col>
           <el-col :span="5" style="padding-top:10px;"> {{ ProcessTechnology.constituteName }}</el-col>
-          <el-col :span="4"><el-button>预览套模</el-button></el-col>
+          <el-col :span="4"><el-button @click="toPreview">预览套模</el-button></el-col>
         </el-row>
         <el-row style="margin:30px 0">
           <el-col :span="5">铸造温度℃</el-col>
@@ -548,6 +548,9 @@ export default {
     }
   },
   methods: {
+    toPreview(){
+      this.$router.push("/preview")
+    },
     del(index){
       this.listdataDetailAll.splice(index,1)
     },

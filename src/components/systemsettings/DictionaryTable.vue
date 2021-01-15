@@ -27,7 +27,7 @@
           <el-table-column prop="staffName" label="创建人"> </el-table-column>
           <el-table-column label="状态操作">
             <template slot-scope="scope">
-              <el-switch v-model="scope.row.state" :active-value="1" :inactive-value="0" @change="switchChange(scope.row.id)"> </el-switch>
+              <el-switch v-model="scope.row.state" :active-value="0" :inactive-value="1" @change="switchChange(scope.row.id)"> </el-switch>
             </template>
           </el-table-column>
           <el-table-column label="操作">

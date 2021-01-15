@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <div class="container">
     <el-row :gutter="40">
@@ -111,29 +110,33 @@
           </el-card>
           <el-card style="border-radius:16px" class="chart">
             <!-- 2. 为ECharts准备一个具备大小（宽高）的Dom -->
-            <div id="main" style="width: 750px;height:400px;"></div>
+            <div id="main" style="width: 100%;height:400px;"></div>
           </el-card>
         </div>
       </el-col>
       <el-col :span="8">
         <div class="message">
           <h1>系统消息</h1>
-          <el-card>
+          <el-card style=" height:410px;border-radius:14px;">
             <h4 style="margin:0">系统公告</h4>
-            <el-row :gutter="20" v-for="(item, index) in noticeList" :key="item.id" class="system">
-              <el-col :span="1">{{ index + 1 }}</el-col>
-              <el-col :span="11" :offset="1">{{ item.noticeName }}</el-col>
-              <el-col :span="10">{{ item.createTime | dateFormat }}</el-col>
-            </el-row>
+            <div style="height:300px;overflow-y:auto;overflow-x:hidden;margin-top:20px;">
+              <el-row :gutter="20" v-for="(item, index) in noticeList" :key="item.id" class="system">
+                <el-col :span="1">{{ index + 1 }}</el-col>
+                <el-col :span="11" :offset="1">{{ item.noticeName }}</el-col>
+                <el-col :span="10">{{ item.createTime | dateFormat }}</el-col>
+              </el-row>
+            </div>
           </el-card>
 
-          <el-card style="margin-top:30px;">
+          <el-card style="margin-top:30px;height:490px;border-radius:14px;">
             <h4 style="margin:0">待办事项</h4>
-            <el-row :gutter="20" v-for="(item, index) in myMatter" :key="item.id" class="system">
-              <el-col :span="1">{{ index + 1 }}</el-col>
-              <el-col :span="15" :offset="1">{{ item.matterNews }}</el-col>
-              <el-col :span="6" @click.native="toDetail(item.type)">前往</el-col>
-            </el-row>
+            <div style="height:380px;overflow-y:auto;overflow-x:hidden;margin-top:20px;">
+              <el-row :gutter="20" v-for="(item, index) in myMatter" :key="item.id" class="system">
+                <el-col :span="1">{{ index + 1 }}</el-col>
+                <el-col :span="15" :offset="1">{{ item.matterNews }}</el-col>
+                <el-col :span="6" @click.native="toDetail(item.type)" style="color:#919191;">前往</el-col>
+              </el-row>
+            </div>
           </el-card>
         </div>
       </el-col>
@@ -177,40 +180,46 @@ export default {
       production: '',
       productionOrderMatter: '',
       purchaseAmount: '',
-      salesAmount: ''
+      salesAmount: '',
+      dayProductionDetail: [],
+      dayProduction: []
     }
   },
   created() {
     this.getData()
   },
   mounted() {
-    var myChart = echarts.init(document.getElementById('main'))
-    var option = {
-      title: {
-        text: '月生产量统计'
-      },
-      tooltip: {},
-      legend: {
-        data: ['销量']
-      },
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [
-        {
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
-          type: 'line',
-          smooth: true
-        }
-      ]
-    }
-    myChart.setOption(option)
+    
   },
   methods: {
+    setChart() {
+      var myChart = echarts.init(document.getElementById('main'))
+      var option = {
+        title: {
+          text: '月生产量统计'
+        },
+        tooltip: {},
+        legend: {
+          data: ['邮件营销']
+        },
+
+        xAxis: {
+          type: 'category',
+          data: this.dayProduction
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [
+          {
+            data: this.dayProductionDetail,
+            type: 'line',
+            smooth: true
+          }
+        ]
+      }
+      myChart.setOption(option)
+    },
     toDetail(type) {
       switch (type) {
         case 1:
@@ -242,12 +251,15 @@ export default {
       this.productionOrderMatter = res.data.productionOrderMatter
       this.purchaseAmount = res.data.purchaseAmount
       this.salesAmount = res.data.salesAmount
+      this.dayProduction = res.data.dayProduction
+      this.dayProductionDetail = res.data.dayProductionDetail
+      this.setChart()
     },
     // 保存链接的激活状态
     saveNavState(activePath) {
       window.sessionStorage.setItem('activePath', activePath)
       this.activePath = activePath
-    },
+    }
   }
 }
 </script>

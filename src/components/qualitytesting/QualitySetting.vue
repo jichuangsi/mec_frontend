@@ -12,7 +12,7 @@
               <el-button type="primary" plain @click="toAdd()">新增</el-button>
             </el-form-item>
           </el-form>
-          <el-table :data="tableData" style="width: 100%">
+          <el-table :data="tableData" style="width: 100%"  :header-cell-style="{background:'#f0f5ff' }">
             <el-table-column type="index" label="序号"> </el-table-column>
             <el-table-column prop="number" label="模板编号"> </el-table-column>
             <el-table-column prop="name" label="模板名称"> </el-table-column>
@@ -44,7 +44,7 @@
       </el-tab-pane>
       <el-tab-pane label="质量证书" name="2">
         <template>
-          <el-form :inline="true" ref="form" :model="form" label-width="80px">
+          <el-form :inline="true" ref="form" :model="form" label-width="80px" >
             <el-form-item label="模板编号" style="width:60%;">
               <el-input v-model="submitForm.findName" placeholder="请输入搜索内容"></el-input>
             </el-form-item>
@@ -53,7 +53,7 @@
               <el-button type="primary" plain @click="toAdd()">新增</el-button>
             </el-form-item>
           </el-form>
-          <el-table :data="tableData" style="width: 100%">
+          <el-table :data="tableData" style="width: 100%"  :header-cell-style="{background:'#f0f5ff' }">
             <el-table-column type="index" label="序号"> </el-table-column>
             <el-table-column prop="number" label="模板编号"> </el-table-column>
             <el-table-column prop="name" label="模板名称"> </el-table-column>
@@ -84,8 +84,11 @@
         </template>
       </el-tab-pane>
     </el-tabs>
-    <div id="printMe">
-      <canvas id="barcode" width="110px"  height="26px"></canvas>
+    <!-- <div id="printMe" style="width:220px;height:52px;">
+      <canvas id="barcode"  style="width:100%;height:100%;"></canvas>
+    </div> -->
+    <div id="printMe" style="width:330px;height:78px;">
+      <canvas id="barcode"  style="width:100%;height:100%;"></canvas>
     </div>
     <button v-print="'#printMe'">打印</button>
   </el-card>
@@ -119,7 +122,7 @@ export default {
     // 生成条形码
     jsbarcode(
       '#barcode',
-      '9787544121212112291170',
+      '978754 112291170',
       {
         displayValue: true // 是否在条形码下方显示文字
       }
@@ -129,7 +132,7 @@ export default {
     async preview(id){
       const { data: res } = await this.$http.post('templatesController/getTemplateById/'+id)
       if (res.code !== "0010") return this.$message.error(res.msg)
-      window.location.href ='http://192.168.31.92:8080/'+ res.data;
+      window.location.href ='http://192.168.31.93:8080/'+ res.data;
     },
     edit(id){
       this.$router.push({

@@ -20,7 +20,11 @@
       </el-row>
       <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="firstTableData" style="width: 100%">
         <el-table-column type="index" label="序号"> </el-table-column>
-        <el-table-column prop="createTime" label="开单时间"> </el-table-column>
+        <el-table-column prop="createTime" label="开单时间">
+          <template slot-scope="scope">
+            {{scope.row.createTime|dateFormat}}
+          </template>
+        </el-table-column>
         <el-table-column prop="saleOrder" label="销售单号"> </el-table-column>
         <el-table-column prop="customer" label="客户"> </el-table-column>
         <el-table-column prop="orderSum" label="订单总金额(元)"> </el-table-column>

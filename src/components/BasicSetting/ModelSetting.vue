@@ -34,7 +34,7 @@
               <el-table-column prop="productRemark" label="备注"> </el-table-column>
               <el-table-column label="启用状态">
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.state" :active-value="1" :inactive-value="0" @change="switchChange(scope.row)"> </el-switch>
+                  <el-switch v-model="scope.row.state" :active-value="0" :inactive-value="1" @change="switchChange(scope.row)"> </el-switch>
                 </template>
               </el-table-column>
               <el-table-column label="操作">
@@ -77,7 +77,7 @@
               <el-table-column prop="stockRemarks" label="备注"> </el-table-column>
               <el-table-column label="启用状态">
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.state" :active-value="1" :inactive-value="0" @change="switchChange(scope.row)"> </el-switch>
+                  <el-switch v-model="scope.row.state" :active-value="0" :inactive-value="1" @change="switchChange(scope.row)"> </el-switch>
                 </template>
               </el-table-column>
               <el-table-column label="操作">
@@ -122,13 +122,13 @@
               <el-table-column type="index" label="序号"> </el-table-column>
               <el-table-column prop="stockName" label="线轴名称"> </el-table-column>
               <el-table-column prop="stockNumber" label="线轴编号"> </el-table-column>
-              <el-table-column prop="procedureName" label="工序"> </el-table-column>
+              <el-table-column prop="gxName" label="工序"> </el-table-column>
               <el-table-column prop="stockModel" label="线轴型号"> </el-table-column>
-              <el-table-column prop="bobbintype" label="线别"> </el-table-column>
+              <el-table-column prop="stockType" label="线别"> </el-table-column>
               <el-table-column prop="stockRemarks" label="备注"> </el-table-column>
               <el-table-column label="启用状态">
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.state" :active-value="1" :inactive-value="0" @change="switchChange(scope.row)"> </el-switch>
+                  <el-switch v-model="scope.row.state" :active-value="0" :inactive-value="1" @change="switchChange(scope.row)"> </el-switch>
                 </template>
               </el-table-column>
               <el-table-column label="操作">
@@ -178,7 +178,7 @@
               <el-table-column prop="stockRemarks" label="备注"> </el-table-column>
               <el-table-column label="启用状态">
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.state" :active-value="1" :inactive-value="0" @change="switchChange(scope.row)"> </el-switch>
+                  <el-switch v-model="scope.row.state" :active-value="0" :inactive-value="1" @change="switchChange(scope.row)"> </el-switch>
                 </template>
               </el-table-column>
               <el-table-column label="操作">

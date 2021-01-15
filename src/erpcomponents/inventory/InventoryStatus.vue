@@ -51,7 +51,7 @@
           </el-pagination>
         </template>
       </el-tab-pane>
-      <el-tab-pane label="半成品" name="selfproduct">
+      <el-tab-pane label="半成品" name="nofinished">
         <template>
           <el-form ref="form" label-width="80px">
             <el-row :gutter="40">

@@ -62,7 +62,8 @@
               </el-table-column>
             </el-table>
           </el-form>
-          <el-pagination :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          <el-pagination @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
           </el-pagination>
         </template>
       </el-tab-pane>
@@ -127,7 +128,9 @@
               </el-table-column>
             </el-table>
           </el-form>
-          <el-pagination :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          <el-pagination 
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
           </el-pagination>
         </template>
       </el-tab-pane>
@@ -190,7 +193,8 @@
               </el-table-column>
             </el-table>
           </el-form>
-          <el-pagination :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          <el-pagination @size-change="handleSizeChange1"
+            @current-change="handleCurrentChange1" :current-page="submitForm1.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm1.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
           </el-pagination>
         </template>
       </el-tab-pane>
@@ -232,6 +236,26 @@ export default {
     this.getData()
   },
   methods: {
+    // 监听 pagesize 改变
+    handleSizeChange(newSize) {
+      this.submitForm.pageSize = newSize
+      this.getData()
+    },
+    // 监听 pagenum 改变
+    handleCurrentChange(newPage) {
+      this.submitForm.pageNum = newPage
+      this.getData()
+    },
+    // 监听 pagesize 改变
+    handleSizeChange1(newSize) {
+      this.submitForm1.pageSize = newSize
+      this.getData()
+    },
+    // 监听 pagenum 改变
+    handleCurrentChange1(newPage) {
+      this.submitForm1.pageNum = newPage
+      this.getData()
+    },
     // 前往新增组合页面
     toAddCom(id=-1){
       this.$router.push({

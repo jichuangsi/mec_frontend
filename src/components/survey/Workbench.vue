@@ -15,7 +15,7 @@
                         <div class="border-right">查看计划单</div>
                         <div>前往操作</div>
                     </div>
-                    <el-tag effect="dark" type="warning">待开始</el-tag>
+                    <el-tag  type="warning">待开始</el-tag>
                 </div>
                 
             </div>
@@ -122,7 +122,7 @@ export default {
       .item-card {
         margin: 10px 0;
         position: relative;
-        border: 1px solid #f0f5ff;
+        border: 2px solid #f0f5ff;
         width: 280px;
         height: 160px;
         background-color: #fff;
