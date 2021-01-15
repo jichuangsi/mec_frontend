@@ -26,7 +26,11 @@
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
               <el-table-column type="index" label="序号"> </el-table-column>
-              <el-table-column prop="createTime" label="时间"></el-table-column>
+              <el-table-column prop="createTime" label="时间">
+                <template slot-scope="scope">
+                  {{scope.row.createTime|dateFormat}}
+                </template>
+              </el-table-column>
               <el-table-column prop="recordType" label="类型"></el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
@@ -41,7 +45,7 @@
           <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"  :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
         </template>
       </el-tab-pane>
-      <el-tab-pane label="半成品" name="selfproduct">
+      <el-tab-pane label="半成品" name="nofinished">
         <template>
           <el-form label-width="80px">
             <el-row :gutter="40">
@@ -64,7 +68,11 @@
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
               <el-table-column type="index" label="序号"> </el-table-column>
-              <el-table-column prop="createTime" label="时间"></el-table-column>
+              <el-table-column prop="createTime" label="时间">
+                <template slot-scope="scope">
+                  {{scope.row.createTime|dateFormat}}
+                </template>
+              </el-table-column>
               <el-table-column prop="recordType" label="类型"></el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
@@ -104,7 +112,11 @@
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
               <el-table-column type="index" label="序号"> </el-table-column>
-              <el-table-column prop="createTime" label="时间"></el-table-column>
+              <el-table-column prop="createTime" label="时间">
+                <template slot-scope="scope">
+                  {{scope.row.createTime|dateFormat}}
+                </template>
+              </el-table-column>
               <el-table-column prop="recordType" label="类型"></el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
@@ -144,7 +156,11 @@
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
               <el-table-column type="index" label="序号"> </el-table-column>
-              <el-table-column prop="createTime" label="时间"></el-table-column>
+              <el-table-column prop="createTime" label="时间">
+                <template slot-scope="scope">
+                  {{scope.row.createTime|dateFormat}}
+                </template>
+              </el-table-column>
               <el-table-column prop="recordType" label="类型"></el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
@@ -186,7 +202,11 @@
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
               <el-table-column type="index" label="序号"> </el-table-column>
-              <el-table-column prop="createTime" label="时间"></el-table-column>
+              <el-table-column prop="createTime" label="时间">
+                <template slot-scope="scope">
+                  {{scope.row.createTime|dateFormat}}
+                </template>
+              </el-table-column>
               <el-table-column prop="recordType" label="类型"></el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
@@ -226,7 +246,11 @@
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
               <el-table-column type="index" label="序号"> </el-table-column>
-              <el-table-column prop="createTime" label="时间"></el-table-column>
+              <el-table-column prop="createTime" label="时间">
+                <template slot-scope="scope">
+                  {{scope.row.createTime|dateFormat}}
+                </template>
+              </el-table-column>
               <el-table-column prop="recordType" label="类型"></el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
@@ -254,7 +278,7 @@
             </el-input>
           </el-col>
         </el-col>
-        <el-col :span="7" :offset="1" v-if="type=='diaobo'||type=='chuku'">
+        <el-col :span="7" :offset="1" v-show="type=='diaobo'||type=='chuku'">
           <el-col :span="6"><span style="line-height:40px;">调出仓库：</span></el-col>
           <el-col :span="18">
             <el-select placeholder="请选择 " v-model="ChuKuForm.findIdOne"  @change="getAllocat">
@@ -262,7 +286,7 @@
             </el-select>
           </el-col>
         </el-col>
-        <el-col :span="7" :offset="1" v-if="type=='diaobo'||type=='ruku'">
+        <el-col :span="7" :offset="1" v-show="type=='diaobo'||type=='ruku'">
           <el-col :span="6"><span style="line-height:40px;">调入仓库：</span></el-col>
           <el-col :span="18">
             <el-select placeholder="请选择 " v-model="updateWarehourseID" >
@@ -271,24 +295,53 @@
           </el-col>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row  v-show="activeName=='stock'||activeName=='elseother'||activeName=='bobbin'">
         <el-col :span="11">
-          <el-table stripe :data="listdata" height="300px" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%" @row-click="rowClick">
+          <el-table stripe :data="listdata" height="300px" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%" highlight-current-row	 @row-click="rowClick">
             <el-table-column prop="stockName" label="产品名称"> </el-table-column>
             <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
           </el-table>
-        </el-col>
+        </el-col>     
         <el-col :span="11" :offset="1">
           <el-table stripe height="300px" :data="listdataDetail" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
-            <el-table-column prop="updateRemark" label="规格"> </el-table-column>
-            <el-table-column prop="updateNum" label="库存数量">
+            <el-table-column prop="updateRemark" label="规格"  > </el-table-column>
+            <el-table-column prop="updateNum" label="库存数量"  >
               <template slot-scope="scope">
                 {{scope.row.updateNum?scope.row.updateNum:'  --'}}
               </template>  
             </el-table-column>
-            <el-table-column label="选定数量"> 
+            <el-table-column label="选定数量"  > 
               <template slot-scope="scope">
-                <el-input  v-model="scope.row.xuandingNum" size="mini"></el-input>
+                <el-input  v-model="scope.row.xuandingNum" size="mini" oninput = "value=value.replace(/[^\d.]/g,'')"></el-input>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
+
+
+      <el-row  v-show="activeName=='nofinished'|| activeName=='product'|| activeName=='waste'">
+        <el-col :span="11">
+          <el-table stripe :data="listdata" height="300px" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%" highlight-current-row	 @row-click="rowClick">
+            <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
+            <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
+            <el-table-column prop="stockName" label="规格"> </el-table-column>
+            <el-table-column prop="stockRemarks" label="工序" v-show="activeName=='nofinished'|| activeName=='waste'"> </el-table-column>
+          </el-table>
+        </el-col>     
+        <el-col :span="11" :offset="1">
+          <el-table stripe height="300px" :data="listdataDetail" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
+            <el-table-column prop="updateRemark"    label="线轴" v-show="activeName=='nofinished'|| activeName=='product'"> </el-table-column>
+            <el-table-column prop="standards"   label="长度m/轴" v-show="activeName=='nofinished'|| activeName=='product'"> </el-table-column>
+            <el-table-column prop="updateType"   label="单位"> </el-table-column>
+            <el-table-column prop="updateNum"  label="库存数量">
+              <template slot-scope="scope">
+                {{scope.row.updateNum?scope.row.updateNum:'  --'}}
+              </template>  
+            </el-table-column>
+            <el-table-column label="选定数量" > 
+              <template slot-scope="scope">
+                <el-input oninput = "value=value.replace(/[^\d.]/g,'')"  v-model="scope.row.xuandingNum" size="mini"></el-input>
               </template>
             </el-table-column>
           </el-table>
@@ -304,8 +357,8 @@
         </el-col>
       </el-row>
 
-      <el-table stripe :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
-        <el-table-column prop="stockName" label="产品名称"> </el-table-column>
+      <el-table v-show="activeName=='stock'||activeName=='elseother'||activeName=='bobbin'" stripe :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
+        <el-table-column prop="updateRemark" label="产品名称"> </el-table-column>
         <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
         <el-table-column prop="updateRemark" label="规格"> </el-table-column>
         <el-table-column   label="库存数量">
@@ -321,6 +374,26 @@
         </el-table-column>
       </el-table>
 
+      <el-table v-show="activeName=='nofinished'||activeName=='product'||activeName=='waste'" stripe :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
+        <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
+        <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
+        <el-table-column prop="stockName" label="规格"> </el-table-column>
+        <el-table-column prop="stockRemarks" label="工序" v-show="activeName=='nofinished'||activeName=='waste'"> </el-table-column>
+        <el-table-column prop="updateRemark" label="线轴" v-show="activeName=='nofinished'||activeName=='product'"> </el-table-column>
+        <el-table-column prop="standards" label="长度/轴" v-show="activeName=='nofinished'||activeName=='product'"> </el-table-column>
+        <el-table-column prop="updateType" label="单位" v-show="activeName=='waste'"> </el-table-column>
+        <el-table-column   label="库存数量">
+          <template slot-scope="scope">
+            {{scope.row.updateNum?scope.row.updateNum:'  --'}}
+          </template>  
+        </el-table-column>
+        <el-table-column prop="xuandingNum" label="已选定数量"> </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" size="mini" @click="del(scope.$index)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
       <span slot="footer">
         <el-button @click="allocatDialogVisible = false">取 消</el-button>
         <el-button style="margin-right:20%;margin-left:5%;" type="primary" @click="allocatNext">下一步</el-button>
@@ -335,7 +408,7 @@
         </el-col>
       </el-row>
 
-      <el-table stripe :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
+      <el-table v-show="activeName=='stock'||activeName=='elseother'||activeName=='bobbin'" stripe :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
         <el-table-column prop="stockName" label="产品名称"> </el-table-column>
         <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
         <el-table-column prop="updateRemark" label="规格"> </el-table-column>
@@ -351,12 +424,31 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-table v-show="activeName=='nofinished'" stripe :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
+        <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
+        <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
+        <el-table-column prop="stockName" label="规格"> </el-table-column>
+        <el-table-column prop="stockRemarks" label="工序"> </el-table-column>
+        <el-table-column prop="updateRemark" label="线轴"> </el-table-column>
+        <el-table-column prop="standards" label="长度/轴"> </el-table-column>
+        <el-table-column   label="库存数量">
+          <template slot-scope="scope">
+            {{scope.row.updateNum?scope.row.updateNum:'  --'}}
+          </template>  
+        </el-table-column>
+        <el-table-column prop="xuandingNum" label="已选定数量"> </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" size="mini" @click="del(scope.$index)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
       <div style="margin:20px;text-align:center;">备注：<el-input placeholder="请输入备注内容" style="width:40%;" v-model="updateRemark"></el-input></div>
       <span slot="footer">
         <el-button @click="allocatNextDialogVisible = false">取 消</el-button>
-        <el-button style="margin-right:20%;margin-left:5%;" type="primary" @click="allocatConfirm" v-if="type=='diaobo'">调拨</el-button>
-        <el-button style="margin-right:20%;margin-left:5%;" type="primary" @click="allocatConfirm" v-if="type=='chuku'">出库</el-button>
-        <el-button style="margin-right:20%;margin-left:5%;" type="primary" @click="allocatConfirm" v-if="type=='ruku'">入库</el-button>
+        <el-button style="margin-right:20%;margin-left:5%;" type="primary" @click="allocatConfirm" v-show="type=='diaobo'">调拨</el-button>
+        <el-button style="margin-right:20%;margin-left:5%;" type="primary" @click="allocatConfirm" v-show="type=='chuku'">出库</el-button>
+        <el-button style="margin-right:20%;margin-left:5%;" type="primary" @click="allocatConfirm" v-show="type=='ruku'">入库</el-button>
       </span>
     </el-dialog>
   </el-card>
@@ -388,13 +480,11 @@ export default {
       listdata:[],
       listdataDetail:[],
       listdataDetailAll:[],
-      listdataObj:{
-        stockName:'',//产品名称
-        stockNumber:'',//产品编号
-      },
+      
       updateWarehourseID:'',//选中的仓库id
       updateRemark:'',//备注
       type:'',
+      row:{},
     }
   },
   created() {
@@ -472,12 +562,23 @@ export default {
       this.listdataDetail.forEach(item=>{
         item.xuandingNum=''
       })
-      this.listdataDetailAll.forEach(item=>{
-        item.stockName=item.stockName?item.stockName:this.listdataObj.stockName
-        item.stockModel=item.stockModel?item.stockModel:this.listdataObj.stockModel
-        item.unitId=item.unitId?item.unitId:this.listdataObj.unitId
-        item.stockNumber=item.stockNumber?item.stockNumber:this.listdataObj.stockNumber
-      })
+      if(this.activeName=="nofinished"||this.activeName=='product' ||this.activeName=='waste'){
+        this.listdataDetailAll.forEach(item=>{
+          item.stockNumber=item.stockNumber?item.stockNumber:this.row.stockNumber
+          item.stockName=item.stockName?item.stockName:this.row.stockName
+          item.unitId=item.unitId?item.unitId:this.row.dictionarierId
+          item.stockModel=item.stockModel?item.stockModel:this.row.stockModel
+          item.stockRemarks=item.stockRemarks?item.stockRemarks:this.row.stockRemarks
+        })
+      }else{
+          this.listdataDetailAll.forEach(item=>{
+          item.stockName=item.stockName?item.stockName:this.row.stockName
+          item.stockModel=item.stockModel?item.stockModel:this.row.stockModel
+          item.unitId=item.unitId?item.unitId:this.row.dictionarierId
+          item.stockNumber=item.stockNumber?item.stockNumber:this.row.stockNumber
+        })
+      }
+      
       this.listdataDetailAll=this.listdataDetailAll.filter(item => item.xuandingNum > 0 )
       if(this.type=="diaobo"||this.type=="chuku"){
         this.listdataDetailAll=this.listdataDetailAll.filter(item =>  item.xuandingNum<=item.updateNum )
@@ -485,6 +586,7 @@ export default {
     },
     // 每一行点击
     async rowClick(row){
+      this.row=row
       if(this.type=="ruku"){
         const { data: res } = await this.$http.post('warehouseController/getAllWarehousingProductById',{
         findById:row.id,
@@ -492,10 +594,7 @@ export default {
         })
         if (res.code !== '0010') return this.$message.error(res.msg)
         this.listdataDetail=res.data.RData
-        this.listdataObj.stockName=row.stockName
-        this.listdataObj.stockNumber=row.stockNumber
-        this.listdataObj.unitId=row.dictionarierId
-        this.listdataObj.stockModel=row.stockModel
+       
       }else{
         const { data: res } = await this.$http.post('warehouseController/getAllWarehousingChuKuById',{
         findById:row.id,
@@ -504,10 +603,7 @@ export default {
         })
         if (res.code !== '0010') return this.$message.error(res.msg)
         this.listdataDetail=res.data.RData
-        this.listdataObj.stockName=row.stockName
-        this.listdataObj.stockNumber=row.stockNumber
-        this.listdataObj.unitId=row.dictionarierId
-        this.listdataObj.stockModel=row.stockModel
+        
       }
       
     },
@@ -540,8 +636,7 @@ export default {
         if (ress.code !== '0010') return this.$message.error(ress.msg)
         this.listdata=ress.data.LData
         this.listdataDetail=ress.data.RData
-        this.listdataObj.stockName=ress.data.LData[0].stockName
-        this.listdataObj.stockNumber=ress.data.LData[0].stockNumber
+
         this.rowClick(ress.data.LData[0])
       }else{
         const { data: ress } = await this.$http.post('warehouseController/getAllWarehousingChuKu',this.ChuKuForm)
@@ -549,8 +644,6 @@ export default {
         this.listdata=ress.data.LData
         this.listdataDetail=ress.data.RData
 
-        this.listdataObj.stockName=ress.data.LData[0].stockName
-        this.listdataObj.stockNumber=ress.data.LData[0].stockNumber
         this.rowClick(ress.data.LData[0])
       } 
     },

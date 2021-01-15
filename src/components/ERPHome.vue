@@ -71,7 +71,7 @@
                 <el-dropdown-item><div @click="loginout()">退出登录</div> </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-            <el-button type="text" @click="toems">切换EMS系统</el-button>
+            <el-button type="text" @click="toems">切换MES系统</el-button>
           </div>
         </el-header>
         <el-main>
@@ -109,10 +109,10 @@ export default {
       this.$router.push('/login')
       sessionStorage.clear()
     },
-    // 跳转到ems系统
+    // 跳转到mes系统
     toems() {
       this.$router.push('/home')
-      this.$message.warning('切换到EMS系统成功')
+      this.$message.warning('切换到MES系统成功')
       sessionStorage.removeItem("activePath")
     }
   }

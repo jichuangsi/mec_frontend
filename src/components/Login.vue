@@ -41,7 +41,7 @@ export default {
     return {
       // 这是登录表单的数据绑定对象
       loginForm: {
-        account: '123123',
+        account: '666666',
         pwd: '123123',
         sysType:1,
       },

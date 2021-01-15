@@ -56,7 +56,8 @@
               >
               <el-menu-item index="/summaryTable" @click="saveNavState('/summaryTable')">生产日报汇总表</el-menu-item>
               <el-menu-item index="/thinTable" @click="saveNavState('/thinTable')">生产日报细分报表</el-menu-item>
-              <el-menu-item index="/homepage1">班组生产情况报表</el-menu-item>
+              <el-menu-item index="/qualityAnalysis" @click="saveNavState('/qualityAnalysis')">生产质量分析</el-menu-item>
+              <el-menu-item index="/teamProduction" @click="saveNavState('/teamProduction')">班组生产情况报表</el-menu-item>
               <el-menu-item index="/flashBack" @click="saveNavState('/flashBack')">批号生产回溯</el-menu-item>
               <el-menu-item index="/homepage1">SPC</el-menu-item>
               <el-menu-item index="/homepage1">MSA</el-menu-item>

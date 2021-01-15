@@ -77,6 +77,8 @@ const AddWinding = () =>
     import ('./components/addmanage/AddWinding.vue')
 const AddDetour = () =>
     import ('./components/addmanage/AddDetour.vue')
+const Preview = () =>
+    import ('./components/addmanage/Preview.vue')
     // 质量检验
 const QualitySetting = () =>
     import ('./components/qualitytesting/QualitySetting.vue')
@@ -95,6 +97,10 @@ const SummaryTable = () =>
     import ('./components/statistics/SummaryTable.vue')
 const ThinTable = () =>
     import ('./components/statistics/ThinTable.vue')
+const teamProduction = () =>
+    import ('./components/statistics/TeamProduction.vue')
+const qualityAnalysis = () =>
+    import ('./components/statistics/qualityAnalysis.vue')
 const FlashBack = () =>
     import ('./components/statistics/FlashBack.vue')
 const FlashBackDetail = () =>
@@ -272,8 +278,11 @@ const router = new Router({
                 { path: '/detourDetail', component: DetourDetail },
                 { path: '/addWinding', component: AddWinding },
                 { path: '/addDetour', component: AddDetour },
+                { path: '/preview', component: Preview },
                 { path: '/summaryTable', component: SummaryTable },
                 { path: '/thinTable', component: ThinTable },
+                { path: '/teamProduction', component: teamProduction },
+                { path: '/qualityAnalysis', component: qualityAnalysis },
                 { path: '/flashBack', component: FlashBack },
                 { path: '/flashBackDetail', component: FlashBackDetail },
                 { path: '/modelSetting', component: ModelSetting },

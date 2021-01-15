@@ -110,8 +110,8 @@ export default {
     async saveClass() {
       let idList = ''
       this.tableData.forEach(item => {
-        item.staffIdCard = item.staffIdCard + ','
-        idList += item.staffIdCard
+        item.id = item.id + ','
+        idList += item.id
       })
       this.classForm.teamStaffList = idList
       if (this.id >= 0) {
@@ -127,18 +127,21 @@ export default {
       let obj = {}
       this.SelectedData.forEach(item => {
         if (item.mapKey == this.dialogStaffId) {
+          obj.id=item.mapKey
           obj.staffIdCard = item.mapValue2
           obj.staffIdName = item.mapValue
         }
       })
       if (this.index >= 0) {
         this.tableData.splice(this.index, 1, {
+          id:obj.id,
           teamName: this.classForm.teamName,
           staffIdCard: obj.staffIdCard,
           staffIdName: obj.staffIdName
         })
       } else {
         this.tableData.push({
+          id:obj.id,
           teamName: this.classForm.teamName,
           staffIdCard: obj.staffIdCard,
           staffIdName: obj.staffIdName

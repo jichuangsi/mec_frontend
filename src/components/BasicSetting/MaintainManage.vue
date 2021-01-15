@@ -90,7 +90,7 @@
               <el-table-column prop="staffPost" label="审核职称"> </el-table-column>
               <el-table-column label="操作">
                 <template slot-scope="scope">
-                  <el-button type="warning" size="mini" @click="showDialog(scope.row.id)">
+                  <el-button type="primary" size="mini" @click="showDialog(scope.row.id)">
                     编辑
                   </el-button>
                 </template>
