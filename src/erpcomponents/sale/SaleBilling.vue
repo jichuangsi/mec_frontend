@@ -30,7 +30,7 @@
           <el-col :span="4">
             <el-form-item label="仓库">
               <el-select style="width:100%" v-model="tsaleorder.warehouseId" placeholder="请选择 ">
-                <el-option :label="item.mapValue" :value="item.mapKey" v-for="item in selecteds.warehouse" :key="item.mapKey"></el-option>
+                <el-option :label="item.mapValue+'--'+item.mapValue2" :value="item.mapKey" v-for="item in selecteds.warehouse" :key="item.mapKey"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -144,10 +144,10 @@
         </el-form-item>
         <el-form-item label="产品规格" prop="productdetailId">
           <el-select v-model="saleOrderDetailItem.productdetailId" placeholder="请选择">
-            <el-option :label="item.mapValue" :value="item.mapKey" v-for="item in productDetailXiaLa" :key="item.mapKey"></el-option>
+            <el-option :label="Number(item.mapValue).toFixed(2)" :value="item.mapKey" v-for="item in productDetailXiaLa" :key="item.mapKey"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="数量" prop="productNum">
+        <el-form-item label="数量(米)" prop="productNum">
           <el-input oninput = "value=value.replace(/[^\d.]/g,'')" v-model="saleOrderDetailItem.productNum" style="width:53%;"></el-input>
         </el-form-item>
         <el-form-item label="单价" prop="productPrice">
@@ -234,6 +234,7 @@ export default {
     }
   },
   created() {
+    
     this.getSelecteds()
   },
   methods: {
@@ -370,6 +371,7 @@ export default {
       this.tsaleorder.saleOrder = res.data.pruchaseNum
       this.orderState = res.data.orderState
       this.checkState = res.data.checkState
+      this.tsaleorder.staffId=JSON.parse(sessionStorage.getItem('user')).userId
       if (this.$route.query.id >= 0) {
         this.id = this.$route.query.id
         this.getInitData()

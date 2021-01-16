@@ -41,7 +41,8 @@
               </el-table-column>
             </el-table>
           </el-form>
-          <el-pagination :current-page="firstSubmitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="firstSubmitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          <el-pagination @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" :current-page="firstSubmitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="firstSubmitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
           </el-pagination>
         </template>
       </el-tab-pane>
@@ -70,7 +71,8 @@
               </el-table-column>
             </el-table>
           </el-form>
-          <el-pagination :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          <el-pagination @size-change="handleSizeChange1"
+            @current-change="handleCurrentChange1" :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
           </el-pagination>
         </template>
       </el-tab-pane>
@@ -137,6 +139,24 @@ export default {
     this.getData()
   },
   methods: {
+    handleSizeChange1(newSize) {
+      this.submitForm.pageSize = newSize
+      this.getData()
+    },
+    // 监听 pagenum 改变
+    handleCurrentChange1(newPage) {
+      this.submitForm.pageNum = newPage
+      this.getData()
+    },
+     handleSizeChange(newSize) {
+      this.firstSubmitForm.pageSize = newSize
+      this.getData()
+    },
+    // 监听 pagenum 改变
+    handleCurrentChange(newPage) {
+      this.firstSubmitForm.pageNum = newPage
+      this.getData()
+    },
     // 清空搜索条件
     clearFirstSubmitForm() {
       this.firstSubmitForm = {

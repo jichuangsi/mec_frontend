@@ -39,7 +39,8 @@
         </el-table-column>
       </el-table>
     </el-form>
-    <el-pagination :current-page="firstSubmitForm.pageNum" :page-sizes="[5, 10,15, 20]" :page-size="firstSubmitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
+    <el-pagination @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" :current-page="firstSubmitForm.pageNum" :page-sizes="[5, 10,15, 20]" :page-size="firstSubmitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
 
     <!-- 新增或编辑的对话框 -->
     <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" @close="dialogClose">
@@ -95,6 +96,15 @@ export default {
     this.getData()
   },
   methods: {
+    handleSizeChange(newSize) {
+      this.firstSubmitForm.pageSize = newSize
+      this.getData()
+    },
+    // 监听 pagenum 改变
+    handleCurrentChange(newPage) {
+      this.firstSubmitForm.pageNum = newPage
+      this.getData()
+    },
     // 清空搜索条件
     clearFirstSubmitForm() {
       this.firstSubmitForm = {

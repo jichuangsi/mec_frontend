@@ -119,7 +119,7 @@
           <el-card style=" height:410px;border-radius:14px;">
             <h4 style="margin:0">系统公告</h4>
             <div style="height:300px;overflow-y:auto;overflow-x:hidden;margin-top:20px;">
-              <el-row :gutter="20" v-for="(item, index) in noticeList" :key="item.id" class="system">
+              <el-row :gutter="20" v-for="(item, index) in noticeList" :key="item.id" class="system" @click.native="showNoticeDialog(index)">
                 <el-col :span="1">{{ index + 1 }}</el-col>
                 <el-col :span="11" :offset="1">{{ item.noticeName }}</el-col>
                 <el-col :span="10">{{ item.createTime | dateFormat }}</el-col>
@@ -140,6 +140,24 @@
         </div>
       </el-col>
     </el-row>
+    <el-dialog
+    title="公告"
+    :visible.sync="noticeDialogVisible"
+    width="30%"
+     >
+    <el-form    label-width="80px">
+      <el-form-item label="标题">
+        {{noticeListRow.noticeName}}
+      </el-form-item>
+      <el-form-item label="内容">
+        {{noticeListRow.noticeContent}}
+      </el-form-item>
+    </el-form>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="noticeDialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="noticeDialogVisible = false">确 定</el-button>
+    </span>
+  </el-dialog>
   </div>
 </template>
 
@@ -156,7 +174,9 @@ export default {
       purchaseNum: '',
       purchaseAmount: '',
       dayProductionDetail: [],
-      dayProduction: []
+      dayProduction: [],
+      noticeDialogVisible:false,
+      noticeListRow:{}
     }
   },
   created() {
@@ -164,6 +184,10 @@ export default {
   },
   mounted() {},
   methods: {
+    showNoticeDialog(index){
+      this.noticeListRow=this.noticeList[index]
+      this.noticeDialogVisible=true
+    },
     setChart() {
       var myChart = echarts.init(document.getElementById('main'))
       var option = {
@@ -194,6 +218,7 @@ export default {
     },
     toDetail(type) {
       switch (type) {
+        
         case 1:
           this.$router.push('/orderreview')
           this.saveNavState('/orderreview')
@@ -209,6 +234,17 @@ export default {
         case 4:
           this.$router.push('/saleOrderBack')
           this.saveNavState('/saleOrderBack')
+          break
+        case 5:
+          this.$router.push('/examine')
+          this.saveNavState('/examine')
+          break
+        case 6:
+  
+          this.saveNavState('/maintainManage')
+   
+          this.$router.push('/maintainManage')
+          
           break
         default:
           break

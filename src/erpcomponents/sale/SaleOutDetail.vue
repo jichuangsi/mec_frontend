@@ -112,8 +112,8 @@
     <el-card style="margin-top:20px;">
       <div style="font-weight:bold">
         新增出库
-        <el-button type="primary" style="margin-left:70%" @click="showDialog">新增</el-button>
-        <el-button>清空</el-button>
+        <el-button type="primary" style="margin-left:70%" @click="showDialog" v-if="tsaleorder.orderStateId == 3">新增</el-button>
+        <el-button v-if="tsaleorder.orderStateId == 3">清空</el-button>
       </div>
       <el-table :data="tableData" style="width: 100%" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
         <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
@@ -121,7 +121,7 @@
         <el-table-column prop="updateRemark" label="线轴"> </el-table-column>
         <el-table-column prop="standards" label="长度/m"> </el-table-column>
         <el-table-column prop="pageNum" label="已选定数量"> </el-table-column>
-        <el-table-column prop="address" label="操作">
+        <el-table-column prop="address" label="操作" v-if="tsaleorder.orderStateId == 3">
           <template slot-scope="scope">
             <el-button type="text" @click="delDialog1(scope.$index)">删除</el-button>
           </template>
@@ -168,17 +168,7 @@
         <el-button type="primary" @click="dialogConfirm">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog title="提示" :visible.sync="updateMaterialOuterVisible" width="30%" @close="updateMaterialOuterClose">
-      <el-form ref="updateMaterialOuterForm" :model="updateMaterialOuterForm" label-width="80px">
-        <el-form-item label="备注">
-          <el-input v-model="updateMaterialOuterForm.updateRemark"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="updateMaterialOuterVisible = false">取 消</el-button>
-        <el-button type="primary" @click="updateMaterialOuterConfirm">确 定</el-button>
-      </span>
-    </el-dialog>
+
     <!-- 新增出库的对话框 -->
     <el-dialog title="新增出库" :visible.sync="dialogVisible1" width="60%" @close="dialogClose1">
       <el-row :gutter="20">
@@ -239,9 +229,7 @@ import _ from 'lodash'
 export default {
   data() {
     return {
-      updateMaterialOuterForm: {
-        updateRemark: ''
-      },
+      updateMaterialOuterForm: {},
       dialogVisible: false,
       checkState: '', //审核状态
       orderState: '', //订单状态
@@ -361,9 +349,9 @@ export default {
         item.pageNum = ''
       })
       this.listData.forEach(item => {
-        item.leftId = item.leftId?item.leftId:this.row.id
-        item.stockModel = item.stockModel?item.stockModel:this.row.stockModel
-        item.stockNumber =item.stockModel?item.stockModel: this.row.stockNumber
+        item.leftId = item.leftId ? item.leftId : this.row.id
+        item.stockModel = item.stockModel ? item.stockModel : this.row.stockModel
+        item.stockNumber = item.stockModel ? item.stockModel : this.row.stockNumber
       })
     },
     // 点击新增
@@ -383,9 +371,9 @@ export default {
     async rowClick(row) {
       this.row = row
       const { data: res } = await this.$http.post('warehouseController/getAllWarehousingChuKuById', {
-        findById:row.id,
-        findModelName:'product',
-        findIdOne:''
+        findById: row.id,
+        findModelName: 'product',
+        findIdOne: ''
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.TwoList = res.data.RData
@@ -396,26 +384,29 @@ export default {
     },
     //确认销售出库
     async updateMaterialOuterConfirm() {
-      this.updateMaterialOuterForm.updateID = this.id
       let arr = []
       this.tableData.forEach(item => {
         let obj = {
           findModelName: 'product',
-          updateID: item.id,
+          updateID: item.updateID,
           updateNum: item.pageNum,
-          updateRemark: '销售成品出库'
+          updateRemark: '销售成品出库',
+          stockNumber: item.stockNumber,
+          stockModel: item.stockModel,
+          updateRemark: item.updateRemark,
+          standards: item.standards
         }
         arr.push(obj)
       })
       this.updateMaterialOuterForm.list = arr
-      const { data: res } = await this.$http.post('saleController/updateMaterialOuter', this.updateMaterialOuterForm)
+      const { data: res } = await this.$http.post('saleController/updateMaterialOuter/' + this.id, arr)
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.$message.success('编辑成功')
       this.$router.go(-1)
     },
     // 点击销售出库
     showUpdateMaterialOuter() {
-      this.updateMaterialOuterVisible = true
+      this.updateMaterialOuterConfirm()
     },
     // 计算总价
     productPriceBlur() {
@@ -433,6 +424,7 @@ export default {
       this.checkState = res.data.checkState
       this.sumMoney = res.data.sumMoney
       this.detailSize = res.data.detailSize
+      this.tableData=res.data.saleRecordList
     },
     // 添加全部
     async saveAll(id) {

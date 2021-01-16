@@ -297,13 +297,13 @@
       </el-row>
       <el-row  v-show="activeName=='stock'||activeName=='elseother'||activeName=='bobbin'">
         <el-col :span="11">
-          <el-table stripe :data="listdata" height="300px" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%" highlight-current-row	 @row-click="rowClick">
+          <el-table   :data="listdata" height="300px" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%" highlight-current-row	 @row-click="rowClick">
             <el-table-column prop="stockName" label="产品名称"> </el-table-column>
             <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
           </el-table>
         </el-col>     
         <el-col :span="11" :offset="1">
-          <el-table stripe height="300px" :data="listdataDetail" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
+          <el-table   height="300px" :data="listdataDetail" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
             <el-table-column prop="updateRemark" label="规格"  > </el-table-column>
             <el-table-column prop="updateNum" label="库存数量"  >
               <template slot-scope="scope">
@@ -322,7 +322,7 @@
 
       <el-row  v-show="activeName=='nofinished'|| activeName=='product'|| activeName=='waste'">
         <el-col :span="11">
-          <el-table stripe :data="listdata" height="300px" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%" highlight-current-row	 @row-click="rowClick">
+          <el-table   :data="listdata" height="300px" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%" highlight-current-row	 @row-click="rowClick">
             <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
             <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
             <el-table-column prop="stockName" label="规格"> </el-table-column>
@@ -330,7 +330,7 @@
           </el-table>
         </el-col>     
         <el-col :span="11" :offset="1">
-          <el-table stripe height="300px" :data="listdataDetail" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
+          <el-table   height="300px" :data="listdataDetail" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
             <el-table-column prop="updateRemark"    label="线轴" v-show="activeName=='nofinished'|| activeName=='product'"> </el-table-column>
             <el-table-column prop="standards"   label="长度m/轴" v-show="activeName=='nofinished'|| activeName=='product'"> </el-table-column>
             <el-table-column prop="updateType"   label="单位"> </el-table-column>
@@ -357,7 +357,7 @@
         </el-col>
       </el-row>
 
-      <el-table v-show="activeName=='stock'||activeName=='elseother'||activeName=='bobbin'" stripe :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
+      <el-table v-show="activeName=='stock'||activeName=='elseother'||activeName=='bobbin'"   :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
         <el-table-column prop="updateRemark" label="产品名称"> </el-table-column>
         <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
         <el-table-column prop="updateRemark" label="规格"> </el-table-column>
@@ -374,7 +374,7 @@
         </el-table-column>
       </el-table>
 
-      <el-table v-show="activeName=='nofinished'||activeName=='product'||activeName=='waste'" stripe :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
+      <el-table v-show="activeName=='nofinished'||activeName=='product'||activeName=='waste'"   :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
         <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
         <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
         <el-table-column prop="stockName" label="规格"> </el-table-column>
@@ -408,7 +408,7 @@
         </el-col>
       </el-row>
 
-      <el-table v-show="activeName=='stock'||activeName=='elseother'||activeName=='bobbin'" stripe :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
+      <el-table v-show="activeName=='stock'||activeName=='elseother'||activeName=='bobbin'"   :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
         <el-table-column prop="stockName" label="产品名称"> </el-table-column>
         <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
         <el-table-column prop="updateRemark" label="规格"> </el-table-column>
@@ -424,7 +424,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-table v-show="activeName=='nofinished'" stripe :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
+      <el-table v-show="activeName=='nofinished'"   :data="listdataDetailAll" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
         <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
         <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
         <el-table-column prop="stockName" label="规格"> </el-table-column>
@@ -559,11 +559,12 @@ export default {
     },
     // 添加数据合并
     addAllData(){
-
       this.listdataDetailAll.push(..._.cloneDeep(this.listdataDetail))
-      this.listdataDetail.forEach(item=>{
-        item.xuandingNum=''
-      })
+      for(let i=0;i<this.listdataDetail.length;i++){
+        if(this.listdataDetail[i].xuandingNum>0){
+          this.listdataDetail[i].xuandingNum=''
+        }
+      }
       if(this.activeName=="nofinished"||this.activeName=='product' ||this.activeName=='waste'){
         this.listdataDetailAll.forEach(item=>{
           item.stockNumber=item.stockNumber?item.stockNumber:this.row.stockNumber
@@ -585,6 +586,7 @@ export default {
       if(this.type=="diaobo"||this.type=="chuku"){
         this.listdataDetailAll=this.listdataDetailAll.filter(item =>  item.xuandingNum<=item.updateNum )
       }
+      
     },
     // 每一行点击
     async rowClick(row){
@@ -596,7 +598,7 @@ export default {
         })
         if (res.code !== '0010') return this.$message.error(res.msg)
         this.listdataDetail=res.data.RData
-       
+        
       }else{
         const { data: res } = await this.$http.post('warehouseController/getAllWarehousingChuKuById',{
         findById:row.id,

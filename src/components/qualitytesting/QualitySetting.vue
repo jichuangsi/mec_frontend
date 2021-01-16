@@ -89,22 +89,23 @@
     </div> -->
     <div id="printMe" >
       <!-- <canvas id="barcode"  style="width:100%;height:100%;"></canvas> -->
-      <div style="padding-left:20px; display:flex;width:250px;height:100px">
-        <div style="height:100px">
+      <div style="padding-left:20px; display:flex;width:250px;height: auto;">
+        <div >
           <p>生产计划单号</p>
           <p>01.06 09：24 A白</p>
           <p>销售单号</p>
           <p>生产批号</p>
-          <p>生产型号/规格/粗细/净重/每轴长度</p>
+            <p>生产型号/规格/粗细/净重/每轴长度</p>
         </div>
           
         
-        <div>
-        
+        <div>        
           <div class="qrcode" ref="qrCodeUrl"></div>
-          <span style="margin-left:30px;margin-top:10px;">熔铸</span>
+          <span style="margin-left:30px;margin-top:0px;">熔铸</span>
         </div>
+        
       </div>
+      
     </div>
     <button v-print="'#printMe'">打印</button>
   </el-card>
@@ -233,7 +234,7 @@ export default {
   }
 }
 </script>
-<style type="text/css" scoped media="print">
+<style type="text/css" scope media="print">
 
 .el-pagination {
   margin: 20px 200px;

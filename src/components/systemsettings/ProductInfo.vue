@@ -2,7 +2,7 @@
     <el-card>
         <div class="meta">厂房信息</div>
         <el-form ref="form" :model="form" label-width="120px">
-            <el-form-item label="产房LOGO" >
+            <el-form-item label="厂房LOGO" >
                 <el-upload
                 :class="{hide:showUpload}"
                 ref="upload"

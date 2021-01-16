@@ -582,6 +582,9 @@ export default {
         item.pppid = item.pppid ? item.pppid : this.listdataObj.pppid
       })
       this.listdataDetailAll = this.listdataDetailAll.filter(item => item.xuandingNum > 0 && item.xuandingNum <= item.updateNum)
+      this.listdataDetail.forEach(item=>{
+        item.xuandingNum=''
+      })
     },
     // 监听调拨的对话框关闭
     allocatDialogClose() {

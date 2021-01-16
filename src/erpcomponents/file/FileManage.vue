@@ -184,7 +184,7 @@ export default {
         this.id = id
         const { data: res } = await this.$http.post('fileController/getFileById', {
           findById: this.id,
-          findName: this.dialogPassword
+          findName: md5(this.dialogPassword)
         })
         if (res.code !== '0010') return this.$message.error(res.msg)
         this.addForm = res.data.fileTable
