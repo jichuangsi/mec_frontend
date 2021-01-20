@@ -72,7 +72,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="班次">
-          <el-select v-model="pp_schedulingItem.frequency" placeholder="请选择活动区域">
+          <el-select v-model="pp_schedulingItem.frequency" placeholder="请选择">
             <el-option label="白班" :value="1"></el-option>
             <el-option label="夜班" :value="2"></el-option>
           </el-select>
@@ -84,10 +84,10 @@
       </span>
     </el-dialog>
     <!-- 关联销售订单对话框 -->
-    <el-dialog title="请关联销售订单" :visible.sync="linkDialogVisible" width="50%">
-      <span style="color:#db001b;font-size:12px;">注：1、在左边框选择要关联的销售订单；2、在右边框选择该销售单下选择本次准备生产的产品。</span>
+    <el-dialog title="设置计划产物" :visible.sync="linkDialogVisible" width="50%">
+     
       <el-form label-width="80px" style="margin-top:10px;">
-        <el-form-item label="销售单号" style="width:350px">
+        <el-form-item label="产品型号" style="width:350px">
           <el-input v-model="findName"><i slot="suffix" class="el-input__icon el-icon-search" @click="getDialogData"></i></el-input>
         </el-form-item>
         <el-row :gutter="20">
@@ -100,7 +100,9 @@
           </el-col>
           <el-col :span="12">
             <el-table :data="RData" style="width: 100%" @selection-change="handleSelectionChange" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
-              <el-table-column prop="mapValue" label="规格"> </el-table-column>
+              <el-table-column prop="mapValue" label="规格">
+                <template slot-scope="scope">{{Number(scope.row.mapValue).toFixed(2)}}</template>
+              </el-table-column>
               <el-table-column type="selection" width="55"> </el-table-column>
             </el-table>
           </el-col>
@@ -153,26 +155,6 @@ export default {
         data: ''
       },
       tableData: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
       ],
       id: -1,
       GX: [],
@@ -219,6 +201,7 @@ export default {
         ppId:'',
       },
       editIndex: -1,
+      AllChange:0,
     }
   },
   created() {
@@ -321,6 +304,7 @@ export default {
     },
     //   设置班组和班次确认
     dialogClassConfirm() {
+      
       this.TeamXiaLa.forEach(item => {
         if (item.mapKey == this.pp_schedulingItem.tteamId) {
           this.pp_schedulingItem.tteamName = item.mapValue
@@ -330,6 +314,16 @@ export default {
         this.pp_schedulingItem.frequencystr = '白班'
       } else {
         this.pp_schedulingItem.frequencystr = '夜班'
+      }
+      if(this.AllChange==0){
+        this.pp_scheduling.forEach(item=>{
+          item.tteamId=this.pp_schedulingItem.tteamId
+          item.tteamName=this.pp_schedulingItem.tteamName
+          item.frequency=this.pp_schedulingItem.frequency
+          item.frequencystr=this.pp_schedulingItem.frequencystr
+          
+        })
+        this.AllChange++
       }
       this.pp_scheduling.splice(this.classIndex, 1, { ...this.pp_schedulingItem })
       this.dialogClassVisible = false

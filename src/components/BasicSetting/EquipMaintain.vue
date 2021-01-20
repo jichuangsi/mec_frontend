@@ -170,7 +170,7 @@
             <el-input v-model="equipmentCheckRecord.userTime" oninput = "value=value.replace(/[^\d.]/g,'')" style="width:33%;"></el-input>
           </el-form-item>
           <el-form-item label="班次">
-            <el-select v-model="equipmentCheckRecord.frequency" placeholder="请选择活动区域">
+            <el-select v-model="equipmentCheckRecord.frequency" placeholder="请选择">
               <el-option label="白班" :value="1"></el-option>
               <el-option label="夜班" :value="2"></el-option>
             </el-select>
@@ -251,7 +251,7 @@ export default {
         frequency: 1,
         id: 0,
         staffId: 0,
-        userTime:''
+        userTime:0
       },
       yearDialogVisible:false,
       addYear:'',
@@ -325,7 +325,7 @@ export default {
     },
     // 监听对话框关闭
     dialogClose(){
-      this.equipmentCheckRecord.userTime=''
+      this.equipmentCheckRecord.userTime=0
     },
     // 对话框点击确认
     async dialogConfirm(){

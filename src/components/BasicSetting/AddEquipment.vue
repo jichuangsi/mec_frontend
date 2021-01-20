@@ -19,7 +19,7 @@
       <el-row style="margin:10px;">
         <el-col :span="2" :offset="2" style="padding-top:10px;">设备编号</el-col>
         <el-col :span="4">
-          <el-input disabled :value="equipment.equipmentNumber"></el-input>
+          <el-input  v-model="equipment.equipmentNumber"></el-input>
         </el-col>
       </el-row>
       <el-row style="margin:10px;">
@@ -37,7 +37,7 @@
         <el-button style="margin-left:80%;" type="primary" plain @click="showDialog()">新增</el-button>
       </div>
       <div style="margin-top:40px;">
-        <el-table :data="equipmentItemsList" style="width: 100%">
+        <el-table :data="equipmentItemsList" style="width: 100%" :header-cell-style="{background:'#f0f5ff' }">
           <el-table-column type="index" label="型号"> </el-table-column>
           <el-table-column prop="equipmentItems" label="检项名称"> </el-table-column>
           <el-table-column prop="address" label="操作">
@@ -76,6 +76,7 @@ export default {
       dialogVisible: false,
       SBNumber: '', //设别编号
       SBType: '', //设备类型下拉框
+      mouldXiaLa:[],
       id: -1, //编辑操作的id
       equipment: {
         equipmentTypeId: '',
@@ -141,6 +142,7 @@ export default {
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.SBNumber = res.data.SBNumber
       this.SBType = res.data.SBType
+      this.mouldXiaLa = res.data.mouldXiaLa
       this.equipment.equipmentNumber = this.SBNumber
       if (this.id >= 0) {
         const { data: res } = await this.$http.post('BasicSettingController/getAllEquipmentById', { findById: this.id })

@@ -30,7 +30,7 @@
                 <el-input v-model="form.fax"></el-input>
             </el-form-item>
             <el-form-item label="供应商状态">
-                <el-switch v-model="form.state" :active-value='1' :inactive-value='0'></el-switch>
+                <el-switch v-model="form.state" :active-value='0' :inactive-value='1'></el-switch>
             </el-form-item>
         </el-form>
         <div class="footer">

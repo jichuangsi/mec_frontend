@@ -49,7 +49,8 @@
               </el-table-column>
             </el-table>
           </el-form>
-          <el-pagination :current-page="form.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="form.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
+          <el-pagination @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" :current-page="form.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="form.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
         </template>
       </el-tab-pane>
       <el-tab-pane label="原材料型号规格" name="stock">
@@ -92,7 +93,8 @@
               </el-table-column>
             </el-table>
           </el-form>
-          <el-pagination :current-page="form.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="form.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
+          <el-pagination @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" :current-page="form.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="form.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
         </template>
       </el-tab-pane>
       <el-tab-pane label="线轴型号规格" name="bobbin">
@@ -143,7 +145,8 @@
               </el-table-column>
             </el-table>
           </el-form>
-          <el-pagination :current-page="form.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="form.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
+          <el-pagination @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" :current-page="form.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="form.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
         </template>
       </el-tab-pane>
       <el-tab-pane label="其他型号规格" name="elseother">
@@ -193,7 +196,8 @@
               </el-table-column>
             </el-table>
           </el-form>
-          <el-pagination :current-page="form.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="form.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
+          <el-pagination @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" :current-page="form.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="form.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
         </template>
       </el-tab-pane>
     </el-tabs>
@@ -225,6 +229,16 @@ export default {
     this.getData()
   },
   methods: {
+    // 监听 pagesize 改变
+    handleSizeChange(newSize) {
+      this.form.pageSize = newSize
+      this.getData()
+    },
+    // 监听 pagenum 改变
+    handleCurrentChange(newPage) {
+      this.form.pageNum = newPage
+      this.getData()
+    },
     //  点击删除按钮
     async del(id) {
       const confirmResult = await this.$confirm('是否确认删除？', '提示', {
@@ -334,7 +348,6 @@ export default {
 <style lang="less" scoped>
 .el-card {
   width: 100%;
-  height: 100%;
   position: relative;
   .nav {
     text-align: center;

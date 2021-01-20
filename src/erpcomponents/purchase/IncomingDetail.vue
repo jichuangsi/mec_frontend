@@ -145,7 +145,7 @@
                 <el-timeline-item :timestamp="item.auditSetting" placement="top" v-for="item in auditDetail" :key="item.id">
                 <el-card>
                     <h4>{{item.remark}}</h4>
-                    <p>王小虎 提交于 {{item.createTime | dateFormat}}</p>
+                    <p>{{item.staffName}} 提交于 {{item.createTime | dateFormat}}</p>
                 </el-card>
                 </el-timeline-item>
                

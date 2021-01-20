@@ -159,9 +159,12 @@ export default {
       })
     },
     async preview(id) {
-      const { data: res } = await this.$http.post('templatesController/getTemplateById/' + id)
-      if (res.code !== '0010') return this.$message.error(res.msg)
-      window.location.href = 'http://192.168.31.92:8080/' + res.data
+      if(this.activeName==1){
+        this.$router.push("/inspectionPreview")
+      }
+      // const { data: res } = await this.$http.post('templatesController/getTemplateById/' + id)
+      // if (res.code !== '0010') return this.$message.error(res.msg)
+      // window.location.href = 'http://192.168.31.94:8080/' + res.data
     },
     edit(id) {
       this.$router.push({

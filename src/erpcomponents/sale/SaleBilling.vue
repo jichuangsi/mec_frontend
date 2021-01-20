@@ -36,12 +36,12 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="开单日期">
-              <el-date-picker type="date" placeholder="选择日期" v-model="tsaleorder.createTime" style="width: 100%;"></el-date-picker>
+              <el-date-picker type="datetime" placeholder="选择日期" v-model="tsaleorder.createTime" style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="交货日期">
-              <el-date-picker type="date" placeholder="选择日期" v-model="tsaleorder.finishedTime" style="width: 100%;"></el-date-picker>
+              <el-date-picker type="datetime" placeholder="选择日期" v-model="tsaleorder.finishedTime" style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -95,11 +95,13 @@
         <el-table-column prop="productModel" label="产品型号"> </el-table-column>
         <el-table-column prop="productNumber" label="产品编号"> </el-table-column>
         <el-table-column prop="umStart" label="规格"> </el-table-column>
+        <el-table-column prop="lengthM" label="长度"> </el-table-column>
         <el-table-column prop="productNum" label="数额"> </el-table-column>
         <el-table-column prop="unitName" label="单位"> </el-table-column>
         <el-table-column prop="productPrice" label="单价(元)"> </el-table-column>
         <el-table-column prop="remark" label="备注"> </el-table-column>
         <el-table-column prop="productSum" label="合计(元)"> </el-table-column>
+        <el-table-column prop="productLengthSum" label="合计(数量)"> </el-table-column>
         <el-table-column label="操作" v-if="tsaleorder.orderStateId == 0">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="add(scope.$index)">编辑</el-button>
@@ -147,6 +149,9 @@
             <el-option :label="Number(item.mapValue).toFixed(2)" :value="item.mapKey" v-for="item in productDetailXiaLa" :key="item.mapKey"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="长度(m/轴)" prop="lengthM">
+          <el-input oninput = "value=value.replace(/[^\d.]/g,'')" v-model="saleOrderDetailItem.lengthM" style="width:53%;"></el-input>
+        </el-form-item>
         <el-form-item label="数量(米)" prop="productNum">
           <el-input oninput = "value=value.replace(/[^\d.]/g,'')" v-model="saleOrderDetailItem.productNum" style="width:53%;"></el-input>
         </el-form-item>
@@ -156,8 +161,11 @@
         <el-form-item label="备注" prop="remark">
           <el-input v-model="saleOrderDetailItem.remark" style="width:53%;"></el-input>
         </el-form-item>
+        <el-form-item label="合计(数量)">
+          {{saleOrderDetailItem.productLengthSum}}
+        </el-form-item>
         <el-form-item label="合计(元)">
-          <el-input v-model="saleOrderDetailItem.productSum" style="width:53%;" disabled></el-input>
+          {{saleOrderDetailItem.productSum}}
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -197,7 +205,7 @@ export default {
         staffId: '',
         saleTypeId: '',
         warehouseId: '',
-        createTime: '',
+        createTime: new Date(),
         finishedTime: '',
         saleOrder: '', //销售单号
         orderStateId: '',
@@ -220,6 +228,8 @@ export default {
         productNum: '', //数量
         productPrice: '', //单价
         productSum: '', //合计
+        lengthM:'',
+        productLengthSum:'',
         remark: '', //明细备注
         deleteNo: ''
       }, //下面部分的每个小类
@@ -258,6 +268,7 @@ export default {
     // 计算总价
     productPriceBlur() {
       this.saleOrderDetailItem.productSum = this.saleOrderDetailItem.productNum * this.saleOrderDetailItem.productPrice
+      this.saleOrderDetailItem.productLengthSum = this.saleOrderDetailItem.productNum * this.saleOrderDetailItem.lengthM
     },
     // 根据id获取页面的初始数据
     async getInitData() {
@@ -303,6 +314,8 @@ export default {
         productNum: '', //数量
         productPrice: '', //单价
         productSum: '', //合计
+        lengthM:'',
+        productLengthSum:'',
         remark: ' ', //明细备注
         deleteNo: 0
       }

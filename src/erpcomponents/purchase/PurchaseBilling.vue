@@ -37,12 +37,12 @@
           </el-col>
           <el-col :span="4">
             <el-form-item label="开单日期">
-              <el-date-picker type="date" placeholder="选择日期" v-model="tPurchase.createTime" style="width:85%;"></el-date-picker>
+              <el-date-picker type="datetime" placeholder="选择日期" v-model="tPurchase.createTime" style="width:85%;"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="交货日期">
-              <el-date-picker type="date" placeholder="选择日期" v-model="tPurchase.finishedTime" style="width:85%;"></el-date-picker>
+              <el-date-picker type="datetime" placeholder="选择日期" v-model="tPurchase.finishedTime" style="width:85%;"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -100,7 +100,7 @@
         <el-table-column label="操作" v-if="tPurchase.orderState == 0">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="edit(scope.$index)">编辑</el-button>
-            <el-button type="danger" size="mini">删除</el-button>
+            <el-button type="danger" size="mini" @click="delRow(scope.$index)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -218,7 +218,7 @@ export default {
         staffId: '',
         purchasetypeId: '',
         warehouseiId: '',
-        createTime: '',
+        createTime: new Date(),
         finishedTime: '',
         purchaseOrder: '',
         orderState: '',
@@ -252,6 +252,22 @@ export default {
     }
   },
   methods: {
+    // edit(index){
+    //   this.tPurchaseDetailsItem=_.cloneDeep(this.tableData[index])
+    //   this.addDialogVisible = true
+    // },
+    async delRow(index) {
+      const confirmResult = await this.$confirm('是否确认删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return
+      }
+      this.tableData.splice(index, 1)
+      this.$message.success('删除成功')
+    },
     withdrawClose() {
       this.withdrawForm.updateRemark = ''
     },

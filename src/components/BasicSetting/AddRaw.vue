@@ -33,7 +33,7 @@
         规格型号
         <el-button type="primary" plain style="margin-left:60%;" @click="addguige()">新增</el-button>
       </div>
-      <el-table :data="tstandards" height="250" style="width: 100%">
+      <el-table :data="tstandards" height="250" style="width: 100%"  :header-cell-style="{background:'#f0f5ff' }">
         <el-table-column type="index" width="300" label="序号"> </el-table-column>
         <el-table-column prop="standards" label="规格"> </el-table-column>
         <el-table-column label="操作">

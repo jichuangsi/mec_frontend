@@ -19,9 +19,9 @@
         </el-col>
         <el-col :span="6">
           <el-button type="primary" @click="getData">筛选</el-button>
-          <download-excel class="export-excel-wrapper" :data="tableData" :fields="json_fields" name="生产日报汇总表.xls">
+          <download-excel class="export-excel-wrapper" :data="tableData1" :fields="json_fields" name="生产日报汇总表.xls">
             <!-- 上面可以自定义自己的样式，还可以引用其他组件button -->
-            <el-button type="primary">导出</el-button>
+            <el-button type="primary" @click="getAllData()">导出</el-button>
           </download-excel>
           <el-button type="text" @click="clear"> 清空筛选</el-button>
         </el-col>
@@ -51,9 +51,16 @@ export default {
       tableData: [],
       // 自主选择要导出的字段，若不指定，默认导出全部数据中心全部字段
       json_fields: {
-        日期: 'date', //常规字段
-        姓名: 'name', //支持嵌套属性
-        地址: 'address'
+        "生产日期": 'productDate', //常规字段
+        "生产单号": 'ppNumber', //支持嵌套属性
+        "生产批号": 'productionNumber',
+        "型号": 'productModel',
+        "来料重g": 'incomeHeavy',
+        "半成品g": 'noFinishEdP',
+        "成品g": 'finishEdP',
+        "损耗g": 'loss',
+        "废料g": 'waste',
+        "线上合计g": 'totalNet',
       },
       // 需要导出的数据
       json_data: [
@@ -61,21 +68,13 @@ export default {
           name: 'Tony Peña',
           city: 'New York',
           country: 'United States',
-          birthdate: '1978-03-15',
-          phone: {
-            mobile: '1-541-754-3010',
-            landline: '(541) 754-3010'
-          }
+         
         },
         {
           name: 'Thessaloniki',
           city: 'Athens',
           country: 'Greece',
-          birthdate: '1987-11-23',
-          phone: {
-            mobile: '+1 855 275 5071',
-            landline: '(2741) 2621-244'
-          }
+          
         }
       ],
       json_meta: [
@@ -94,7 +93,7 @@ export default {
         pageSize: 10
       },
       total:0,
-
+      tableData1:[],
     }
   },
   created() {
@@ -109,6 +108,13 @@ export default {
         pageNum: 1,
         pageSize: 10
       }
+    },
+    async getAllData(){
+      this.submitForm.pageSize=1000
+       const { data: res } = await this.$http.post('ProductionDataController/getProductionDiaryReport',this.submitForm)
+      if (res.code !== "0010") return this.$message.error(res.msg)
+      
+      this.tableData1=res.data.list
     },
     async getData(){
       const { data: res } = await this.$http.post('ProductionDataController/getProductionDiaryReport',this.submitForm)

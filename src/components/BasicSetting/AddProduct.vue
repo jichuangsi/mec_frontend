@@ -86,9 +86,14 @@
             {{ scope.row.diamStart && scope.row.diamEnd ? scope.row.diamStart + '-' + scope.row.diamEnd : scope.row.diamStart ? '&gt;' + scope.row.diamStart : '&lt;' + scope.row.diamEnd }}
           </template>
         </el-table-column>
-        <el-table-column label="半成品直径um">
+        <el-table-column label="细拉um">
           <template slot-scope="scope">
             {{ scope.row.semiStart && scope.row.semiEnd ? scope.row.semiStart + '-' + scope.row.semiEnd : scope.row.semiStart ? '&gt;' + scope.row.semiStart : '&lt;' + scope.row.semiEnd }}
+          </template>
+        </el-table-column>
+        <el-table-column label="超细拉um">
+          <template slot-scope="scope">
+            {{ scope.row.superfineStart && scope.row.superfineEnd ? scope.row.superfineStart + '-' + scope.row.superfineEnd : scope.row.superfineStart ? '&gt;' + scope.row.superfineStart : '&lt;' + scope.row.superfineEnd }}
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -232,13 +237,24 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="半成品直径um">
+            <el-form-item label="细拉um">
               <el-col :span="9">
                 <el-input v-model="tProstandardsItem.semiStart" type="number"></el-input>
               </el-col>
               <el-col :span="3" :offset="1">——</el-col>
               <el-col :span="9">
                 <el-input v-model="tProstandardsItem.semiEnd" type="number"></el-input>
+              </el-col>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="超细拉um">
+              <el-col :span="9">
+                <el-input v-model="tProstandardsItem.superfineStart" type="number"></el-input>
+              </el-col>
+              <el-col :span="3" :offset="1">——</el-col>
+              <el-col :span="9">
+                <el-input v-model="tProstandardsItem.superfineEnd" type="number"></el-input>
               </el-col>
             </el-form-item>
           </el-col>
@@ -368,7 +384,9 @@ export default {
         diamStart: 0,
         diamEnd: 0,
         semiStart: 0,
-        semiEnd: 0
+        semiEnd: 0,
+        superfineStart:0,
+        superfineEnd:0,
       },
       addMaterialVisible: false, //原料配比的对话框
       addModelVisible: false, //规格型号的对话框
@@ -534,7 +552,9 @@ export default {
         diamStart: 0,
         diamEnd: 0,
         semiStart: 0,
-        semiEnd: 0
+        semiEnd: 0,
+        superfineStart:0,
+        superfineEnd:0,
       }
     },
     // 确认新增规格型号的对话框

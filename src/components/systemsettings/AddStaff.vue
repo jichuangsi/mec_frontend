@@ -3,7 +3,7 @@
     <div class="meta">员工信息</div>
     <el-form :label-position="labelPosition" label-width="80px" :model="form">
       <el-form-item label="员工编号">
-        <el-input v-model="form.staffNum" disabled></el-input>
+        <el-input v-model="form.staffNum"  ></el-input>
       </el-form-item>
       <el-form-item label="员工姓名">
         <el-input v-model="form.staffName"></el-input>
@@ -126,6 +126,16 @@ export default {
     },
     // 点击提交
     async submitForm() {
+      if(this.id<0){
+        if(!this.form.loginPassword||this.form.loginPassword.length<6||this.form.loginPassword.length>12){
+          return this.$message.error("请输入密码且密码为6-12位")
+        }
+      }  
+      if(this.id>0){
+        if(this.form.loginPassword&&(this.form.loginPassword.length<6||this.form.loginPassword.length)>12){     
+          return this.$message.error("密码不能小于6位或大于12位")
+        }       
+      }
       this.form.state = Number(this.form.state) + ''
       let selectedList = []
       this.initData.juese.forEach(item => {

@@ -82,6 +82,9 @@ const Preview = () =>
     // 质量检验
 const QualitySetting = () =>
     import ('./components/qualitytesting/QualitySetting.vue')
+
+const InspectionPreview = () =>
+    import ('./components/qualitytesting/InspectionPreview.vue')
 const SamplingInspection = () =>
     import ('./components/qualitytesting/SamplingInspection.vue')
 const AddSampling = () =>
@@ -317,6 +320,7 @@ const router = new Router({
                 { path: '/staffManagement/AddRole', component: AddRole },
                 { path: '/QualitySetting', component: QualitySetting },
                 { path: '/samplingInspection', component: SamplingInspection },
+                { path: '/inspectionPreview', component: InspectionPreview },
                 { path: '/addSampling', component: AddSampling },
                 { path: '/samplingInfo', component: SamplingInfo },
                 { path: '/addTemplate', component: AddTemplate },
