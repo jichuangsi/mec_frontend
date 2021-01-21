@@ -85,8 +85,8 @@ export default {
       tableData: [],
       submitForm: {
         findDate: '',
-        pageNum: '',
-        pageSize: ''
+        pageNum: 1,
+        pageSize: 10
       },
       total: 0
     }

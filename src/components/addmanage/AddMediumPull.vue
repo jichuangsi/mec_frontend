@@ -94,13 +94,31 @@
       <el-card style="width:32%;margin-top:20px;">
         <div class="j-c-s">
           <div class="meta">工艺参数</div>
-          <!-- <el-button type="text" @click="showGYDialog">编辑</el-button> -->
+          <el-button type="text" @click="showGYDialog">编辑</el-button>
         </div>
         <el-row style="margin:30px 0">
           <el-col :span="4" style="padding-top:10px;">套模方案</el-col>
           <el-col :span="10" style="padding-top:10px;">{{ ProcessTechnology.constituteNumber }}</el-col>
           <el-col :span="5" style="padding-top:10px;"> {{ ProcessTechnology.constituteName }}</el-col>
           <el-col :span="4"><el-button>预览套模</el-button></el-col>
+        </el-row>
+        <el-row style="margin:30px 0">
+          <el-col :span="6">1~2轴压缩率%</el-col>
+          <el-col :span="7">{{ PPProductionInfo.moldTemp }}</el-col>
+          <el-col :span="6">滑动率%</el-col>
+          <el-col :span="5">{{ PPProductionInfo.towTime }}</el-col>
+        </el-row>
+        <el-row style="margin:30px 0">
+          <el-col :span="6">2~3轴压缩率%</el-col>
+          <el-col :span="7">{{ PPProductionInfo.towParameters }}</el-col>
+          <el-col :span="6">末道延伸率%</el-col>
+          <el-col :span="5">{{ PPProductionInfo.stopTime }}</el-col>
+        </el-row>
+        <el-row style="margin:30px 0">
+          <el-col :span="6">排线间距mm</el-col>
+          <el-col :span="7">{{ PPProductionInfo.waterTemp }} </el-col>
+          <el-col :span="6">拉丝速度m/min</el-col>
+          <el-col :span="5">{{ PPProductionInfo.stopTime }}</el-col>
         </el-row>
       </el-card>
       <!-- 设备信息 -->
@@ -227,10 +245,7 @@
           <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
           <el-table-column prop="wastageg" label="废料g"> </el-table-column>
           <el-table-column prop="lossg" label="损耗g"> </el-table-column>
-          <el-table-column prop="slip" label="滑差"> </el-table-column>
-          <el-table-column prop="tractionSpeed" label="牵引速度"> </el-table-column>
-          <el-table-column prop="takeUpSpeed" label="收线速度"> </el-table-column>
-          <el-table-column prop="surface" label="表面"> </el-table-column>
+
           <el-table-column label="操作" width="200" v-if="PPProductionInfo.state === 0">
             <template slot-scope="scope">
               <el-button type="primary" size="mini" @click="editSmeltingProducts(scope.$index)">编辑</el-button>
@@ -279,18 +294,7 @@
           <el-form-item label="损耗g">
             <el-input v-model="SmeltingProductsItem.lossg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
-          <el-form-item label="滑差">
-            <el-input v-model="SmeltingProductsItem.slip"   style="width:60%"></el-input>
-          </el-form-item>
-          <el-form-item label="牵引速度">
-            <el-input v-model="SmeltingProductsItem.tractionSpeed"   style="width:60%"></el-input>
-          </el-form-item>
-          <el-form-item label="收线速度">
-            <el-input v-model="SmeltingProductsItem.takeUpSpeed"   style="width:60%"></el-input>
-          </el-form-item>
-          <el-form-item label="表面">
-            <el-input v-model="SmeltingProductsItem.surface"   style="width:60%"></el-input>
-          </el-form-item>
+          
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="addClassDialogVisible = false">取 消</el-button>
@@ -300,19 +304,22 @@
       <!-- 编辑工艺参数的对话框 -->
       <el-dialog title="工艺参数" :visible.sync="dialogGYVisible" width="30%">
         <el-form label-width="120px">
-          <el-form-item label="铸造温度℃">
+          <el-form-item label="1~2轴压缩率%">
             <el-input v-model="PPProductionInfo.moldTemp" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
-          <el-form-item label="牵引参数">
+          <el-form-item label="滑动率%">
             <el-input v-model="PPProductionInfo.towParameters" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
-          <el-form-item label="牵引时间min">
+          <el-form-item label="2~3轴压缩率%">
             <el-input v-model="PPProductionInfo.towTime" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
-          <el-form-item label="停止时间min">
+          <el-form-item label="末道延伸率%">
             <el-input v-model="PPProductionInfo.stopTime" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
-          <el-form-item label="水温℃">
+          <el-form-item label="排线间距mm">
+            <el-input v-model="PPProductionInfo.waterTemp" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+          </el-form-item>
+          <el-form-item label="拉丝速度m/min">
             <el-input v-model="PPProductionInfo.waterTemp" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
         </el-form>
@@ -424,12 +431,8 @@ export default {
         netWeightgSum: '', //总净重g
         payingOff: '', //放线
         pppid: '', //生产id
-        slip: '', //滑差
         straightLine: '', //直线
-        surface: '', //表面
-        takeUpSpeed: '', //收线速度
         totalLength: '', //总长度
-        tractionSpeed: '', //牵引速度
         wastageg: '', //废料g
         wireDiameterUm:'' //线径um
       },

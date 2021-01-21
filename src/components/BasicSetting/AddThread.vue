@@ -42,7 +42,7 @@
       </div>
       <el-table :data="tstandards" height="250" style="width: 100%"  :header-cell-style="{background:'#f0f5ff' }">
         <el-table-column type="index" width="150" label="序号"> </el-table-column>
-        <el-table-column prop="standards" label="规格"> </el-table-column>
+        <el-table-column prop="standards" label="轴号"> </el-table-column>
         <el-table-column prop="remark" label="轴重"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
@@ -61,7 +61,7 @@
         <el-form-item label="序号">
           <el-input :value="index >= 0 ? index + 1 : tstandards.length + 1" disabled></el-input>
         </el-form-item>
-        <el-form-item label="规格">
+        <el-form-item label="轴号">
           <el-input v-model="tstandardsItem.standards"></el-input>
         </el-form-item>
         <el-form-item label="轴重">

@@ -324,8 +324,10 @@ export default {
           
         })
         this.AllChange++
+      }else{
+        this.pp_scheduling.splice(this.classIndex, 1, { ...this.pp_schedulingItem })
       }
-      this.pp_scheduling.splice(this.classIndex, 1, { ...this.pp_schedulingItem })
+      
       this.dialogClassVisible = false
     },
     showClassDialog(index) {

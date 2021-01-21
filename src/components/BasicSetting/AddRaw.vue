@@ -54,7 +54,7 @@
           <el-input :value="index == -1 ? tstandards.length + 1 : index" disabled style="width:60%"></el-input>
         </el-form-item>
         <el-form-item label="规格" prop="standards">
-          <el-input v-model="tstandardsItem.standards" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input><span style="margin-left:20px;color:red;">单位(g)</span>
+          <el-input v-model="tstandardsItem.standards"   style="width:60%"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -132,8 +132,8 @@ export default {
     },
     // 新增对话框点击确定
     dialogConfirm() {
-      if (!this.tstandardsItem.standards.trim()) {
-        return
+      if (!this.tstandardsItem.standards) {
+        return this.$message.error("请输入必填项")
       }
       if (this.index >= 0) {
         this.tstandards.splice(this.index, 1, _.cloneDeep(this.tstandardsItem))

@@ -141,7 +141,7 @@
       <el-form ref="saleOrderDetailItem" :model="saleOrderDetailItem" label-width="120px">
         <el-form-item label="产品名称" prop="productId">
           <el-select v-model="saleOrderDetailItem.productId" placeholder="请选择" @change="selectedChange">
-            <el-option :label="item.mapValue2 + '--' + item.mapValue" :value="item.mapKey" v-for="item in stockXiaLa" :key="item.mapKey"></el-option>
+            <el-option :label="item.mapValue2 + '--' + item.mapliandong" :value="item.mapKey" v-for="item in stockXiaLa" :key="item.mapKey"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="产品规格" prop="productdetailId">
@@ -152,7 +152,7 @@
         <el-form-item label="长度(m/轴)" prop="lengthM">
           <el-input oninput = "value=value.replace(/[^\d.]/g,'')" v-model="saleOrderDetailItem.lengthM" style="width:53%;"></el-input>
         </el-form-item>
-        <el-form-item label="数量(米)" prop="productNum">
+        <el-form-item label="数量(轴)" prop="productNum">
           <el-input oninput = "value=value.replace(/[^\d.]/g,'')" v-model="saleOrderDetailItem.productNum" style="width:53%;"></el-input>
         </el-form-item>
         <el-form-item label="单价" prop="productPrice">
@@ -267,7 +267,7 @@ export default {
     },
     // 计算总价
     productPriceBlur() {
-      this.saleOrderDetailItem.productSum = this.saleOrderDetailItem.productNum * this.saleOrderDetailItem.productPrice
+      this.saleOrderDetailItem.productSum = this.saleOrderDetailItem.productNum * this.saleOrderDetailItem.productPrice * this.saleOrderDetailItem.lengthM
       this.saleOrderDetailItem.productLengthSum = this.saleOrderDetailItem.productNum * this.saleOrderDetailItem.lengthM
     },
     // 根据id获取页面的初始数据
@@ -336,6 +336,9 @@ export default {
     },
     // 确认添加对话框
     dialogConfirm() {
+      if(!this.saleOrderDetailItem.productNum||!this.saleOrderDetailItem.remark||!this.saleOrderDetailItem.productPrice){
+        return this.$message.error("请填写必要项")
+      }
       this.stockXiaLa.forEach(item => {
         if (this.saleOrderDetailItem.productId == item.mapKey) {
           this.saleOrderDetailItem.productName = item.mapValue2

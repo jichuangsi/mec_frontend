@@ -25,45 +25,45 @@
     </el-card>
     <el-row :gutter="20" style="margin-top:20px;">
       <el-col :span="16">
-        <el-card >
+        <el-card>
           <div style="font-weight:bold;">关联销售订单消息</div>
           <el-row style="margin:20px 0">
             <el-col :span="6">销售单号</el-col>
-            <el-col :span="6" style="color:#8494a9;">{{saleorder.saleOrder}}</el-col>
+            <el-col :span="6" style="color:#8494a9;">{{ saleorder.saleOrder }}</el-col>
             <el-col :span="6">客户编号</el-col>
-            <el-col :span="6" style="color:#8494a9;">{{saleorder.customerNumber}}</el-col>
+            <el-col :span="6" style="color:#8494a9;">{{ saleorder.customerNumber }}</el-col>
           </el-row>
           <el-row style="margin:20px 0">
             <el-col :span="6">订单状态</el-col>
             <el-col :span="6" style="color:#8494a9;">待出库</el-col>
             <el-col :span="6">客户名称</el-col>
-            <el-col :span="6" style="color:#8494a9;">{{saleorder.customer}}</el-col>
+            <el-col :span="6" style="color:#8494a9;">{{ saleorder.customer }}</el-col>
           </el-row>
           <el-row style="margin:20px 0">
             <el-col :span="6">开单日期</el-col>
-            <el-col :span="6" style="color:#8494a9;">{{saleorder.createTime}}</el-col>
+            <el-col :span="6" style="color:#8494a9;">{{ saleorder.createTime }}</el-col>
             <el-col :span="6">联系电话</el-col>
-            <el-col :span="6" style="color:#8494a9;">{{saleorder.contactsPhone}}</el-col>
+            <el-col :span="6" style="color:#8494a9;">{{ saleorder.contactsPhone }}</el-col>
           </el-row>
           <el-row style="margin:20px 0">
             <el-col :span="6">交货日期</el-col>
-            <el-col :span="6" style="color:#8494a9;">{{saleorder.finishedTime}}</el-col>
+            <el-col :span="6" style="color:#8494a9;">{{ saleorder.finishedTime }}</el-col>
             <el-col :span="6">联系人</el-col>
-            <el-col :span="6" style="color:#8494a9;">{{saleorder.contactsMan}}</el-col>
+            <el-col :span="6" style="color:#8494a9;">{{ saleorder.contactsMan }}</el-col>
           </el-row>
           <el-row style="margin:20px 0">
             <el-col :span="6">付款方式</el-col>
-            <el-col :span="6" style="color:#8494a9;">{{saleorder.payType}}</el-col>
+            <el-col :span="6" style="color:#8494a9;">{{ saleorder.payType }}</el-col>
             <el-col :span="6">联系人职称</el-col>
-            <el-col :span="6" style="color:#8494a9;">{{saleorder.contactsPost}}</el-col>
+            <el-col :span="6" style="color:#8494a9;">{{ saleorder.contactsPost }}</el-col>
           </el-row>
         </el-card>
       </el-col>
       <el-col :span="8">
         <el-card>
           <el-table :data="customerDetail" style="width: 100%" height="230" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
-            <el-table-column prop="customerDetailName" label="条目名称"  > </el-table-column>
-            <el-table-column prop="remark" label="备注"  > </el-table-column>
+            <el-table-column prop="customerDetailName" label="条目名称"> </el-table-column>
+            <el-table-column prop="remark" label="备注"> </el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -100,7 +100,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="footer" v-if="pp.ppPlanState==0">
+      <div class="footer" v-if="pp.ppPlanState == 0">
         <el-button @click="goback">取消</el-button>
         <el-button type="primary" @click="saveAll(0)">保存草稿</el-button>
         <el-button type="primary" @click="saveAll(1)">提交审核</el-button>
@@ -123,7 +123,7 @@
           </el-select>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer" >
+      <span slot="footer" class="dialog-footer">
         <el-button @click="dialogClassVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogClassConfirm()">保存</el-button>
       </span>
@@ -158,7 +158,7 @@
     </el-dialog>
     <!-- 编辑长度数量合计的对话框 -->
     <el-dialog title="提示" :visible.sync="dialogEditVisible" width="40%" @close="dialogClose">
-      <el-row >
+      <el-row>
         <el-col :span="4" :offset="4">产品名称</el-col>
         <el-col :span="4" style="color:#8f9eb1;">{{ row.productName }}</el-col>
         <el-col :span="4">产品规格</el-col>
@@ -210,7 +210,7 @@ export default {
         finishedTime: '',
         suitId: '',
         saleId: '',
-        ppPlanState:0,//0 草稿 1提交审核
+        ppPlanState: 0 //0 草稿 1提交审核
       },
       pp_scheduling: [],
       pp_schedulingItem: {
@@ -243,8 +243,9 @@ export default {
       },
       editIndex: -1,
       saleId: '',
-      saleorder:{},
-      customerDetail:[]
+      saleorder: {},
+      customerDetail: [],
+      classAll: 0
     }
   },
   created() {
@@ -260,11 +261,11 @@ export default {
   methods: {
     //   保存全部
     async saveAll(ppPlanState) {
-      this.pp.ppPlanState=ppPlanState
+      this.pp.ppPlanState = ppPlanState
       if (this.id >= 0) {
         this.pp.id = this.id
       }
-      this.pp.saleId=this.saleId
+      this.pp.saleId = this.saleId
       this.pp.relationNo = 1
       const { data: res } = await this.$http.post('ProductionPlanController/saveProductPlan', {
         ppProductList: this.ppproduct,
@@ -335,7 +336,7 @@ export default {
         this.row.productNumber = this.LData[0].mapValue
       }
       this.multipleSelection.forEach((item, index) => {
-        this.row.productDetailId=item.id
+        this.row.productDetailId = item.id
         this.row.productModel = item.productModel
         this.row.standards = item.umStart
         this.ppproduct.push(_.cloneDeep(this.row))
@@ -360,7 +361,6 @@ export default {
     },
     //   设置班组和班次确认
     dialogClassConfirm() {
-     
       this.TeamXiaLa.forEach(item => {
         if (item.mapKey == this.pp_schedulingItem.tteamId) {
           this.pp_schedulingItem.tteamName = item.mapValue
@@ -371,7 +371,18 @@ export default {
       } else {
         this.pp_schedulingItem.frequencystr = '夜班'
       }
-      this.pp_scheduling.splice(this.classIndex, 1, { ...this.pp_schedulingItem })
+      if (this.classAll == 0) {
+        this.pp_scheduling.forEach(item => {
+          item.tteamId = this.pp_schedulingItem.tteamId
+          item.tteamName = this.pp_schedulingItem.tteamName
+          item.frequency = this.pp_schedulingItem.frequency
+          item.frequencystr = this.pp_schedulingItem.frequencystr
+          this.classAll++
+        })
+      } else {
+        this.pp_scheduling.splice(this.classIndex, 1, { ...this.pp_schedulingItem })
+      }
+
       this.dialogClassVisible = false
     },
     showClassDialog(index) {
@@ -380,14 +391,14 @@ export default {
       this.dialogClassVisible = true
     },
     async getData() {
-      const { data: res } = await this.$http.post('ProductionPlanController/getPPBasicInfo', { findById: this.saleId})
+      const { data: res } = await this.$http.post('ProductionPlanController/getPPBasicInfo', { findById: this.saleId })
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.GX = res.data.GX
-      if(res.data.saleorder){
-        this.saleorder=res.data.saleorder
+      if (res.data.saleorder) {
+        this.saleorder = res.data.saleorder
       }
-      if(res.data.customerDetail){
-        this.customerDetail=res.data.customerDetail
+      if (res.data.customerDetail) {
+        this.customerDetail = res.data.customerDetail
       }
       this.GX.forEach(item => {
         this.pp_schedulingItem.gxId = item.id
@@ -400,7 +411,7 @@ export default {
       if (this.id >= 0) {
         const { data: res } = await this.$http.post('ProductionPlanController/getProductPlanById', {
           findById: this.id,
-          findModelName:'U'
+          findModelName: 'U'
         })
         if (res.code !== '0010') return this.$message.error(res.msg)
         this.pp = res.data.pp

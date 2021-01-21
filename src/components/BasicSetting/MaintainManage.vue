@@ -38,12 +38,12 @@
               </el-table-column>
               <el-table-column label="启用状态">
                 <template slot-scope="scope">
-                  <el-switch v-model="scope.row.state" :active-value="0" :inactive-value="1" @change="switchChange(scope.row.id)"> </el-switch>
+                  <el-switch v-model="scope.row.state" :active-value="0"   @change="switchChange(scope.row.id,scope.row.state)"> </el-switch>
                 </template>
               </el-table-column>
               <el-table-column label="操作" width="320px">
                 <template slot-scope="scope">
-                  <el-button type="primary" size="mini" @click="toEquipMaintain(scope.row.id)">
+                  <el-button type="primary" size="mini" @click="toEquipMaintain(scope.row.id,scope.row.state)">
                     检修
                   </el-button>
                   <el-button type="success" size="mini" @click="toReportRepair(scope.row)">
@@ -175,11 +175,12 @@ export default {
     this.getData()
   },
   methods: {
-    toEquipMaintain(id) {
+    toEquipMaintain(id,state) {
       this.$router.push({
         path:'/equipMaintain',
         query:{
-          id:id
+          id:id,
+          state:state
         }
       })
     },
@@ -271,7 +272,10 @@ export default {
       })
     },
     // 修改状态
-    async switchChange(id) {
+    async switchChange(id,state) {
+      if(state==2){
+        return this.$message.error("无权访问")
+      }
       const { data: res } = await this.$http.post('BasicSettingController/updateEquipmentStateById', {
         updateID: id,
         updateType: 'S'

@@ -35,10 +35,10 @@
           <el-col :span="1" style="color:red;" :offset="1">下限</el-col>
           <el-col :span="2"><el-input v-model="tmould.wiredrawgDown" oninput="value=value.replace(/[^\d.]/g,'')"></el-input></el-col>
         </el-form-item>
-        <el-form-item label="预警参考量">
+        <el-form-item label="预警参考量(g)">
           <el-input v-model="tmould.warnRacc" style="width:30%;"></el-input>
         </el-form-item>
-        <el-form-item label="累计拉丝量">
+        <el-form-item label="累计拉丝量(g)">
           <el-input v-model="tmould.wiredrawSum" style="width:30%;" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
         </el-form-item>
         <el-form-item label="适用机型">
@@ -128,11 +128,9 @@ export default {
   },
   created() {
     this.id = this.$route.query.id
-    if (this.id >= 0) {
-      this.getData()
-    } else {
+    
       this.getSelecteds()
-    }
+
   },
   methods: {
     // 保存所有数据
@@ -192,20 +190,30 @@ export default {
       this.equipmentXiaLa = res.data.equipmentXiaLa
       this.XBType = res.data.XBType
       this.tmould.mouldNumber = res.data.mouldNumber
+      if (this.id >= 0) {
+        const { data: res } = await this.$http.post('mouldController/getTMouldByID', {
+          findById: this.id
+        })
+        if (res.code !== '0010') return this.$message.error(res.msg)
+        this.tmould = res.data.mould
+        this.cuffingcheck = res.data.mouldDetail
+        this.cuffingcheck.forEach(item => {
+          item.mouldModel = this.tmould.mouldModel
+        })
+      }
     },
-    // 根据id 获取页面的初始数据
-    async getData() {
-      this.getSelecteds()
-      const { data: res } = await this.$http.post('mouldController/getTMouldByID', {
-        findById: this.id
-      })
-      if (res.code !== '0010') return this.$message.error(res.msg)
-      this.tmould = res.data.mould
-      this.cuffingcheck = res.data.mouldDetail
-      this.cuffingcheck.forEach(item => {
-        item.mouldModel = this.tmould.mouldModel
-      })
-    },
+    // // 根据id 获取页面的初始数据
+    // async getData() {
+    //   const { data: res } = await this.$http.post('mouldController/getTMouldByID', {
+    //     findById: this.id
+    //   })
+    //   if (res.code !== '0010') return this.$message.error(res.msg)
+    //   this.tmould = res.data.mould
+    //   this.cuffingcheck = res.data.mouldDetail
+    //   this.cuffingcheck.forEach(item => {
+    //     item.mouldModel = this.tmould.mouldModel
+    //   })
+    // },
     cancel() {
       this.$router.go(-1)
     },

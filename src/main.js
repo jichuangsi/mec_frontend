@@ -23,7 +23,7 @@ import Print from 'vue-print-nb'
 import axios from 'axios'
 Vue.use(Print)
     // 配置请求的跟路径
-axios.defaults.baseURL = 'http://192.168.31.94:8080/'
+axios.defaults.baseURL = 'http://192.168.31.92:8080/'
     // 在 request 拦截器中，展示进度条 NProgress.start()
 axios.interceptors.request.use(config => {
         // console.log(config)
@@ -61,6 +61,19 @@ Vue.filter('dateFormat', function(originVal) {
     const ss = (dt.getSeconds() + '').padStart(2, '0')
 
     return `${y}-${m}-${d}`
+})
+Vue.filter('dateFormatHH', function(originVal) {
+    const dt = new Date(originVal)
+
+    const y = dt.getFullYear()
+    const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+    const d = (dt.getDate() + '').padStart(2, '0')
+
+    const hh = (dt.getHours() + '').padStart(2, '0')
+    const mm = (dt.getMinutes() + '').padStart(2, '0')
+    const ss = (dt.getSeconds() + '').padStart(2, '0')
+
+    return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
 })
 
 Vue.filter('ellipsis', function(value) {

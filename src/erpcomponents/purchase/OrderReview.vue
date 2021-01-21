@@ -27,7 +27,7 @@
             <el-table-column type="index" label="序号"> </el-table-column>
             <el-table-column prop="createTime" label="开单时间">
                 <template slot-scope="scope">
-                    {{scope.row.createTime|dateFormat}}
+                    {{scope.row.createTime|dateFormatHH}}
                 </template>
             </el-table-column>
             <el-table-column prop="purchaseOrder" label="采购单号"> </el-table-column>

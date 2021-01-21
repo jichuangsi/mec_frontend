@@ -50,11 +50,12 @@
       <div class="meta">
         规格型号
         <span class="tips">设置本产品的规格以及物理特性，生产过程中，如果达不到标准便会预警</span>
-        <el-button type="primary" plain style="margin-left:60%;" @click="showAddModelForm()">新增</el-button>
+        <el-button type="primary" plain style="margin-left:50%;" @click="showELDialog()">导入</el-button>
+        <el-button type="primary"   @click="showAddModelForm()">新增</el-button>
       </div>
       <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tProstandards" height="250" style="width: 100%">
         <el-table-column type="index" width="50" label="序号"> </el-table-column>
-        <el-table-column label="成品直径um">
+        <el-table-column label="成品直径μm">
           <template slot-scope="scope">
             {{ scope.row.umStart }}
           </template>
@@ -74,24 +75,24 @@
             {{ scope.row.blStart && scope.row.blEend ? scope.row.blStart + '-' + scope.row.blEend : scope.row.blStart ? '&gt;' + scope.row.blStart : '&lt;' + scope.row.blEend }}
           </template>
         </el-table-column>
-        <el-table-column label="粗拉直径um">
+        <el-table-column label="粗拉直径μm">
           <template slot-scope="scope">
             {{
               scope.row.coarseStart && scope.row.coarseEnd ? scope.row.coarseStart + '-' + scope.row.coarseEnd : scope.row.coarseStart ? '&gt;' + scope.row.coarseStart : '&lt;' + scope.row.coarseEnd
             }}
           </template>
         </el-table-column>
-        <el-table-column label="中拉直径um">
+        <el-table-column label="中拉直径μm">
           <template slot-scope="scope">
             {{ scope.row.diamStart && scope.row.diamEnd ? scope.row.diamStart + '-' + scope.row.diamEnd : scope.row.diamStart ? '&gt;' + scope.row.diamStart : '&lt;' + scope.row.diamEnd }}
           </template>
         </el-table-column>
-        <el-table-column label="细拉um">
+        <el-table-column label="细拉μm">
           <template slot-scope="scope">
             {{ scope.row.semiStart && scope.row.semiEnd ? scope.row.semiStart + '-' + scope.row.semiEnd : scope.row.semiStart ? '&gt;' + scope.row.semiStart : '&lt;' + scope.row.semiEnd }}
           </template>
         </el-table-column>
-        <el-table-column label="超细拉um">
+        <el-table-column label="超细拉μm">
           <template slot-scope="scope">
             {{ scope.row.superfineStart && scope.row.superfineEnd ? scope.row.superfineStart + '-' + scope.row.superfineEnd : scope.row.superfineStart ? '&gt;' + scope.row.superfineStart : '&lt;' + scope.row.superfineEnd }}
           </template>
@@ -172,7 +173,7 @@
         <p style="text-align:center;color:#d9001b;">注意：左侧填0，右侧填数字为小于；左侧填数字，右侧填0为大于；如：0~2相当于&lt;2，2~0相当于>2</p>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="成品直径um">
+            <el-form-item label="成品直径μm">
               <el-col :span="12">
                 <el-input v-model="tProstandardsItem.umStart" type="number" @change="umStartChange"></el-input>
               </el-col>
@@ -182,7 +183,7 @@
             <el-form-item label="成品直径mil">
               <el-col :span="24">
                 <el-input disabled="" type="number" v-model="tProstandardsItem.milStart" style="width:38%"></el-input>
-                注:1mil=25.4um
+                注:1mil=25.4μm
               </el-col>
             </el-form-item>
           </el-col>
@@ -213,7 +214,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="粗拉直径um">
+            <el-form-item label="粗拉直径μm">
               <el-col :span="9">
                 <el-input v-model="tProstandardsItem.coarseStart" type="number"></el-input>
               </el-col>
@@ -224,7 +225,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="中拉直径um">
+            <el-form-item label="中拉直径μm">
               <el-col :span="9">
                 <el-input v-model="tProstandardsItem.diamStart" type="number"></el-input>
               </el-col>
@@ -237,7 +238,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="细拉um">
+            <el-form-item label="细拉μm">
               <el-col :span="9">
                 <el-input v-model="tProstandardsItem.semiStart" type="number"></el-input>
               </el-col>
@@ -248,7 +249,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="超细拉um">
+            <el-form-item label="超细拉μm">
               <el-col :span="9">
                 <el-input v-model="tProstandardsItem.superfineStart" type="number"></el-input>
               </el-col>
@@ -279,7 +280,7 @@
 
         <el-row>
           <el-col :span="20">
-            <el-form-item label="成品直径um">
+            <el-form-item label="成品直径μm">
               <el-col :span="5">
                 <el-input v-model="rawMaterialRatiosItem.ratiostart" type="number"></el-input>
               </el-col>
@@ -352,6 +353,32 @@
         <el-button type="primary" @click="gxLossConfirm">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 导入 数据的对话框 -->
+      <el-dialog title="导入数据" :visible.sync="dialogELVisible" width="30%">
+        <el-form label-width="120px">
+          <el-form-item label="文件上传">
+            <el-upload
+              class="upload-demo"
+              action="http://192.168.31.92:8080/importController/importFiletProstandards"
+              :on-success="handleSuccess"
+              :on-remove="handleRemove"
+              :before-remove="beforeRemove"
+              :headers="headerObj"
+              multiple
+              :limit="1"
+              :on-exceed="handleExceed"
+              :file-list="fileList"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传Excel文件，且不超过100M</div>
+            </el-upload>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogELVisible = false">关闭</el-button>
+          <el-button type="primary" @click="dialogELVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
   </div>
 </template>
 
@@ -388,6 +415,7 @@ export default {
         superfineStart:0,
         superfineEnd:0,
       },
+      fileList: [],
       addMaterialVisible: false, //原料配比的对话框
       addModelVisible: false, //规格型号的对话框
       selecteds: [],
@@ -401,6 +429,10 @@ export default {
         bobbinId: '',
         beginId: '',
         endId: ''
+      },
+      // 图片上传组件的headers请求头对象
+      headerObj: {
+        accessToken: window.sessionStorage.getItem('token')
       },
       tProstandards: [], //规格型号的数组
       tableData: [],
@@ -417,7 +449,8 @@ export default {
       }, //工序提交表单的每一项
       gxLossBislistItemIndex: -1, //编辑工序提交的选中项
       rawMaterialRatiosItemIndex: -1, //原料配比的索引
-      id: '' //编辑的选中id
+      id: '', //编辑的选中id
+      dialogELVisible:false,
     }
   },
   created() {
@@ -431,6 +464,25 @@ export default {
     
   },
   methods: {
+    //   监听图片上传成功
+    handleSuccess(response) {
+      this.tProstandards = response.data
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePreview(file) {
+      console.log(file)
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    showELDialog() {
+      this.dialogELVisible = true
+    },
       umStartChange(){
           this.tProstandardsItem.milStart=(parseFloat(this.tProstandardsItem.umStart) / 25.4).toFixed(2)
       },

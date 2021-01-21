@@ -125,11 +125,11 @@ export default {
       }
       const { data: res } = await this.$http.post('mouldController/updateTmouldByid', {
         updateID: this.id,
-        updateType:'D'
+        updateType:'B'
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
 
-      this.$message.success('删除成功')
+      this.$message.success('报废成功')
       this.$router.go(-1)
     },
     // 点击删除

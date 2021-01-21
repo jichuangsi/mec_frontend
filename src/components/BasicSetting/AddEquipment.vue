@@ -30,6 +30,23 @@
           </el-select>
         </el-col>
       </el-row>
+      <el-row style="margin:10px;">
+        <el-col :span="2" :offset="2" style="padding-top:10px;">模具类别</el-col>
+        <el-col :span="4">
+          <el-select v-model="mjType" placeholder="请选择 " @change="mjTypeChange" style="width:100%;">
+            <el-option label="成套模具" value="1"></el-option>
+            <el-option label="成品模具" value="0"></el-option>
+          </el-select>
+        </el-col>
+      </el-row>
+      <el-row style="margin:10px;">
+        <el-col :span="2" :offset="2" style="padding-top:10px;">选择模具</el-col>
+        <el-col :span="4">
+          <el-select v-model="equipment.mouldId" placeholder="请选择" style="width:100%;">
+            <el-option :label="item.mapValue+'-'+item.mapliandong+'-'+item.mapValue2" :value="item.mapKey" v-for="item in mouldXiaLa" :key="item.mapKey"></el-option>
+          </el-select>
+        </el-col>
+      </el-row>
     </el-card>
     <el-card style="margin-top:20px;">
       <div style="font-weight:bold;">
@@ -72,7 +89,7 @@ export default {
   data() {
     return {
       value1: '',
-
+      mjType:'',
       dialogVisible: false,
       SBNumber: '', //设别编号
       SBType: '', //设备类型下拉框
@@ -89,7 +106,8 @@ export default {
       equipmentItemsListItem: {
         equipmentItems: ''
       },
-      index: -1
+      index: -1,
+      mouldXiaLa:[],
     }
   },
   created() {
@@ -97,6 +115,13 @@ export default {
     this.getData()
   },
   methods: {
+    async mjTypeChange(e){
+      const { data: res } = await this.$http.post('BasicSettingController/getAllTmouldByTypeId',{
+        findById:e
+      })
+      if (res.code !== "0010") return this.$message.error(res.msg)
+      this.mouldXiaLa=res.data.mouldXiaLa
+    },
     //保存全部
     async saveAll() {
       if (this.id >= 0) {
