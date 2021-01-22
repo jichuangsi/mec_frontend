@@ -89,7 +89,11 @@
         <el-table-column prop="productName" label="产品名称"> </el-table-column>
         <el-table-column prop="productModel" label="产品型号"> </el-table-column>
         <el-table-column prop="productNumber" label="产品编号"> </el-table-column>
-        <el-table-column prop="standards" label="规格"> </el-table-column>
+        <el-table-column prop="standards" label="规格">
+          <template slot-scope="scope">
+            {{Number(scope.row.standards).toFixed(2)}}
+          </template>
+        </el-table-column>
         <el-table-column prop="length" label="长度(m/轴)"> </el-table-column>
         <el-table-column prop="quantum" label="数量(轴)"> </el-table-column>
         <el-table-column prop="sumMI" label="合计(米)"> </el-table-column>
@@ -145,7 +149,11 @@
           <el-col :span="12">
             <el-table :data="RData" style="width: 100%" @selection-change="handleSelectionChange" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
               <el-table-column prop="productModel" label="产品型号"> </el-table-column>
-              <el-table-column prop="umStart" label="规格"> </el-table-column>
+              <el-table-column prop="umStart" label="规格">
+                <template slot-scope="scope">
+                  {{Number(scope.row.umStart).toFixed(2)}}
+                </template>
+              </el-table-column>
               <el-table-column type="selection" width="55"> </el-table-column>
             </el-table>
           </el-col>

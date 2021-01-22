@@ -5,7 +5,7 @@
     <el-card style="margin-top:20px;">
       <div class="meta">基本信息</div>
       <el-form ref="tBobbin" :model="tBobbin" label-width="80px" style="width:600px;padding-left:80px;">
-        <el-form-item label="线轴编号">
+        <el-form-item label="编号">
           <el-input v-model="tBobbin.bobbinNumber" disabled=""></el-input>
         </el-form-item>
         <el-form-item label="线轴名称">
@@ -15,9 +15,12 @@
           <el-input v-model="tBobbin.bobbinModel"></el-input>
         </el-form-item>
         <el-form-item label="工序">
-          <el-select v-model="tBobbin.procedureId" placeholder="请选择" style="width:100%;">
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox :label="item.name"  v-for="item in selecteds.GX" :key="item.id"> </el-checkbox>
+          </el-checkbox-group>
+          <!-- <el-select v-model="tBobbin.procedureId" placeholder="请选择" style="width:100%;">
             <el-option :label="item.name" :value="item.id" v-for="item in selecteds.GX" :key="item.id"></el-option>
-          </el-select>
+          </el-select> -->
         </el-form-item>
 
         <el-form-item label="线轴线别">
@@ -81,6 +84,7 @@ import _ from 'lodash'
 export default {
   data() {
     return {
+      checkList:[],
       form: {
         name: ''
       },
@@ -128,6 +132,13 @@ export default {
       if (this.id >= 0) {
         this.tBobbin.id = this.id
       }
+      this.checkList.forEach(item=>{
+        this.selecteds.GX.forEach(item1=>{
+          if(item==item1.name){
+            this.tBobbin.procedureId=this.tBobbin.procedureId+item1.id+','
+          }
+        })
+      })
       const { data: res } = await this.$http.post('BasicSettingController/saveBobbin', {
         tBobbin: this.tBobbin,
         tstandards: this.tstandards

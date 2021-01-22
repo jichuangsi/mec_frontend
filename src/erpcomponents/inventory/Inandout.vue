@@ -559,6 +559,13 @@ export default {
     },
     // 添加数据合并
     addAllData(){
+      for(let i=0;i<this.listdataDetail.length;i++){
+        for(let j=0;j<this.listdataDetailAll.length;j++){
+          if(this.listdataDetail[i].updateID==this.listdataDetail[j].updateID){
+             return this.$message.error("请不要添加重复数据")
+          }
+        }
+      }
       this.listdataDetailAll.push(..._.cloneDeep(this.listdataDetail))
       for(let i=0;i<this.listdataDetail.length;i++){
         if(this.listdataDetail[i].xuandingNum>0){
@@ -653,6 +660,7 @@ export default {
     },
     //展示调拨的对话框
     async showAllocatDialog(type) {
+      this.listdataDetailAll=[]
       this.type=type
       this.allocatDialogVisible = true
       const { data: res } = await this.$http.post('warehouseController/getWarehousXiaLa')

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-page-header @back="cancel" content="产品批号详情" style="margin-bottom:20px;"> </el-page-header>
-    <el-card>
+    <!-- <el-card>
       <div style="font-weight:bold">基本信息</div>
       <el-row :gutter="20" style="margin:20px 0">
         <el-col :span="4" style="text-align:right">生产计划单号</el-col>
@@ -55,7 +55,7 @@
         <el-col :span="4" style="text-align:right">计划轴数（轴）</el-col>
         <el-col :span="4">{{ BasicInfo.quantum }}</el-col>
       </el-row>
-    </el-card>
+    </el-card> -->
     <div style="margin-top:20px;">
       <div style="font-weight:bold">
         生产工序 <span style="font-weight:normal;margin-left:50px;">生产批号: {{ PPProductionInfo.productionNumber }}</span>

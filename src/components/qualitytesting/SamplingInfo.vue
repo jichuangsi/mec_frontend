@@ -35,7 +35,7 @@
           <el-col :span="8" class="border-right-none"> {{ TSamplingReport.samplesPackingNumber }} </el-col>
         </el-row>
         <el-row style="text-align:center">
-          <el-col :span="4"> 直径(um) </el-col>
+          <el-col :span="4"> 直径(μm) </el-col>
           <el-col :span="8"> {{ TSamplingReport.checkUm }} </el-col>
           <el-col :span="4"> 合格成品轴数 </el-col>
           <el-col :span="8" class="border-right-none"> {{ TSamplingReport.qualifiedNum }} </el-col>
@@ -63,7 +63,7 @@
           <el-col :span="8" class="border-right-none"> {{ TSamplingReport.surface }} </el-col>
         </el-row>
         <el-row style="text-align:center">
-          <el-col :span="4"> 直径(um) </el-col>
+          <el-col :span="4"> 直径(μm) </el-col>
           <el-col :span="8"> {{ TSamplingReport.checkUm }} </el-col>
           <el-col :span="4"> 放线停点 </el-col>
           <el-col :span="8" class="border-right-none"> {{ TSamplingReport.settingstopPoint }} </el-col>

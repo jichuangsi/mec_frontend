@@ -24,10 +24,13 @@
       </el-row>
       <el-row style="margin:10px;">
         <el-col :span="2" :offset="2" style="padding-top:10px;">设备类型</el-col>
-        <el-col :span="4">
-          <el-select v-model="equipment.equipmentTypeId" placeholder="请选择" style="width:100%;">
+        <el-col :span="14">
+          <el-checkbox-group v-model="checkList">
+          <el-checkbox :label="item.name"   v-for="item in SBType" :key="item.id"> </el-checkbox>
+        </el-checkbox-group>
+          <!-- <el-select v-model="equipment.equipmentTypeId" placeholder="请选择" style="width:100%;">
             <el-option :label="item.name" :value="item.id" v-for="item in SBType" :key="item.id"></el-option>
-          </el-select>
+          </el-select> -->
         </el-col>
       </el-row>
       <el-row style="margin:10px;">
@@ -88,11 +91,12 @@ import _ from 'lodash'
 export default {
   data() {
     return {
+      checkList:[],
       value1: '',
       mjType:'',
       dialogVisible: false,
       SBNumber: '', //设别编号
-      SBType: '', //设备类型下拉框
+      SBType: [], //设备类型下拉框
       mouldXiaLa:[],
       id: -1, //编辑操作的id
       equipment: {
@@ -124,6 +128,13 @@ export default {
     },
     //保存全部
     async saveAll() {
+      this.checkList.forEach(item=>{
+        this.SBType.forEach(item1=>{
+          if(item==item1.name){
+            this.equipment.equipmentTypeId=this.equipment.equipmentTypeId+item1.id+','
+          }
+        })
+      })
       if (this.id >= 0) {
         this.equipment.id = this.id
       }

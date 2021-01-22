@@ -23,6 +23,7 @@
         </el-form-item>
       </el-form>
     </el-card>
+    <!-- 粗拉部分 -->
     <el-card style="margin-top:20px;">
       <div style="font-weight:bold;">粗拉<el-button type="primary" style="margin-left:70%;" @click="showDialog(1)">新增</el-button></div>
       <el-table :data="tsuitDetail" style="width: 100%" :row-class-name="tableRowClassName1">
@@ -34,26 +35,28 @@
         </el-table-column>
         <el-table-column prop="mouldNumber" label="模具编号">
           <template slot-scope="scope">
-            {{scope.row.mouldNumber?scope.row.mouldNumber:'--'}}
+            {{ scope.row.mouldNumber ? scope.row.mouldNumber : '--' }}
           </template>
         </el-table-column>
         <el-table-column prop="mouldModel" label="模具型号">
           <template slot-scope="scope">
-            {{scope.row.mouldModel?scope.row.mouldModel:'--'}}
+            {{ scope.row.mouldModel ? scope.row.mouldModel : '--' }}
           </template>
         </el-table-column>
         <el-table-column prop="sonmouldModel" label="子模具编号">
           <template slot-scope="scope">
-            {{scope.row.sonmouldModel?scope.row.sonmouldModel:'--'}}
+            {{ scope.row.sonmouldModel ? scope.row.sonmouldModel : '--' }}
           </template>
         </el-table-column>
         <el-table-column prop="date" label="操作">
           <template slot-scope="scope">
+            <el-button size="mini" type="primary" @click="edit(scope.$index,1)">编辑</el-button>
             <el-button size="mini" type="danger" @click="del(scope.$index)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-card>
+    <!-- 中拉部分 -->
     <el-card style="margin-top:20px;">
       <div style="font-weight:bold;">中拉<el-button type="primary" style="margin-left:70%;" @click="showDialog(2)">新增</el-button></div>
       <el-table :data="tsuitDetail" style="width: 100%" :row-class-name="tableRowClassName2">
@@ -65,26 +68,28 @@
         </el-table-column>
         <el-table-column prop="mouldNumber" label="模具编号">
           <template slot-scope="scope">
-            {{scope.row.mouldNumber?scope.row.mouldNumber:'--'}}
+            {{ scope.row.mouldNumber ? scope.row.mouldNumber : '--' }}
           </template>
         </el-table-column>
         <el-table-column prop="mouldModel" label="模具型号">
           <template slot-scope="scope">
-            {{scope.row.mouldModel?scope.row.mouldModel:'--'}}
+            {{ scope.row.mouldModel ? scope.row.mouldModel : '--' }}
           </template>
         </el-table-column>
         <el-table-column prop="sonmouldModel" label="子模具编号">
           <template slot-scope="scope">
-            {{scope.row.sonmouldModel?scope.row.sonmouldModel:'--'}}
+            {{ scope.row.sonmouldModel ? scope.row.sonmouldModel : '--' }}
           </template>
         </el-table-column>
         <el-table-column prop="date" label="操作">
           <template slot-scope="scope">
+            <el-button size="mini" type="primary" @click="edit(scope.$index,2)">编辑</el-button>
             <el-button size="mini" type="danger" @click="del(scope.$index)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-card>
+    <!-- 半成品部分 -->
     <el-card style="margin-top:20px;">
       <div style="font-weight:bold;">半成品<el-button type="primary" style="margin-left:70%;" @click="showDialog(3)">新增</el-button></div>
       <el-table :data="tsuitDetail" style="width: 100%" :row-class-name="tableRowClassName3">
@@ -96,27 +101,28 @@
         </el-table-column>
         <el-table-column prop="mouldNumber" label="模具编号">
           <template slot-scope="scope">
-            {{scope.row.mouldNumber?scope.row.mouldNumber:'--'}}
+            {{ scope.row.mouldNumber ? scope.row.mouldNumber : '--' }}
           </template>
         </el-table-column>
         <el-table-column prop="mouldModel" label="模具型号">
           <template slot-scope="scope">
-            {{scope.row.mouldModel?scope.row.mouldModel:'--'}}
+            {{ scope.row.mouldModel ? scope.row.mouldModel : '--' }}
           </template>
         </el-table-column>
         <el-table-column prop="sonmouldModel" label="子模具编号">
           <template slot-scope="scope">
-            {{scope.row.sonmouldModel?scope.row.sonmouldModel:'--'}}
+            {{ scope.row.sonmouldModel ? scope.row.sonmouldModel : '--' }}
           </template>
         </el-table-column>
         <el-table-column prop="date" label="操作">
-          <template>
-            <el-button size="mini" type="primary">编辑</el-button>
-            <el-button size="mini" type="danger">删除</el-button>
+          <template slot-scope="scope">
+            <el-button size="mini" type="primary" @click="edit(scope.$index,3)">编辑</el-button>
+            <el-button size="mini" type="danger" @click="del(scope.$index)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-card>
+    <!-- 成品部分 -->
     <el-card style="margin-top:20px;">
       <div style="font-weight:bold;">成品<el-button type="primary" style="margin-left:70%;" @click="showDialog(4)">新增</el-button></div>
       <el-table :data="tsuitDetail" style="width: 100%" :row-class-name="tableRowClassName4">
@@ -128,21 +134,22 @@
         </el-table-column>
         <el-table-column prop="mouldNumber" label="模具编号">
           <template slot-scope="scope">
-            {{scope.row.mouldNumber?scope.row.mouldNumber:'--'}}
+            {{ scope.row.mouldNumber ? scope.row.mouldNumber : '--' }}
           </template>
         </el-table-column>
         <el-table-column prop="mouldModel" label="模具型号">
           <template slot-scope="scope">
-            {{scope.row.mouldModel?scope.row.mouldModel:'--'}}
+            {{ scope.row.mouldModel ? scope.row.mouldModel : '--' }}
           </template>
         </el-table-column>
         <el-table-column prop="sonmouldModel" label="子模具编号">
           <template slot-scope="scope">
-            {{scope.row.sonmouldModel?scope.row.sonmouldModel:'--'}}
+            {{ scope.row.sonmouldModel ? scope.row.sonmouldModel : '--' }}
           </template>
         </el-table-column>
         <el-table-column prop="date" label="操作">
           <template slot-scope="scope">
+            <el-button size="mini" type="primary" @click="edit(scope.$index,4)">编辑</el-button>
             <el-button size="mini" type="danger" @click="del(scope.$index)">删除</el-button>
           </template>
         </el-table-column>
@@ -193,13 +200,20 @@
           </el-row>
         </div>
         <div v-if="selectedIndex === 0">
-          <el-table :data="tmould "  @selection-change="handleSelectionChange" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%"  highlight-current-row>
+          <el-table
+            :data="tmould"
+            @selection-change="handleSelectionChange"
+            :cell-style="{ padding: '5px 0' }"
+            :header-cell-style="{ background: '#f0f5ff', padding: '0' }"
+            style="width: 100%"
+            highlight-current-row
+          >
             <el-table-column prop="mouldName" label="模具名称"></el-table-column>
             <el-table-column prop="mouldModel" label="模具型号"> </el-table-column>
             <el-table-column prop="mouldNumber" label="模具编号"> </el-table-column>
             <el-table-column prop="wiredrawRemark" label="标称直径um"> </el-table-column>
             <el-table-column prop="measureddiamUm" label="实测直径um"> </el-table-column>
-            <el-table-column  type="selection" label="选择"> </el-table-column>
+            <el-table-column type="selection" label="选择"> </el-table-column>
           </el-table>
         </div>
       </el-form>
@@ -226,7 +240,7 @@ export default {
         mouldType: '', //模具类别(1成品模具/2成套模具/0不使用模具)
         mouldNumber: '', //模具编号
         mouldModel: '', //模具型号
-        sonmouldModel: ''//套模编号
+        sonmouldModel: '' //套模编号
       },
       XBType: [],
       id: -1,
@@ -239,7 +253,7 @@ export default {
         scopeApplication: '' //scopeApplication
       },
       dialogVisible: false,
-      
+
       submitForm: {
         iswhether: '', //模具类型：是否是成套模具 0 否 1是
         findModelName: '', //设备类型：粗拉中拉成品半成品
@@ -249,7 +263,8 @@ export default {
       tmould: [],
       tmouldDetail: [],
       multipleSelection: [],
-      selectedIndex: -1,//-1不使用模具 1成套模具 0成品模具管理
+      index:-1,
+      selectedIndex: -1 //-1不使用模具 1成套模具 0成品模具管理
     }
   },
   created() {
@@ -258,16 +273,16 @@ export default {
   },
   methods: {
     // 保存所有数据
-    async saveAll(){
-      if(this.id>=0){
-        this.tsuit.id=this.id
+    async saveAll() {
+      if (this.id >= 0) {
+        this.tsuit.id = this.id
       }
-      const { data: res } = await this.$http.post('mouldController/saveTSuit',{
-        tSuit:this.tsuit,
-        tSuitdetailList:this.tsuitDetail
+      const { data: res } = await this.$http.post('mouldController/saveTSuit', {
+        tSuit: this.tsuit,
+        tSuitdetailList: this.tsuitDetail
       })
-      if (res.code !== "0010") return this.$message.error(res.msg)
-      this.$message.success(this.id>=0?'编辑成功':"新增成功")
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      this.$message.success(this.id >= 0 ? '编辑成功' : '新增成功')
       this.$router.go(-1)
     },
     // 点击删除
@@ -285,20 +300,20 @@ export default {
     },
     //   监听对话框关闭
     dialogClose() {
-      this.selectedIndex=-1
-      if(this.$refs.multipleTable){
+      this.selectedIndex = -1
+      if (this.$refs.multipleTable) {
         this.$refs.multipleTable.clearSelection()
       }
-      this.tsuitDetailItem= {
+      ;(this.tsuitDetailItem = {
         compositeTypeId: '', //组合类型(1粗拉，2中拉，3半成品，4成品等)
         mouldDetailId: '', //模具明细ID(在新增成套模具时需要此字段)。id，以“，”拼接
         mouldId: '', //模具ID
         mouldType: '', //模具类别(1成品模具/2成套模具/0不使用模具)
         mouldNumber: '', //模具编号
         mouldModel: '', //模具型号
-        sonmouldModel: ''//套模编号
-      },
-      this.multipleSelection = []
+        sonmouldModel: '' //套模编号
+      }),
+        (this.multipleSelection = [])
       this.submitForm = {
         iswhether: '', //模具类型：是否是成套模具 0 否 1是
         findModelName: '', //设备类型：粗拉中拉成品半成品
@@ -307,9 +322,8 @@ export default {
     },
     //   确认添加
     async dialogConfirm() {
-      
-      if(this.selectedIndex===1){
-        this.tsuitDetailItem.mouldType=2
+      if (this.selectedIndex === 1) {
+        this.tsuitDetailItem.mouldType = 2
         if (!this.tsuitDetailItem.mouldId) {
           this.tsuitDetailItem.mouldId = this.tmould[0].id
           this.tsuitDetailItem.mouldModel = this.tmould[0].mouldModel
@@ -323,20 +337,32 @@ export default {
         })
         this.tsuitDetailItem.mouldDetailId = str
         this.tsuitDetailItem.sonmouldModel = str2
-        this.tsuitDetail.push({ ...this.tsuitDetailItem })
-      }else if(this.selectedIndex===0){
-        this.multipleSelection.forEach(item=>{
-          this.tsuitDetailItem.mouldId=item.id
-          this.tsuitDetailItem.mouldModel=item.mouldModel
-          this.tsuitDetailItem.mouldNumber=item.mouldNumber
-          this.tsuitDetailItem.mouldType=1
+        if (this.index >= 0) {
+          this.tsuitDetail.splice(this.index, 1, { ...this.tsuitDetailItem })
+        } else {
           this.tsuitDetail.push({ ...this.tsuitDetailItem })
-        })   
-      }else{
-        this.tsuitDetailItem.mouldType=0
-        this.tsuitDetail.push({ ...this.tsuitDetailItem })
+        }
+      } else if (this.selectedIndex === 0) {
+        this.multipleSelection.forEach(item => {
+          this.tsuitDetailItem.mouldId = item.id
+          this.tsuitDetailItem.mouldModel = item.mouldModel
+          this.tsuitDetailItem.mouldNumber = item.mouldNumber
+          this.tsuitDetailItem.mouldType = 1
+          if (this.index >= 0) {
+            this.tsuitDetail.splice(this.index, 1, { ...this.tsuitDetailItem })
+          } else {
+            this.tsuitDetail.push({ ...this.tsuitDetailItem })
+          }
+        })
+      } else {
+        this.tsuitDetailItem.mouldType = 0
+        if (this.index >= 0) {
+          this.tsuitDetail.splice(this.index, 1, { ...this.tsuitDetailItem })
+        } else {
+          this.tsuitDetail.push({ ...this.tsuitDetailItem })
+        }
       }
-      
+      this.$message.success("保存成功")
       this.dialogVisible = false
     },
     //   监听行点击事件
@@ -358,6 +384,13 @@ export default {
     showDialog(compositeTypeId) {
       this.compositeTypeId = compositeTypeId
       this.tsuitDetailItem.compositeTypeId = compositeTypeId
+      this.dialogVisible = true
+    },
+    // 编辑
+    edit(index,compositeTypeId) {
+      this.compositeTypeId = compositeTypeId
+      this.tsuitDetailItem.compositeTypeId = compositeTypeId
+      this.index = index
       this.dialogVisible = true
     },
     //   下拉框发生变化
@@ -383,16 +416,15 @@ export default {
             break
         }
         this.selectedChangeData()
-        
       }
     },
-    async selectedChangeData(){
+    async selectedChangeData() {
       const { data: res } = await this.$http.post('mouldController/getTmouldByEquipmentTypeandTmouldType', this.submitForm)
-        if (res.code !== '0010') return this.$message.error(res.msg)
-        this.tmould = res.data.tmould
-        if(res.data.tmouldDetail){
-          this.tmouldDetail = res.data.tmouldDetail
-        }
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      this.tmould = res.data.tmould
+      if (res.data.tmouldDetail) {
+        this.tmouldDetail = res.data.tmouldDetail
+      }
     },
     //   隐藏行
     tableRowClassName1: function(row, index) {
@@ -430,7 +462,7 @@ export default {
           findById: this.id
         })
         if (res.code !== '0010') return this.$message.error(res.msg)
-        this.tsuit=res.data.tsuit
+        this.tsuit = res.data.tsuit
         this.tsuitDetail = res.data.tsuitDetail
       }
     },
@@ -444,10 +476,11 @@ export default {
 /deep/.el-table .hidden-row {
   display: none;
 }
-/deep/.el-table__header-wrapper  .el-checkbox{//找到表头那一行，然后把里面的复选框隐藏掉
-	display:none
+/deep/.el-table__header-wrapper .el-checkbox {
+  //找到表头那一行，然后把里面的复选框隐藏掉
+  display: none;
 }
-.footer{
+.footer {
   margin: 40px;
   text-align: center;
 }

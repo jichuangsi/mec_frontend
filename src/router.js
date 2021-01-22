@@ -147,8 +147,10 @@ const SetDetail = () =>
     import ('./components/BasicSetting/SetDetail.vue')
 const cpSetDetail = () =>
     import ('./components/BasicSetting/cpSetDetail.vue')
-const Printer = () =>
-    import ('./components/BasicSetting/Printer.vue')
+const stockMaintain = () =>
+    import ('./components/BasicSetting/StockMaintain.vue')
+const AddStockMaintain = () =>
+    import ('./components/BasicSetting/AddStockMaintain.vue')
 
 // 系统设置
 const DictionaryTable = () =>
@@ -309,7 +311,8 @@ const router = new Router({
                 { path: '/cpmoldMaintain', component: cpMoldMaintain },
                 { path: '/setDetail', component: SetDetail },
                 { path: '/cpsetDetail', component: cpSetDetail },
-                { path: '/printer', component: Printer },
+                { path: '/stockMaintain', component: stockMaintain },
+                { path: '/addStockMaintain', component: AddStockMaintain },
                 { path: '/dictionaryTable', component: DictionaryTable },
                 { path: '/systemLog', component: SystemLog },
                 { path: '/staffManagement', component: StaffManagement },

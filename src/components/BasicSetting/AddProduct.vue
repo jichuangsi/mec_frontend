@@ -50,7 +50,9 @@
       <div class="meta">
         规格型号
         <span class="tips">设置本产品的规格以及物理特性，生产过程中，如果达不到标准便会预警</span>
-        <el-button type="primary" plain style="margin-left:50%;" @click="showELDialog()">导入</el-button>
+        
+        <el-button   style="margin-left:50%;" @click="showELDialog()">导入</el-button>
+        <el-button type="primary" plain  @click="downTemplate()">下载模板</el-button>
         <el-button type="primary"   @click="showAddModelForm()">新增</el-button>
       </div>
       <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tProstandards" height="250" style="width: 100%">
@@ -359,7 +361,7 @@
           <el-form-item label="文件上传">
             <el-upload
               class="upload-demo"
-              action="http://192.168.31.92:8080/importController/importFiletProstandards"
+              action="http://192.168.31.94:8080/importController/importFiletProstandards"
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :before-remove="beforeRemove"
@@ -464,6 +466,9 @@ export default {
     
   },
   methods: {
+    downTemplate(){
+      window.location.href = 'http://192.168.31.94:8080/upload/file0be316a4-aa19-4190-bb9f-8108f27ddb1d产品管理-导入规格模板.xlsx'
+    },
     //   监听图片上传成功
     handleSuccess(response) {
       this.tProstandards = response.data

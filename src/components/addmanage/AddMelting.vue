@@ -52,7 +52,7 @@
             <el-col :span="10" :offset="2" class="col-right">{{ BasicInfo.customerName }}</el-col>
           </el-col>
           <el-col :span="8">
-            <el-col :span="12" class="col-left">产品规格um</el-col>
+            <el-col :span="12" class="col-left">产品规格μm</el-col>
             <el-col :span="10" :offset="2" class="col-right">{{ BasicInfo.umStart }}</el-col>
           </el-col>
           <el-col :span="8">
@@ -144,12 +144,13 @@
         <el-row>
           <el-col :span="6"><div class="col-left">设备状态</div></el-col>
           <el-col :span="16" :offset="2"
-            ><div class="col-right">{{ equipmentInfo.state == 0 ? '正常' : '报废' }}</div></el-col
+            ><div class="col-right"  >{{ equipmentInfo.state==null?' ' :equipmentInfo.state == 0 ? '正常' : '报废' }}</div></el-col
           >
+          
         </el-row>
         <el-row>
           <el-col :span="6"><div class="col-left">设备类型</div></el-col>
-          <el-col :span="16" :offset="2"><div class="col-right">{{equipmentInfo.equipmentInfo}}</div></el-col>
+          <el-col :span="16" :offset="2"><div class="col-right">{{equipmentInfo.equipmentType}}</div></el-col>
         </el-row>
         <el-row>
           <el-col :span="6"><div class="col-left">最近一次检修员</div></el-col>
@@ -575,6 +576,14 @@ export default {
     },
     // 添加数据合并
     addAllData() {
+      for(let i=0;i<this.listdataDetail.length;i++){
+        for(let j=0;j<this.listdataDetailAll.length;j++){
+          if(this.listdataDetail[i].updateID==this.listdataDetail[j].updateID){
+             return this.$message.error("请不要添加重复数据")
+          }
+        }
+      }
+     
       this.listdataDetailAll.push(..._.cloneDeep(this.listdataDetail))
       this.listdataDetailAll.forEach(item => {
         item.stockName = item.stockName ? item.stockName : this.listdataObj.stockName

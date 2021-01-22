@@ -191,7 +191,10 @@
       </el-card>
       <!-- 导入本次退火的EL/BL数据 -->
       <el-card style="margin-top:20px;width:100%;">
-        <div style="font-weight:bold">导入本次退火的EL/BL数据<el-button type="primary" plain style="margin-left:80%;" @click="showELDialog">导入</el-button></div>
+        <div style="font-weight:bold">导入本次退火的EL/BL数据
+          <el-button type="primary" plain style="margin-left:60%;margin-right:40px;" @click="showELDialog">导入</el-button>
+          <el-button type="primary"   @click="downTemplate">下载模板</el-button>
+        </div>
         <el-table style="width:100%;" :data="elblDataList" :header-cell-style="{ background: '#f0f5ff' }">
           <el-table-column label="EL数据" align="center">
             <el-table-column label="x1" align="center" prop="elX1"></el-table-column>
@@ -414,7 +417,7 @@
             <el-upload
               :data="{ findById: Eid }"
               class="upload-demo"
-              action="http://192.168.31.92:8080/ProductionController/importFilePPProduction"
+              action="http://192.168.31.94:8080/ProductionController/importFilePPProduction"
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :before-remove="beforeRemove"
@@ -566,6 +569,9 @@ export default {
     }
   },
   methods: {
+    downTemplate(){
+      window.location.href = 'http://192.168.31.94:8080/upload/file3223d4d0-7ced-4df1-8a88-d3f137164e07elbl.xlsx' 
+    },
     toDetail(id){
       this.$router.replace({
         path:'/addBackFire',

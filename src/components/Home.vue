@@ -69,7 +69,7 @@
               <el-menu-item index="/modelSetting" @click="saveNavState('/modelSetting')">规格型号设置</el-menu-item>
               <el-menu-item index="/maintainManage" @click="saveNavState('/maintainManage')">仪器设备管理维护</el-menu-item>
               <el-menu-item index="/accountChecking" @click="saveNavState('/accountChecking')">模具管理核账</el-menu-item>
-              <!-- <el-menu-item index="/printer" @click="saveNavState('/accountChecking')">打印机管理</el-menu-item> -->
+              <el-menu-item index="/stockMaintain" @click="saveNavState('/stockMaintain')">线轴管理维护</el-menu-item>
             </el-submenu>
             <el-submenu index="8">
               <template slot="title"

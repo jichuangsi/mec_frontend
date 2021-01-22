@@ -51,7 +51,7 @@
           </el-pagination>
         </template>
       </el-tab-pane>
-      <el-tab-pane label="半成品" name="nofinished">
+      <!-- <el-tab-pane label="半成品" name="nofinished">
         <template>
           <el-form ref="form" label-width="80px">
             <el-row :gutter="40">
@@ -92,7 +92,7 @@
           <el-pagination :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
           </el-pagination>
         </template>
-      </el-tab-pane>
+      </el-tab-pane> -->
       <el-tab-pane label="成品" name="product">
         <template>
           <el-form ref="form" label-width="80px">
@@ -177,7 +177,7 @@
           </el-pagination>
         </template>
       </el-tab-pane>
-      <el-tab-pane label="线轴" name="bobbin">
+      <!-- <el-tab-pane label="线轴" name="bobbin">
         <template>
           <el-form ref="form" label-width="80px">
             <el-row :gutter="40">
@@ -218,7 +218,7 @@
           <el-pagination :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
           </el-pagination>
         </template>
-      </el-tab-pane>
+      </el-tab-pane> -->
       <el-tab-pane label="其他" name="elseother">
         <template>
           <el-form ref="form" label-width="80px">

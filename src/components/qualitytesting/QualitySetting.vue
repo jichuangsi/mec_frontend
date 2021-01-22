@@ -164,7 +164,7 @@ export default {
       }
       // const { data: res } = await this.$http.post('templatesController/getTemplateById/' + id)
       // if (res.code !== '0010') return this.$message.error(res.msg)
-      // window.location.href = 'http://192.168.31.92:8080/' + res.data
+      // window.location.href = 'http://192.168.31.94:8080/' + res.data
     },
     edit(id) {
       this.$router.push({
