@@ -7,80 +7,25 @@
         <el-col :span="24">
           <h2 style="color:#fff;padding-left:20px">MES系统</h2>
           <el-menu class="el-menu-vertical-demo" background-color="#333744" text-color="#fff" active-text-color="#fff" :router="true" unique-opened :default-active="activePath">
-            <el-submenu index="1">
-              <template slot="title"
-                >概况</template
-              >
-              <el-menu-item index="/homepage" @click="saveNavState('/homepage')">主页</el-menu-item>
-              <el-menu-item index="/workbench" @click="saveNavState('/workbench')">工作台</el-menu-item>
-            </el-submenu>
-            <el-submenu index="2">
-              <template slot="title"
-                >代办事项</template
-              >
-              <el-menu-item index="/todo" @click="saveNavState('/todo')">代办事项</el-menu-item>
-              <el-menu-item index="/doing" @click="saveNavState('/doing')">进行事项</el-menu-item>
-              <el-menu-item index="/done" @click="saveNavState('/done')">完成事项</el-menu-item>
-            </el-submenu>
-            <el-submenu index="3">
-              <template slot="title"
-                >生产计划</template
-              >
-              <el-menu-item index="/production" @click="saveNavState('/production')">创建生产计划单</el-menu-item>
-              <el-menu-item index="/examine" @click="saveNavState('/examine')">生产计划单审核</el-menu-item>
-            </el-submenu>
-            <el-submenu index="4">
-              <template slot="title"
-                >生产管理</template
-              >
-              <el-menu-item index="/melting" @click="saveNavState('/melting')">熔炼</el-menu-item>
-              <el-menu-item index="/roughDrawing" @click="saveNavState('/roughDrawing')">粗拉</el-menu-item>
-              <el-menu-item index="/mediumPull" @click="saveNavState('/mediumPull')">中拉</el-menu-item>
-              <el-menu-item index="/thinPull" @click="saveNavState('/thinPull')">半成品(细拉)</el-menu-item>
-              <el-menu-item index="/superThinPull" @click="saveNavState('/superThinPull')">成品(超细拉)</el-menu-item>
-              <el-menu-item index="/backFire" @click="saveNavState('/backFire')">退火</el-menu-item>
-              <el-menu-item index="/winding" @click="saveNavState('/winding')">绕线</el-menu-item>
-              <el-menu-item index="/detour" @click="saveNavState('/detour')">成品改绕</el-menu-item>
-            </el-submenu>
-            <el-submenu index="5">
-              <template slot="title"
-                >质量检验</template
-              >
-              <el-menu-item index="/QualitySetting" @click="saveNavState('/QualitySetting')">证书模板设置</el-menu-item>
-              <el-menu-item index="/samplingInspection">抽样检验</el-menu-item>
-              <el-menu-item index="/certificate">生成证书</el-menu-item>
-            </el-submenu>
-            <el-submenu index="6">
-              <template slot="title"
-                >统计数据</template
-              >
-              <el-menu-item index="/summaryTable" @click="saveNavState('/summaryTable')">生产日报汇总表</el-menu-item>
-              <!-- <el-menu-item index="/thinTable" @click="saveNavState('/thinTable')">生产日报细分报表</el-menu-item> -->
-              <el-menu-item index="/qualityAnalysis" @click="saveNavState('/qualityAnalysis')">生产质量分析</el-menu-item>
-              <el-menu-item index="/teamProduction" @click="saveNavState('/teamProduction')">班组生产情况报表</el-menu-item>
-              <el-menu-item index="/flashBack" @click="saveNavState('/flashBack')">批号生产回溯</el-menu-item>
-              <el-menu-item index="/homepage1">SPC</el-menu-item>
-              <el-menu-item index="/homepage1">MSA</el-menu-item>
-            </el-submenu>
-            <el-submenu index="7">
-              <template slot="title"
-                >基础设置</template
-              >
-              <el-menu-item index="/modelSetting" @click="saveNavState('/modelSetting')">规格型号设置</el-menu-item>
-              <el-menu-item index="/maintainManage" @click="saveNavState('/maintainManage')">仪器设备管理维护</el-menu-item>
-              <el-menu-item index="/accountChecking" @click="saveNavState('/accountChecking')">模具管理核账</el-menu-item>
-              <el-menu-item index="/stockMaintain" @click="saveNavState('/stockMaintain')">线轴管理维护</el-menu-item>
-            </el-submenu>
-            <el-submenu index="8">
-              <template slot="title"
-                >系统设置</template
-              >
-              <el-menu-item index="/productInfo" @click="saveNavState('/productInfo')">厂房信息</el-menu-item>
-              <el-menu-item index="/staffManagement" @click="saveNavState('/staffManagement')">员工管理</el-menu-item>
-              <el-menu-item index="/dictionaryTable" @click="saveNavState('/dictionaryTable')">字典表维护</el-menu-item>
-              <el-menu-item index="/systemLog" @click="saveNavState('/systemLog')">系统日志</el-menu-item>
-            </el-submenu>
-          </el-menu>
+            <!-- 一级菜单 -->
+            <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
+                <!-- 一级菜单的模板区域 -->
+                <template slot="title">
+                  <!-- 文本 -->
+                  <span>{{item.label}}</span>
+                </template>
+
+                <!-- 二级菜单 -->
+                <el-menu-item @click="saveNavState(subItem.path)" :index="subItem.path" v-for="subItem in item.children" :key="subItem.id" >
+                  <template slot="title">
+                  
+                    <span>{{subItem.label}}</span>
+                  </template>
+                </el-menu-item>
+              </el-submenu>
+
+            
+            </el-menu>
         </el-col>
       </el-aside>
       <!-- 右侧内容主体 -->
@@ -116,15 +61,27 @@ export default {
       // 被激活的链接地址
       activePath: '',
       user:{},
-      label:''
+      label:'',
+      menulist:[],
     }
   },
   created() {
     this.activePath = window.sessionStorage.getItem('activePath')
     let user=sessionStorage.getItem("user")
     this.user=JSON.parse(user)
+    this.getMenuList()
   },
   methods: {
+    // 获取所有的菜单
+    async getMenuList() {
+      const { data: res } = await this.$http.post('HomeController/getMyRolePower',{
+        sysType:2
+      })
+      if (res.code !== "0010") return this.$message.error(res.meta.msg)
+      this.menulist = res.data.list
+      sessionStorage.setItem("rolePowerList",JSON.stringify(res.data.rolePowerList))
+
+    },
     // 跳转到erp系统
     toggleSystem() {
       this.$router.push('/erpHome')

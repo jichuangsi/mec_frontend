@@ -361,7 +361,7 @@
           <el-form-item label="文件上传">
             <el-upload
               class="upload-demo"
-              action="http://192.168.31.94:8080/importController/importFiletProstandards"
+              action="http://192.168.31.92:8080/importController/importFiletProstandards"
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :before-remove="beforeRemove"
@@ -467,7 +467,7 @@ export default {
   },
   methods: {
     downTemplate(){
-      window.location.href = 'http://192.168.31.94:8080/upload/file0be316a4-aa19-4190-bb9f-8108f27ddb1d产品管理-导入规格模板.xlsx'
+      window.location.href = 'http://192.168.31.92:8080/upload/file0be316a4-aa19-4190-bb9f-8108f27ddb1d产品管理-导入规格模板.xlsx'
     },
     //   监听图片上传成功
     handleSuccess(response) {

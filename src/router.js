@@ -108,6 +108,10 @@ const qualityAnalysis = () =>
     import ('./components/statistics/qualityAnalysis.vue')
 const FlashBack = () =>
     import ('./components/statistics/FlashBack.vue')
+const SPC = () =>
+    import ('./components/statistics/SPC.vue')
+const MSA = () =>
+    import ('./components/statistics/MSA.vue')
 const FlashBackDetail = () =>
     import ('./components/statistics/FlashBackDetail.vue')
     //基础设置
@@ -292,6 +296,8 @@ const router = new Router({
                 { path: '/teamProduction', component: teamProduction },
                 { path: '/qualityAnalysis', component: qualityAnalysis },
                 { path: '/flashBack', component: FlashBack },
+                { path: '/spc', component: SPC },
+                { path: '/msa', component: MSA },
                 { path: '/flashBackDetail', component: FlashBackDetail },
                 { path: '/modelSetting', component: ModelSetting },
                 { path: '/modelSetting/addProduct', component: AddProduct },

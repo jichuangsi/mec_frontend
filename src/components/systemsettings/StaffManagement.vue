@@ -14,7 +14,7 @@
             </el-form-item>
             <el-form-item style="margin-left:35%;">
               <el-button type="primary" @click="onScreen">筛选</el-button>
-              <el-button type="primary" plain @click="onSubmit()">新增</el-button>
+              <el-button type="primary" plain @click="onSubmit()" v-if=" rolePowerList.indexOf(9)>=0">新增</el-button>
               <el-button type="text" @click="clearForm">清空筛选</el-button>
             </el-form-item>
           </el-form>
@@ -28,14 +28,14 @@
             <el-table-column label="备注" prop="staffName"> </el-table-column>
             <el-table-column label="员工状态" prop="state">
               <template slot-scope="scope">
-                <el-switch @change="StateChange(scope.row)" v-model="scope.row.state" :active-value="0" :inactive-value="1"> </el-switch>
+                <el-switch :disabled="rolePowerList.indexOf(11)<0"  @change="StateChange(scope.row)" v-model="scope.row.state" :active-value="0" :inactive-value="1"> </el-switch>
               </template>
             </el-table-column>
 
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)">查看</el-button>
-                <el-button type="danger" size="mini" @click="del(scope.row)">删除</el-button>
+                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)" v-if=" rolePowerList.indexOf(12)>=0">编辑</el-button>
+                <el-button type="danger" size="mini" @click="del(scope.row)" v-if=" rolePowerList.indexOf(10)>=0">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -60,7 +60,7 @@
 
             <el-form-item style="margin-left:50%;">
               <el-button type="primary" @click="onScreen">筛选</el-button>
-              <el-button type="primary" plain @click="onSubmit()">新增</el-button>
+              <el-button type="primary" plain @click="onSubmit()" v-if="rolePowerList.indexOf(13)>=0">新增</el-button>
               <el-button type="text" @click="clearForm">清空筛选</el-button>
             </el-form-item>
           </el-form>
@@ -72,14 +72,14 @@
             <el-table-column label="备注" prop="departmentRemark"> </el-table-column>
             <el-table-column label="部门状态">
               <template slot-scope="scope">
-                <el-switch @change="StateChange(scope.row)" v-model="scope.row.state" :active-value="0" :inactive-value="1"> </el-switch>
+                <el-switch @change="StateChange(scope.row)" :disabled="rolePowerList.indexOf(15)<0" v-model="scope.row.state" :active-value="0" :inactive-value="1"> </el-switch>
               </template>
             </el-table-column>
 
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini"  @click="onSubmit(scope.row.id)">查看</el-button>
-                <el-button type="danger" size="mini" @click="del(scope.row)">删除</el-button>
+                <el-button type="primary" size="mini"  @click="onSubmit(scope.row.id)" v-if="rolePowerList.indexOf(12)>=0">查看</el-button>
+                <el-button type="danger" size="mini" @click="del(scope.row)" v-if="rolePowerList.indexOf(14)>=0">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -104,7 +104,7 @@
 
             <el-form-item style="margin-left:50%;">
               <el-button type="primary" @click="onScreen">筛选</el-button>
-              <el-button type="primary" plain @click="onSubmit()">新增</el-button>
+              <el-button type="primary" plain @click="onSubmit()" v-if="rolePowerList.indexOf(17)>=0">新增</el-button>
               <el-button type="text" @click="clearForm">清空筛选</el-button>
             </el-form-item>
           </el-form>
@@ -116,14 +116,14 @@
 
             <el-table-column label="职称状态">
               <template slot-scope="scope">
-                <el-switch @change="StateChange(scope.row)" v-model="scope.row.postState" :active-value="0" :inactive-value="1"> </el-switch>
+                <el-switch :disabled="rolePowerList.indexOf(19)<0" @change="StateChange(scope.row)" v-model="scope.row.postState" :active-value="0" :inactive-value="1"> </el-switch>
               </template>
             </el-table-column>
 
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)">查看</el-button>
-                <el-button type="danger" size="mini" @click="del(scope.row)">删除</el-button>
+                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)" v-if="rolePowerList.indexOf(20)>=0">查看</el-button>
+                <el-button type="danger" size="mini" @click="del(scope.row)" v-if="rolePowerList.indexOf(18)>=0">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -148,7 +148,7 @@
 
             <el-form-item style="margin-left:50%;">
               <el-button type="primary" @click="onScreen">筛选</el-button>
-              <el-button type="primary" plain @click="onSubmit()">新增</el-button>
+              <el-button type="primary" plain @click="onSubmit()" v-if="rolePowerList.indexOf(21)>=0">新增</el-button>
               <el-button type="text" @click="clearForm">清空筛选</el-button>
             </el-form-item>
           </el-form>
@@ -161,14 +161,14 @@
 
             <el-table-column label="班组状态" prop="state">
               <template slot-scope="scope">
-                <el-switch @change="StateChange(scope.row)" v-model="scope.row.state" :active-value="0" :inactive-value="1"> </el-switch>
+                <el-switch :disabled=" rolePowerList.indexOf(22)<0 " @change="StateChange(scope.row)" v-model="scope.row.state" :active-value="0" :inactive-value="1"> </el-switch>
               </template>
             </el-table-column>
 
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)">查看</el-button>
-                <el-button type="danger" size="mini" @click="del(scope.row)">删除</el-button>
+                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)" v-if="rolePowerList.indexOf(24)>=0">查看</el-button>
+                <el-button type="danger" size="mini" @click="del(scope.row)" v-if="rolePowerList.indexOf(23)>=0">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -193,7 +193,7 @@
 
             <el-form-item style="margin-left:51%;">
               <el-button type="primary" @click="onScreen">筛选</el-button>
-              <el-button type="primary" plain @click="onSubmit()">新增</el-button>
+              <el-button type="primary" plain @click="onSubmit()" v-if="rolePowerList.indexOf(25)>=0">新增</el-button>
               <el-button type="text" @click="clearForm">清空筛选</el-button>
             </el-form-item>
           </el-form>
@@ -203,14 +203,14 @@
             <el-table-column label="备注" prop="remark"> </el-table-column>
             <el-table-column label="角色状态" prop="state">
               <template slot-scope="scope">
-                <el-switch @change="StateChange(scope.row)" v-model="scope.row.state" :active-value="0" :inactive-value="1"> </el-switch>
+                <el-switch :disabled=" rolePowerList.indexOf(27)<0 " @change="StateChange(scope.row)" v-model="scope.row.state" :active-value="0" :inactive-value="1"> </el-switch>
               </template>
             </el-table-column>
 
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)">查看</el-button>
-                <el-button type="danger" size="mini" @click="del(scope.row)">删除</el-button>
+                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)" v-if="rolePowerList.indexOf(28)>=0">查看</el-button>
+                <el-button type="danger" size="mini" @click="del(scope.row)" v-if="rolePowerList.indexOf(26)>=0">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -248,10 +248,12 @@ export default {
         pageNum: 1, //当前页
         pageSize: 10 //页面大小
       },
-      selectedArray: []
+      selectedArray: [],
+      rolePowerList:[],
     }
   },
   created() {
+    this.rolePowerList=JSON.parse(sessionStorage.getItem("rolePowerList"))
     if (sessionStorage.getItem('staffTabBar')) {
       this.activeName = sessionStorage.getItem('staffTabBar')
     }

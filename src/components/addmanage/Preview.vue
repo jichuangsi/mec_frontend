@@ -2,20 +2,20 @@
   <el-card>
     <div style="display:flex">
       <table class="pure-table pure-table-bordered" v-for="(el, rindex) in list" :key="rindex" :style="{ borderRight: rindex + 1 < list.length ? 'none' : '' }">
-        <thead :style="{ backgroundColor: el.color }">
+        <thead :style="{ backgroundColor:'#f0f5ff' }">
           <tr>
             <th colspan="3">{{ el.name }}</th>
           </tr>
         </thead>
-
-        <tr :style="{ backgroundColor: el.color }">
+        <!-- :style="{ backgroundColor: el.color }" -->
+        <tr >
           <th>序号</th>
           <th>型号</th>
           <th>直径</th>
         </tr>
-
+        <!--:style="{ backgroundColor: el.color }"  -->
         <tbody>
-          <tr v-for="(row, index) in el.tableList" :key="index" :style="{ backgroundColor: el.color }">
+          <tr v-for="(row, index) in el.tableList" :key="index" >
             <td>{{ index + 1 }}</td>
             <td>{{ row.type }}</td>
             <td>{{ row.long }}</td>
@@ -121,11 +121,11 @@ th {
   border-collapse: collapse;
   border-spacing: 0;
   empty-cells: show;
-  border: 1px solid #000;
+  border: 1px solid #e0e6ed;
 }
 
 .pure-table caption {
-  color: #000;
+  color: #e0e6ed;
   font: italic 85%/1 arial, sans-serif;
   padding: 1em 0;
   text-align: center;
@@ -133,7 +133,7 @@ th {
 
 .pure-table td,
 .pure-table th {
-  border-left: 1px solid #000;
+  border-left: 1px solid #e0e6ed;
   border-width: 0 0 0 1px;
   font-size: inherit;
   margin: 0;
@@ -148,7 +148,7 @@ th {
   color: #000;
   text-align: left;
   vertical-align: bottom;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #e0e6ed;
 }
 
 .pure-table td {
@@ -156,7 +156,7 @@ th {
 }
 
 .pure-table-bordered td {
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #e0e6ed;
 }
 
 .pure-table-bordered tbody > tr:last-child > td {

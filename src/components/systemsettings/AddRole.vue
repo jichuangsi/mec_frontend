@@ -71,6 +71,9 @@ export default {
       const { data: res } = await this.$http.post('SysController/getInfoBySRole')
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.data = res.data.data
+      if(res.data.data.state==null){
+        this.data.state=1
+      }
       this.sRolePowerList = res.data.sRolePowerList
       this.getAllSRolePower = res.data.getAllSRolePower
     },

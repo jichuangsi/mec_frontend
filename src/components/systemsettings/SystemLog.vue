@@ -20,7 +20,7 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="登录日志" name="1">
         <template>
-          <el-table :default-sort="{ prop: 'date', order: 'descending' }" :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
+          <el-table  :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
             <el-table-column type="index" label="序号"> </el-table-column>
             <el-table-column prop="createTime" label="创建时间">
               <template slot-scope="scope">
@@ -34,7 +34,7 @@
                 {{ scope.row.loginState == 1 ? '成功' : '失败' }}
               </template>
             </el-table-column>
-            <el-table-column prop="userAgent" label="User-Agen" width="500"> </el-table-column>
+            <el-table-column prop="userAgent" label="User-Agent" width="500"> </el-table-column>
             <el-table-column prop="operaterIp" label="操作IP"> </el-table-column>
           </el-table>
         </template>

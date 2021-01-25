@@ -7,51 +7,19 @@
         <el-col :span="24">
           <h2 style="color:#fff;padding-left:20px">ERP系统</h2>
           <el-menu class="el-menu-vertical-demo" background-color="#333744" text-color="#fff" active-text-color="#fff" :router="true" unique-opened :default-active="activePath">
-            <el-menu-item index="/index" @click="saveNavState('/index')">首页</el-menu-item>
-            <el-submenu index="2">
-              <template slot="title"
-                >客户关系</template
-              >
-              <el-menu-item index="/supplier" @click="saveNavState('/supplier')">供应商管理</el-menu-item>
-              <el-menu-item index="/client" @click="saveNavState('/client')">客户管理</el-menu-item>
-              <el-menu-item index="/complaint" @click="saveNavState('/complaint')">客户投诉管理</el-menu-item>
-            </el-submenu>
-            <el-submenu index="3">
-              <template slot="title"
-                >采购管理</template
-              >
-              <el-menu-item index="/purchaseorder" @click="saveNavState('/purchaseorder')">采购订单管理</el-menu-item>
-              <el-menu-item index="/orderreview" @click="saveNavState('/orderreview')">订单审核</el-menu-item>
-              <el-menu-item index="/incominginspection" @click="saveNavState('/incominginspection')">来料检验</el-menu-item>
-              <el-menu-item index="/warehousing" @click="saveNavState('/warehousing')">采购入库</el-menu-item>
-            </el-submenu>
-            <el-submenu index="4">
-              <template slot="title"
-                >销售管理</template
-              >
-              <el-menu-item index="/saleorder" @click="saveNavState('/saleorder')">销售订单管理</el-menu-item>
-              <el-menu-item index="/saleOrderReview" @click="saveNavState('/saleOrderReview')">订单审核</el-menu-item>
-              <el-menu-item index="/saleOut" @click="saveNavState('/saleOut')">销售出库</el-menu-item>
-              <el-menu-item index="/saleOrderBack" @click="saveNavState('/saleOrderBack')">销售退回</el-menu-item>
-              <el-menu-item index="/accountStatement" @click="saveNavState('/accountStatement')">对账单</el-menu-item>
-            </el-submenu>
-            <el-submenu index="5">
-              <template slot="title"
-                >库存管理</template
-              >
-              <el-menu-item index="/inandout" @click="saveNavState('/inandout')">出入库管理</el-menu-item>
-              <el-menu-item index="/inventoryStatus" @click="saveNavState('/inventoryStatus')">库存状况</el-menu-item>
-              <!-- <el-menu-item index="/warehouseallocation" @click="saveNavState('/warehouseallocation')">仓库调拨</el-menu-item> -->
-
-              <el-menu-item index="/warehouseManage" @click="saveNavState('/warehouseManage')">仓库管理</el-menu-item>
-              <el-menu-item index="/packagingManage" @click="saveNavState('/packagingManage')">包装管理</el-menu-item>
-            </el-submenu>
-            <el-submenu index="6">
-              <template slot="title"
-                >文件管理</template
-              >
-              <el-menu-item index="/fileManage" @click="saveNavState('/fileManage')">文件管理</el-menu-item>
-              <el-menu-item index="/systemAnnounce" @click="saveNavState('/systemAnnounce')">系统公告</el-menu-item>
+          <!-- 一级菜单 -->
+          <el-submenu :index="item.id + ''" v-for="item in menulist" :key="item.id">
+              <!-- 一级菜单的模板区域 -->
+              <template slot="title">
+                <!-- 文本 -->
+                <span>{{item.label}}</span>
+              </template>
+              <!-- 二级菜单 -->
+              <el-menu-item @click="saveNavState(subItem.path)" :index="subItem.path" v-for="subItem in item.children" :key="subItem.id" >
+                <template slot="title">              
+                  <span>{{subItem.label}}</span>
+                </template>
+              </el-menu-item>
             </el-submenu>
           </el-menu>
         </el-col>
@@ -89,14 +57,26 @@ export default {
       // 被激活的链接地址
       activePath: '',
       user:{},
+      menulist:[],
     }
   },
   created() {
     let user=sessionStorage.getItem("user")
     this.user=JSON.parse(user)
     this.activePath = window.sessionStorage.getItem('activePath')
+    this.getMenuList()
   },
   methods: {
+    // 获取所有的菜单
+    async getMenuList() {
+      const { data: res } = await this.$http.post('HomeController/getMyRolePower',{
+        sysType:1
+      })
+      if (res.code !== "0010") return this.$message.error(res.meta.msg)
+      this.menulist = res.data.list
+      sessionStorage.setItem("rolePowerList",JSON.stringify(res.data.rolePowerList))
+      
+    },
     // 保存链接的激活状态
     saveNavState(activePath) {
       window.sessionStorage.setItem('activePath', activePath)

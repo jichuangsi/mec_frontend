@@ -42,7 +42,7 @@ export default {
       // 这是登录表单的数据绑定对象
       loginForm: {
         account: '666666',
-        pwd: '123123',
+        pwd: '123456',
         sysType:1,
       },
       // 这是表单的验证规则对象
