@@ -14,7 +14,7 @@
         </el-col>
         <el-col :span="6" :offset="6">
           <el-button type="primary" @click="getData">筛选</el-button>
-          <el-button type="primary" @click="toPurchaseBilling()" plain>采购开单</el-button>
+          <el-button type="primary" @click="toPurchaseBilling()" plain v-if=" rolePowerList.indexOf(56)>=0">采购开单</el-button>
           <el-button>导出</el-button>
         </el-col>
       </el-row>
@@ -35,8 +35,8 @@
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="toPurchaseBilling(scope.row.id)">查看</el-button>
-            <el-button type="danger" size="mini" @click="deleteData(scope.row.id)">删除</el-button>
+            <el-button type="primary" size="mini" @click="toPurchaseBilling(scope.row.id)" v-if=" rolePowerList.indexOf(57)>=0">查看</el-button>
+            <el-button type="danger" size="mini" @click="deleteData(scope.row.id)" v-if=" rolePowerList.indexOf(58)>=0">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -64,10 +64,12 @@ export default {
         pageNum: 1,
         pageSize: 5
       },
-      total: 1
+      total: 1,
+      rolePowerList:[],
     }
   },
   created() {
+    this.rolePowerList=JSON.parse(sessionStorage.getItem("rolePowerList"))
     this.getData()
   },
   methods: {

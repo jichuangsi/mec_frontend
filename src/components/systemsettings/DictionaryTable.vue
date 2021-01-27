@@ -16,7 +16,7 @@
 
           <el-form-item>
             <el-button type="primary" @click="getData">筛选</el-button>
-            <el-button type="primary" @click="showDialog()">新增</el-button>
+            <el-button type="primary" @click="showDialog()" v-if=" rolePowerList.indexOf(30)>=0">新增</el-button>
           </el-form-item>
         </el-form>
         <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="RData" style="width: 100%" :default-sort="{ prop: 'date', order: 'descending' }">
@@ -27,13 +27,13 @@
           <el-table-column prop="staffName" label="创建人"> </el-table-column>
           <el-table-column label="状态操作">
             <template slot-scope="scope">
-              <el-switch v-model="scope.row.state" :active-value="0" :inactive-value="1" @change="switchChange(scope.row.id)"> </el-switch>
+              <el-switch :disabled="rolePowerList.indexOf(32)==-1" v-model="scope.row.state" :active-value="0" :inactive-value="1" @change="switchChange(scope.row.id)"> </el-switch>
             </template>
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button type="text" @click="showDialog(scope.$index, scope.row.id)">编辑</el-button>
-              <el-button type="text" style="color:red;" @click="del(scope.row.id, scope.$index)">删除</el-button>
+              <el-button type="text" @click="showDialog(scope.$index, scope.row.id)" v-if=" rolePowerList.indexOf(33)>=0">编辑</el-button>
+              <el-button type="text" style="color:red;" @click="del(scope.row.id, scope.$index)" v-if=" rolePowerList.indexOf(31)>=0">删除</el-button>
               <el-button type="text">更多</el-button>
             </template>
           </el-table-column>
@@ -84,10 +84,12 @@ export default {
         dictFID: ''
       },
       index: -1,
-      row: {} //左边的选中项
+      row: {}, //左边的选中项
+      rolePowerList:[],
     }
   },
   created() {
+    this.rolePowerList=JSON.parse(sessionStorage.getItem("rolePowerList"))
     this.getData()
   },
   methods: {

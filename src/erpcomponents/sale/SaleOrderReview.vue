@@ -36,7 +36,7 @@
               <el-table-column prop="checkStates" label="审核状态"> </el-table-column>
               <el-table-column label="操作">
                 <template slot-scope="scope">
-                  <el-button type="primary" size="mini" @click="toDetail(scope.row.id)">查看</el-button>
+                  <el-button type="primary" size="mini" @click="toDetail(scope.row.id)" :disabled="rolePowerList.indexOf(73)==-1">查看</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -127,10 +127,12 @@ export default {
         pageNum: 1,
         pageSize: 10
       },
-      firstTableData: []
+      firstTableData: [],
+      rolePowerList:[],
     }
   },
   created() {
+    this.rolePowerList=JSON.parse(sessionStorage.getItem("rolePowerList"))
     if (sessionStorage.getItem('saleorderreview')) {
       this.activeName = sessionStorage.getItem('saleorderreview')
     }

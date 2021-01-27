@@ -13,7 +13,7 @@
       </el-form-item>
       <el-form-item style="margin-left:40%;">
         <el-button type="primary" @click="getData">筛选</el-button>
-        <el-button type="primary" plain>导出</el-button>
+        <el-button type="primary" plain v-if=" rolePowerList.indexOf(36)>=0">导出</el-button>
         <el-button type="text" @click="clear">清空筛选</el-button>
       </el-form-item>
     </el-form>
@@ -107,10 +107,12 @@ export default {
         pageNum: 1,
         pageSize: 10
       },
-      total: 0
+      total: 0,
+      rolePowerList:[],
     }
   },
   created() {
+    this.rolePowerList=JSON.parse(sessionStorage.getItem("rolePowerList"))
     if (sessionStorage.getItem('systemlog')) {
       this.activeName = sessionStorage.getItem('systemlog')
     }

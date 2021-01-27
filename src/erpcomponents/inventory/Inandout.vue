@@ -19,9 +19,9 @@
                 <el-button type="primary" plain @click="getData()">筛选</el-button>
               </el-col>
               <el-col :span="6" :offset="5">
-                <el-button type="primary" @click="showAllocatDialog('diaobo')">调拨</el-button>
-                <el-button type="success"  @click="showAllocatDialog('chuku')">出库</el-button>
-                <el-button type="warning"  @click="showAllocatDialog('ruku')">入库</el-button>
+                <el-button type="primary" @click="showAllocatDialog('diaobo')" :disabled="rolePowerList.indexOf(81)==-1">调拨</el-button>
+                <el-button type="success"  @click="showAllocatDialog('chuku')" :disabled="rolePowerList.indexOf(82)==-1">出库</el-button>
+                <el-button type="warning"  @click="showAllocatDialog('ruku')" :disabled="rolePowerList.indexOf(83)==-1">入库</el-button>
               </el-col>
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
@@ -63,7 +63,7 @@
                 <el-button type="primary" plain @click="getData()">筛选</el-button>
               </el-col>
               <el-col :span="6" :offset="5">
-                <el-button type="primary" @click="showAllocatDialog('diaobo')">调拨</el-button>
+                <el-button type="primary" @click="showAllocatDialog('diaobo')" :disabled="rolePowerList.indexOf(81)==-1">调拨</el-button>
               </el-col>
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
@@ -105,9 +105,9 @@
                 <el-button type="primary" plain @click="getData()">筛选</el-button>
               </el-col>
               <el-col :span="6" :offset="5">
-                <el-button type="primary" @click="showAllocatDialog('diaobo')">调拨</el-button>
-                <el-button type="success"  @click="showAllocatDialog('chuku')">出库</el-button>
-                <el-button type="warning"  @click="showAllocatDialog('ruku')">入库</el-button>
+                <el-button type="primary" @click="showAllocatDialog('diaobo')" :disabled="rolePowerList.indexOf(81)==-1">调拨</el-button>
+                <el-button type="success"  @click="showAllocatDialog('chuku')" :disabled="rolePowerList.indexOf(82)==-1">出库</el-button>
+                <el-button type="warning"  @click="showAllocatDialog('ruku')" :disabled="rolePowerList.indexOf(83)==-1">入库</el-button>
               </el-col>
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
@@ -149,9 +149,9 @@
                 <el-button type="primary" plain @click="getData()">筛选</el-button>
               </el-col>
               <el-col :span="6" :offset="5">
-                <el-button type="primary" @click="showAllocatDialog('diaobo')">调拨</el-button>
-                <el-button type="success"  @click="showAllocatDialog('chuku')">出库</el-button>
-                <el-button type="warning"  @click="showAllocatDialog('ruku')">入库</el-button>
+                <el-button type="primary" @click="showAllocatDialog('diaobo')" :disabled="rolePowerList.indexOf(81)==-1">调拨</el-button>
+                <el-button type="success"  @click="showAllocatDialog('chuku')" :disabled="rolePowerList.indexOf(82)==-1">出库</el-button>
+                <el-button type="warning"  @click="showAllocatDialog('ruku')" :disabled="rolePowerList.indexOf(83)==-1">入库</el-button>
               </el-col>
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
@@ -195,9 +195,9 @@
                 <span class="tips">*审核层级按数字由小到大排序，数字越小越先审核，如：审核层级为1的人先审核，然后按数字依次审核。</span>
               </el-col>
               <el-col :span="6"  >
-                <el-button type="primary" @click="showAllocatDialog('diaobo')">调拨</el-button>
-                <el-button type="success"  @click="showAllocatDialog('chuku')">出库</el-button>
-                <el-button type="warning"  @click="showAllocatDialog('ruku')">入库</el-button>
+                <el-button type="primary" @click="showAllocatDialog('diaobo')" :disabled="rolePowerList.indexOf(81)==-1">调拨</el-button>
+                <el-button type="success"  @click="showAllocatDialog('chuku')" :disabled="rolePowerList.indexOf(82)==-1">出库</el-button>
+                <el-button type="warning"  @click="showAllocatDialog('ruku')" :disabled="rolePowerList.indexOf(83)==-1">入库</el-button>
               </el-col>
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
@@ -239,9 +239,9 @@
                 <el-button type="primary" plain @click="getData()">筛选</el-button>
               </el-col>
               <el-col :span="6" :offset="5">
-                <el-button type="primary" @click="showAllocatDialog('diaobo')">调拨</el-button>
-                <el-button type="success"  @click="showAllocatDialog('chuku')">出库</el-button>
-                <el-button type="warning"  @click="showAllocatDialog('ruku')">入库</el-button>
+                <el-button type="primary" @click="showAllocatDialog('diaobo')" :disabled="rolePowerList.indexOf(81)==-1">调拨</el-button>
+                <el-button type="success"  @click="showAllocatDialog('chuku')" :disabled="rolePowerList.indexOf(82)==-1">出库</el-button>
+                <el-button type="warning"  @click="showAllocatDialog('ruku')" :disabled="rolePowerList.indexOf(83)==-1">入库</el-button>
               </el-col>
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
@@ -485,9 +485,11 @@ export default {
       updateRemark:'',//备注
       type:'',
       row:{},
+      rolePowerList:[],
     }
   },
   created() {
+    this.rolePowerList=JSON.parse(sessionStorage.getItem("rolePowerList"))
         if(sessionStorage.getItem("inandout")){
             this.activeName=sessionStorage.getItem("inandout")
         }

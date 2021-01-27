@@ -14,7 +14,7 @@
 
         <el-col :span="6" :offset="12">
           <el-button type="primary" @click="getData">筛选</el-button>
-          <el-button @click="addClient()">新增</el-button>
+          <el-button @click="addClient()" v-if=" rolePowerList.indexOf(45)>=0">新增</el-button>
           <el-button type="text" @click="clear">清空筛选</el-button>
         </el-col>
       </el-row>
@@ -28,13 +28,13 @@
         <el-table-column prop="remark" width="200" label="备注"> </el-table-column>
         <el-table-column label="客户状态">
           <template slot-scope="scope">
-            <el-switch v-model="scope.row.state" @change="switchChange(scope.row)" :active-value="0" :inactive-value="1"></el-switch>
+            <el-switch :disabled=" rolePowerList.indexOf(47)==-1" v-model="scope.row.state" @change="switchChange(scope.row)" :active-value="0" :inactive-value="1"></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="addClient(scope.row.id)">编辑</el-button>
-            <el-button type="danger" size="mini" @click="del(scope.row)">删除</el-button>
+            <el-button type="primary" size="mini" @click="addClient(scope.row.id)" v-if=" rolePowerList.indexOf(44)>=0">编辑</el-button>
+            <el-button type="danger" size="mini" @click="del(scope.row)" v-if=" rolePowerList.indexOf(46)>=0">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -62,10 +62,12 @@ export default {
         pageNum: 1,
         pageSize: 5
       },
-      total: 0
+      total: 0,
+      rolePowerList:[],
     }
   },
   created() {
+    this.rolePowerList=JSON.parse(sessionStorage.getItem("rolePowerList"))
     this.getData()
   },
   methods: {

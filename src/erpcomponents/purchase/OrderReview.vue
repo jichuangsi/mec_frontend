@@ -39,7 +39,7 @@
             <el-table-column prop="checkState" label="检验结果"> </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="toDetail(scope.row)">查看</el-button>
+                <el-button type="primary" size="mini" @click="toDetail(scope.row)" :disabled="rolePowerList.indexOf(61)==-1">查看</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -125,10 +125,12 @@ export default {
       },
       total: 0,
       auditXiaLa: [], //审核人的下拉框
-      id: -1 //编辑时选中的id
+      id: -1, //编辑时选中的id
+      rolePowerList:[],
     }
   },
   created() {
+    this.rolePowerList=JSON.parse(sessionStorage.getItem("rolePowerList"))
     if (sessionStorage.getItem('orderreview')) {
       this.activeName = sessionStorage.getItem('orderreview')
     }

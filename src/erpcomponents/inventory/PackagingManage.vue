@@ -4,7 +4,7 @@
       <el-form-item label="包装编号">
         <el-input style="width:200px;"></el-input>
       </el-form-item>
-      <el-button style="margin-left:60%" type="primary" @click="toSetting">新增</el-button>
+      <el-button style="margin-left:60%" type="primary" @click="toSetting" :disabled="rolePowerList.indexOf(89)==-1">新增</el-button>
     </el-form>
     <el-table :data="tableData" style="width: 100%" :header-cell-style="{background:'#f0f5ff' }">
       <el-table-column type="index" label="序号"  > </el-table-column>
@@ -17,7 +17,7 @@
       <el-table-column prop="name" label="保质期"  > </el-table-column>
       <el-table-column prop="address" label="操作">
           <template>
-              <el-button size="mini" type="primary">查看</el-button>
+              <el-button size="mini" type="primary"  :disabled="rolePowerList.indexOf(86)==-1">查看</el-button>
           </template>
       </el-table-column>
     </el-table>
@@ -48,8 +48,12 @@ export default {
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
         }
-      ]
+      ],
+      rolePowerList:[],
     }
+  },
+  created() {
+    this.rolePowerList=JSON.parse(sessionStorage.getItem("rolePowerList"))
   },
   methods: {
       toSetting(){

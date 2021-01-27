@@ -75,7 +75,7 @@
               <el-table-column prop="inventorysum" label="数量"> </el-table-column>
               <el-table-column label="操作">
                 <template slot-scope="scope">
-                  <el-button type="primary" size="mini" @click="showDialog(scope.row)">盘点</el-button>
+                  <el-button type="primary" size="mini" @click="showDialog(scope.row)" :disabled="rolePowerList.indexOf(86)==-1">盘点</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -146,10 +146,12 @@ export default {
       id: '',
       selecteds: {},
       row: {},
-      number: ''
+      number: '',
+      rolePowerList:[],
     }
   },
   created() {
+    this.rolePowerList=JSON.parse(sessionStorage.getItem("rolePowerList"))
     this.findModelName = this.$route.query.findModelName
     this.id = this.$route.query.id
     this.getData()

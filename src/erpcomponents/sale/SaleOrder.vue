@@ -14,7 +14,7 @@
         </el-col>
         <el-col :span="6" :offset="6">
           <el-button type="primary" @click="getData()">筛选</el-button>
-          <el-button type="primary" @click="toSaleBilling()" plain>销售开单</el-button>
+          <el-button type="primary" @click="toSaleBilling()" plain :disabled="rolePowerList.indexOf(68)==-1">销售开单</el-button>
           <el-button>导出</el-button>
         </el-col>
       </el-row>
@@ -34,8 +34,8 @@
         <el-table-column prop="checkStates" label="审核状态"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="toSaleBilling(scope.row.id)">查看</el-button>
-            <el-button type="danger" size="mini" @click="del(scope.row.id)">删除</el-button>
+            <el-button type="primary" size="mini" @click="toSaleBilling(scope.row.id)" :disabled="rolePowerList.indexOf(69)==-1">查看</el-button>
+            <el-button type="danger" size="mini" @click="del(scope.row.id)" :disabled="rolePowerList.indexOf(70)==-1">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -64,10 +64,12 @@ export default {
         findName: '',
         findDate: ''
       }, //提交查询的条件
-      total: 0
+      total: 0,
+      rolePowerList:[],
     }
   },
   created() {
+    this.rolePowerList=JSON.parse(sessionStorage.getItem("rolePowerList"))
     this.getData()
   },
   methods: {

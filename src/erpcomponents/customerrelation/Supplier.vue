@@ -14,7 +14,7 @@
 
         <el-col :span="6" :offset="12">
           <el-button type="primary" @click="getData">筛选</el-button>
-          <el-button @click="addSupplier()">新增</el-button>
+          <el-button @click="addSupplier()" v-if=" rolePowerList.indexOf(41)>=0">新增</el-button>
           <el-button type="text" @click="clear">清空筛选</el-button>
         </el-col>
       </el-row>
@@ -27,13 +27,13 @@
         <el-table-column prop="staffName" label="创建人"> </el-table-column>
         <el-table-column label="供应商状态">
           <template slot-scope="scope">
-            <el-switch v-model="scope.row.state" @change="switchChange(scope.row)" :active-value="0" :inactive-value="1"></el-switch>
+            <el-switch :disabled="rolePowerList.indexOf(42)==-1 " v-model="scope.row.state" @change="switchChange(scope.row)" :active-value="0" :inactive-value="1"></el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="addSupplier(scope.row.id)">编辑</el-button>
-            <el-button type="danger" size="mini" @click="del(scope.row)">删除</el-button>
+            <el-button type="primary" size="mini" @click="addSupplier(scope.row.id)" v-if=" rolePowerList.indexOf(44)>=0">编辑</el-button>
+            <el-button type="danger" size="mini" @click="del(scope.row)" v-if=" rolePowerList.indexOf(43)>=0">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -52,10 +52,12 @@ export default {
         pageSize: 5
       },
       total: 5,
-      tableData: []
+      tableData: [],
+      rolePowerList:[],
     }
   },
   created() {
+    this.rolePowerList=JSON.parse(sessionStorage.getItem("rolePowerList"))
     this.getData()
   },
   methods: {

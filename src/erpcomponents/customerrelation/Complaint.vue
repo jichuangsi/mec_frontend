@@ -10,7 +10,7 @@
 
         <el-col :span="6" :offset="12">
           <el-button type="primary" @click="choose">筛选</el-button>
-          <el-button @click="addDialog">新增</el-button>
+          <el-button @click="addDialog" v-if=" rolePowerList.indexOf(49)>=0">新增</el-button>
           <el-button type="text" @click="clear">清空筛选</el-button>
         </el-col>
       </el-row>
@@ -28,8 +28,8 @@
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="editFormDialog(scope.row)">编辑</el-button>
-            <el-button type="danger" size="mini" @click="del(scope.row)">删除</el-button>
+            <el-button type="primary" size="mini" @click="editFormDialog(scope.row)" v-if=" rolePowerList.indexOf(52)>=0">编辑</el-button>
+            <el-button type="danger" size="mini" @click="del(scope.row)" v-if=" rolePowerList.indexOf(50)>=0">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -111,10 +111,12 @@ export default {
         complaintTitle: '',
         complaintContent: '',
         id: ''
-      }
+      },
+      rolePowerList:[],
     }
   },
   created() {
+    this.rolePowerList=JSON.parse(sessionStorage.getItem("rolePowerList"))
     this.getData()
   },
   methods: {

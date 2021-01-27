@@ -245,6 +245,12 @@ const WarehouseManage = () =>
     import ('./erpcomponents/inventory/WarehouseManage.vue')
 const PackagingManage = () =>
     import ('./erpcomponents/inventory/PackagingManage.vue')
+const ProductionPicking = () =>
+    import ('./erpcomponents/inventory/ProductionPicking.vue')
+const UsePicking = () =>
+    import ('./erpcomponents/inventory/UsePicking.vue')
+const InventoryManage = () =>
+    import ('./erpcomponents/inventory/InventoryManage.vue')
 const PackagingSetting = () =>
     import ('./erpcomponents/inventory/PackagingSetting.vue')
     // 文件管理
@@ -380,6 +386,9 @@ const router = new Router({
                 { path: '/warehouseManage', component: WarehouseManage },
                 { path: '/packagingSetting', component: PackagingSetting },
                 { path: '/packagingManage', component: PackagingManage },
+                { path: '/productionPicking', component: ProductionPicking },
+                { path: '/usePicking', component: UsePicking },
+                { path: '/inventoryManage', component: InventoryManage },
                 { path: '/fileManage', component: FileManage },
                 { path: '/systemAnnounce', component: SystemAnnounce },
             ]
