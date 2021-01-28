@@ -117,7 +117,7 @@
         <el-table-column prop="unitName" label="单位" > </el-table-column>
         <el-table-column prop="quantityChoose" label="数量" > </el-table-column>
         <el-table-column prop="totalNet" label=" 净重g" > </el-table-column>
-        <el-table-column prop="address" label="操作">
+        <el-table-column  label="操作">
           <template slot-scope="scope">
             <el-button size="mini" type="danger" @click="deleteData(scope.$index)">删除</el-button>
           </template>
@@ -252,9 +252,7 @@ export default {
       listdataDetailAll: [],
       type: '',
       listdataObj: {
-        stockName: '', //产品名称
-        stockNumber: '', //产品编号
-        pppid: '' //生产id
+         
       },
       id:'',
     }
@@ -270,11 +268,14 @@ export default {
   },
   created() {},
   methods: {
+    del(index){
+      this.listdataDetailAll.splice(index,1)
+    },
     // 取消关联
     cancelLink(){
       this.id=''
       this.BasicInfo={}
-      this.OneList=[]
+       
     },
     async deleteData(index){
        const confirmResult = await this.$confirm('是否确认删除？', '提示', {
@@ -295,7 +296,7 @@ export default {
           pproductId:this.id,
           productionNumber:this.BasicInfo.productModel
         },
-        productionStockVoList:this.OneList
+        oneList:this.OneList
       })
       if (res.code !== "0010") return this.$message.error(res.msg)
       this.$message.success("操作成功")
@@ -303,6 +304,7 @@ export default {
     },
     // 每一行点击
     async rowClick1(row) {
+      this.listdataObj=row
       const { data: res } = await this.$http.post('warehouseController/getAllWarehousingChuKuById', {
         findById: row.id,
         findModelName: "stock",
@@ -319,7 +321,7 @@ export default {
         obj.stockModel=item.stockModel
         obj.stockNumber=item.stockNumber
         obj.standards=item.updateRemark
-        obj.unitName=item.pppid
+        obj.unitName=item.dictionarier
         obj.stockName=item.stockName
         obj.quantityChoose=item.xuandingNum
         obj.totalNet=Number(item.xuandingNum)*Number(item.updateRemark)
@@ -333,7 +335,7 @@ export default {
     addAllData() {
       for(let i=0;i<this.listdataDetail.length;i++){
         for(let j=0;j<this.listdataDetailAll.length;j++){
-          if(this.listdataDetail[i].updateID==this.listdataDetail[j].updateID){
+          if(this.listdataDetail[i].updateID==this.listdataDetailAll[j].updateID){
              return this.$message.error("请不要添加重复数据")
           }
         }
@@ -344,6 +346,8 @@ export default {
         item.stockName = item.stockName ? item.stockName : this.listdataObj.stockName
         item.stockNumber = item.stockNumber ? item.stockNumber : this.listdataObj.stockNumber
         item.pppid = item.pppid ? item.pppid : this.listdataObj.pppid
+        item.stockModel = item.stockModel ? item.stockModel : this.listdataObj.stockModel
+        item.dictionarier = item.dictionarier ? item.dictionarier : this.listdataObj.dictionarier
       })
       this.listdataDetailAll = this.listdataDetailAll.filter(item => item.xuandingNum > 0 && item.xuandingNum <= item.updateNum)
       this.listdataDetail.forEach(item=>{
@@ -353,6 +357,7 @@ export default {
     // 监听调拨的对话框关闭
     allocatDialogClose() {
       this.listdataDetail = []
+      this.listdataDetailAll=[]
     },
     // 获取调拨的初始数据
     async getAllocat() {
@@ -360,9 +365,7 @@ export default {
       if (ress.code !== '0010') return this.$message.error(ress.msg)
       this.listdata = ress.data.LData
       this.rowClick1(this.listdata[0])
-      this.listdataObj.stockName = this.listdata[0].stockName
-      this.listdataObj.stockNumber = this.listdata[0].stockNumber
-      this.listdataObj.pppid = this.listdata[0].dictionarier
+       
     },
     //展示调拨的对话框
     async showAllocatDialog(type) {
@@ -383,7 +386,7 @@ export default {
         pageNum:0,
       })
       if (res.code !== "0010") return this.$message.error(res.msg)
-      this.OneList=res.data.oneList
+      
       this.BasicInfo=res.data.BasicInfo
     },
     //   实现单选

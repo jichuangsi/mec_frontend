@@ -52,7 +52,7 @@
             <el-col :span="10" :offset="2" class="col-right">{{ BasicInfo.customerName }}</el-col>
           </el-col>
           <el-col :span="8">
-            <el-col :span="12" class="col-left">产品规格um</el-col>
+            <el-col :span="12" class="col-left">产品规格μm</el-col>
             <el-col :span="10" :offset="2" class="col-right">{{ BasicInfo.umStart }}</el-col>
           </el-col>
           <el-col :span="8">
@@ -132,12 +132,12 @@
         <el-row>
           <el-col :span="6"><div class="col-left">设备状态</div></el-col>
           <el-col :span="16" :offset="2"
-            ><div class="col-right" v-if="equipmentInfo">{{ equipmentInfo.state == 0 ? '正常' : '报废' }}</div></el-col
+            ><div class="col-right" v-if="equipmentInfo.state!=null">{{ equipmentInfo.state == 0 ? '正常' : '报废' }}</div></el-col
           >
         </el-row>
         <el-row>
           <el-col :span="6"><div class="col-left">设备类型</div></el-col>
-          <el-col :span="16" :offset="2"><div class="col-right" v-if="equipmentInfo">熔炼设备</div></el-col>
+          <el-col :span="16" :offset="2"><div class="col-right"  >{{equipmentInfo.equipmentType}}</div></el-col>
         </el-row>
         <el-row>
           <el-col :span="6"><div class="col-left">最近一次检修员</div></el-col>
@@ -247,7 +247,9 @@
           </el-table-column>
           <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
           <el-table-column prop="standards" label="线轴规格"> </el-table-column>
-          <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
+          <el-table-column prop="wireDiameterUm" label="线径μm"> </el-table-column>
+          <el-table-column prop="axleNumber" label="轴号"> </el-table-column>
+          <el-table-column prop="axleloadWeight" label="轴重"> </el-table-column>
           <el-table-column prop="lengthM" label="长度m"> </el-table-column>
           <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
           <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
@@ -273,9 +275,11 @@
               {{ twoListName }}
             </template>
           </el-table-column>
-          <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
-          <el-table-column prop="standards" label="线轴规格"> </el-table-column>
-          <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
+          <el-table-column prop="bobbinName" label="线轴" show-overflow-tooltip	> </el-table-column>
+          <el-table-column prop="standards" label="线轴规格" show-overflow-tooltip	> </el-table-column>
+          <el-table-column prop="wireDiameterUm" label="线径μm"> </el-table-column>
+          <el-table-column prop="axleNumber" label="轴号"> </el-table-column>
+          <el-table-column prop="axleloadWeight" label="轴重"> </el-table-column>
           <el-table-column prop="lengthM" label="长度m"> </el-table-column>
           <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
           <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
@@ -313,8 +317,14 @@
               <el-option :label="item.standards" :value="item.id" v-for="item in BobbinXiaLaInfo" :key="item.id"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="线径um">
+          <el-form-item label="线径μm">
             <el-input v-model="SmeltingProductsItem.wireDiameterUm" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+          </el-form-item>
+          <el-form-item label="轴号">
+            <el-input v-model="SmeltingProductsItem.axleNumber" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+          </el-form-item>
+          <el-form-item label="轴重">
+            <el-input v-model="SmeltingProductsItem.axleloadWeight" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
           <el-form-item label="长度m/轴">
             <el-input v-model="SmeltingProductsItem.lengthM" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
@@ -332,13 +342,13 @@
             <el-input v-model="SmeltingProductsItem.lossg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
           <el-form-item label="表面">
-            <el-input v-model="SmeltingProductsItem.surface" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+            <el-input v-model="SmeltingProductsItem.surface" style="width:60%"></el-input>
           </el-form-item>
           <el-form-item label="放线">
-            <el-input v-model="SmeltingProductsItem.payingOff" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+            <el-input v-model="SmeltingProductsItem.payingOff" style="width:60%"></el-input>
           </el-form-item>
           <el-form-item label="直线">
-            <el-input v-model="SmeltingProductsItem.straightLine" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+            <el-input v-model="SmeltingProductsItem.straightLine" style="width:60%"></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">

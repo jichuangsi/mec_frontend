@@ -75,16 +75,24 @@ const AddThinPull = () =>
     import ('./components/addmanage/AddThinPull.vue')
 const AddSuperThinPull = () =>
     import ('./components/addmanage/AddSuperThinPull.vue')
+const SuperThinPullFeeding = () =>
+    import ('./components/addmanage/SuperThinPullFeeding.vue')
 const AddBackFire = () =>
     import ('./components/addmanage/AddBackFire.vue')
+const BackFireFeeding = () =>
+    import ('./components/addmanage/BackFireFeeding.vue')
 const DetourDetail = () =>
     import ('./components/addmanage/DetourDetail.vue')
 const WindingDetail = () =>
     import ('./components/addmanage/WindingDetail.vue')
 const AddWinding = () =>
     import ('./components/addmanage/AddWinding.vue')
+const WindingFeeding = () =>
+    import ('./components/addmanage/WindingFeeding.vue')
 const AddDetour = () =>
     import ('./components/addmanage/AddDetour.vue')
+const DetourFeeding = () =>
+    import ('./components/addmanage/DetourFeeding.vue')
 const Preview = () =>
     import ('./components/addmanage/Preview.vue')
     // 质量检验
@@ -303,7 +311,9 @@ const router = new Router({
                 { path: '/windingDetail', component: WindingDetail },
                 { path: '/detourDetail', component: DetourDetail },
                 { path: '/addWinding', component: AddWinding },
+                { path: '/windingFeeding', component: WindingFeeding },
                 { path: '/addDetour', component: AddDetour },
+                { path: '/detourFeeding', component: DetourFeeding },
                 { path: '/preview', component: Preview },
                 { path: '/summaryTable', component: SummaryTable },
                 { path: '/thinTable', component: ThinTable },
@@ -359,6 +369,8 @@ const router = new Router({
                 { path: '/addThinPull', component: AddThinPull },
                 { path: '/addBackFire', component: AddBackFire },
                 { path: '/addSuperThinPull', component: AddSuperThinPull },
+                { path: '/superThinPullFeeding', component: SuperThinPullFeeding },
+                { path: '/backFireFeeding', component: BackFireFeeding },
                 { path: '/productInfo', component: ProductInfo },
             ]
         },

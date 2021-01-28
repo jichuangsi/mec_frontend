@@ -245,7 +245,7 @@ export default {
     addAllData(){
       for(let i=0;i<this.listdataDetail.length;i++){
         for(let j=0;j<this.listdataDetailAll.length;j++){
-          if(this.listdataDetail[i].updateID==this.listdataDetail[j].updateID){
+          if(this.listdataDetail[i].updateID==this.listdataDetailAll[j].updateID){
              return this.$message.error("请不要添加重复数据")
           }
         }

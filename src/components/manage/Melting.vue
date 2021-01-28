@@ -72,7 +72,11 @@
         </el-table>
         <el-table :data="RData" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" ref="multipleTable" @selection-change="handleSelectionChange">
           <el-table-column prop="productModel" label="产品型号"> </el-table-column>
-          <el-table-column prop="standards" label="规格"> </el-table-column>
+          <el-table-column prop="standards" label="规格">
+            <template slot-scope="scope">
+              {{Number(scope.row.standards).toFixed(2)}}
+            </template>
+          </el-table-column>
           <el-table-column type="selection" width="55"> </el-table-column>
         </el-table>
       </div>

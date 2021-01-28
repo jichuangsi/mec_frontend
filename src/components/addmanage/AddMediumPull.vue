@@ -52,7 +52,7 @@
             <el-col :span="10" :offset="2" class="col-right">{{ BasicInfo.customerName }}</el-col>
           </el-col>
           <el-col :span="8">
-            <el-col :span="12" class="col-left">产品规格um</el-col>
+            <el-col :span="12" class="col-left">产品规格μm</el-col>
             <el-col :span="10" :offset="2" class="col-right">{{ BasicInfo.umStart }}</el-col>
           </el-col>
           <el-col :span="8">
@@ -96,29 +96,29 @@
           <div class="meta">工艺参数</div>
           <el-button type="text" @click="showGYDialog">编辑</el-button>
         </div>
-        <el-row style="margin:30px 0">
+        <!-- <el-row style="margin:30px 0">
           <el-col :span="4" style="padding-top:10px;">套模方案</el-col>
           <el-col :span="10" style="padding-top:10px;">{{ ProcessTechnology.constituteNumber }}</el-col>
           <el-col :span="5" style="padding-top:10px;"> {{ ProcessTechnology.constituteName }}</el-col>
           <el-col :span="4"><el-button>预览套模</el-button></el-col>
-        </el-row>
+        </el-row> -->
         <el-row style="margin:30px 0">
           <el-col :span="6">1~2轴压缩率%</el-col>
-          <el-col :span="7">{{ PPProductionInfo.moldTemp }}</el-col>
+          <el-col :span="7">{{ PPProductionInfo.compressionRate12 }}</el-col>
           <el-col :span="6">滑动率%</el-col>
-          <el-col :span="5">{{ PPProductionInfo.towTime }}</el-col>
+          <el-col :span="5">{{ PPProductionInfo.slipRate }}</el-col>
         </el-row>
         <el-row style="margin:30px 0">
           <el-col :span="6">2~3轴压缩率%</el-col>
-          <el-col :span="7">{{ PPProductionInfo.towParameters }}</el-col>
+          <el-col :span="7">{{ PPProductionInfo.compressionRate34 }}</el-col>
           <el-col :span="6">末道延伸率%</el-col>
-          <el-col :span="5">{{ PPProductionInfo.stopTime }}</el-col>
+          <el-col :span="5">{{ PPProductionInfo.elongationRate }}</el-col>
         </el-row>
         <el-row style="margin:30px 0">
           <el-col :span="6">排线间距mm</el-col>
-          <el-col :span="7">{{ PPProductionInfo.waterTemp }} </el-col>
+          <el-col :span="7">{{ PPProductionInfo.lineSpacing }} </el-col>
           <el-col :span="6">拉丝速度m/min</el-col>
-          <el-col :span="5">{{ PPProductionInfo.stopTime }}</el-col>
+          <el-col :span="5">{{ PPProductionInfo.drawingSpeed }}</el-col>
         </el-row>
       </el-card>
       <!-- 设备信息 -->
@@ -136,12 +136,12 @@
         <el-row>
           <el-col :span="6"><div class="col-left">设备状态</div></el-col>
           <el-col :span="16" :offset="2"
-            ><div class="col-right" v-if="equipmentInfo">{{ equipmentInfo.state == 0 ? '正常' : '报废' }}</div></el-col
+            ><div class="col-right" v-if=" equipmentInfo.state!=null">{{ equipmentInfo.state == 0 ? '正常' : '报废' }}</div></el-col
           >
         </el-row>
         <el-row>
           <el-col :span="6"><div class="col-left">设备类型</div></el-col>
-          <el-col :span="16" :offset="2"><div class="col-right" v-if="equipmentInfo">熔炼设备</div></el-col>
+          <el-col :span="16" :offset="2"><div class="col-right"  >{{equipmentInfo.equipmentType}}</div></el-col>
         </el-row>
         <el-row>
           <el-col :span="6"><div class="col-left">最近一次检修员</div></el-col>
@@ -193,6 +193,40 @@
           >
         </el-row>
       </el-card>
+      <!-- 中拉部分 -->
+      <el-card style="margin-top:20px;width:100%">
+        <el-row style="margin:15px 0">
+          <el-col :span="2" style=" font-weight:bold">中拉</el-col>
+          <el-col :span="2"  >套模方案</el-col>
+          <el-col :span="3"  style="color:#888eb1">{{ ProcessTechnology.constituteNumber }}</el-col>
+          <el-col :span="3" style="color:#888eb1" > {{ ProcessTechnology.constituteName }}</el-col>
+          <el-col :span="4"><el-button style="margin-top:-10px">预览套模</el-button></el-col>
+        </el-row>
+        <el-table :data="tsuitDetail" style="width: 100%"  :header-cell-style="{background:'#f0f5ff' }">
+          <el-table-column type="index" label="序号"> </el-table-column>
+          <el-table-column label="模具类别">
+            <template slot-scope="scope">
+              {{ scope.row.mouldType === 1 ? '成品模具' : scope.row.mouldType === 2 ? '成套模具' : '不使用模具' }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="mouldNumber" label="模具编号">
+            <template slot-scope="scope">
+              {{ scope.row.mouldNumber ? scope.row.mouldNumber : '--' }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="mouldModel" label="模具型号">
+            <template slot-scope="scope">
+              {{ scope.row.mouldModel ? scope.row.mouldModel : '--' }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="sonmouldModel" label="子模具编号">
+            <template slot-scope="scope">
+              {{ scope.row.sonmouldModel ? scope.row.sonmouldModel : '--' }}
+            </template>
+          </el-table-column>
+          
+        </el-table>
+      </el-card>
       <!-- 上班生产产物（粗拉） -->
       <el-card style="width:100%;margin-top:20px;">
         <div class="j-c-s">
@@ -212,7 +246,9 @@
           </el-table-column>
           <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
           <el-table-column prop="standards" label="线轴规格"> </el-table-column>
-          <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
+          <el-table-column prop="wireDiameterUm" label="线径μm"> </el-table-column>
+          <el-table-column prop="axleNumber" label="轴号"> </el-table-column>
+          <el-table-column prop="axleloadWeight" label="轴重"> </el-table-column>
           <el-table-column prop="lengthM" label="长度m"> </el-table-column>
           <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
           <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
@@ -239,9 +275,12 @@
           </el-table-column>
           <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
           <el-table-column prop="standards" label="线轴规格"> </el-table-column>
-          <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
+          <el-table-column prop="wireDiameterUm" label="线径μm"> </el-table-column>
+           <el-table-column prop="axleNumber" label="轴号"> </el-table-column>
+          <el-table-column prop="axleloadWeight" label="轴重"> </el-table-column>
           <el-table-column prop="lengthM" label="长度m"> </el-table-column>
           <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
+         
           <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
           <el-table-column prop="wastageg" label="废料g"> </el-table-column>
           <el-table-column prop="lossg" label="损耗g"> </el-table-column>
@@ -276,8 +315,14 @@
               <el-option :label="item.standards" :value="item.id" v-for="item in BobbinXiaLaInfo" :key="item.id"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="线径um">
+          <el-form-item label="线径μm">
             <el-input v-model="SmeltingProductsItem.wireDiameterUm" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+          </el-form-item>
+          <el-form-item label="轴号">
+            <el-input v-model="SmeltingProductsItem.axleNumber" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+          </el-form-item>
+          <el-form-item label="轴重">
+            <el-input v-model="SmeltingProductsItem.axleloadWeight" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
           <el-form-item label="长度m/轴">
             <el-input v-model="SmeltingProductsItem.lengthM" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
@@ -305,22 +350,22 @@
       <el-dialog title="工艺参数" :visible.sync="dialogGYVisible" width="30%">
         <el-form label-width="120px">
           <el-form-item label="1~2轴压缩率%">
-            <el-input v-model="PPProductionInfo.moldTemp" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+            <el-input v-model="PPProductionInfo.compressionRate12" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
           <el-form-item label="滑动率%">
-            <el-input v-model="PPProductionInfo.towParameters" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+            <el-input v-model="PPProductionInfo.slipRate" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
           <el-form-item label="2~3轴压缩率%">
-            <el-input v-model="PPProductionInfo.towTime" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+            <el-input v-model="PPProductionInfo.compressionRate34" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
           <el-form-item label="末道延伸率%">
-            <el-input v-model="PPProductionInfo.stopTime" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+            <el-input v-model="PPProductionInfo.elongationRate" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
           <el-form-item label="排线间距mm">
-            <el-input v-model="PPProductionInfo.waterTemp" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+            <el-input v-model="PPProductionInfo.lineSpacing" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
           <el-form-item label="拉丝速度m/min">
-            <el-input v-model="PPProductionInfo.waterTemp" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+            <el-input v-model="PPProductionInfo.drawingSpeed" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -381,6 +426,7 @@ export default {
       },
       aaa: '',
       tableData: [],
+      tsuitDetail:[],
       addClassDialogVisible: false,
       dialogCZVisible: false,
       dialogGYVisible: false,
@@ -434,7 +480,9 @@ export default {
         straightLine: '', //直线
         totalLength: '', //总长度
         wastageg: '', //废料g
-        wireDiameterUm:'' //线径um
+        wireDiameterUm:'' ,//线径um
+        axleNumber:'',
+        axleloadWeight:'',
       },
       NeedstockItem: {
         quantityChoose: '', //选择数量
@@ -567,6 +615,9 @@ export default {
     },
     // 确认新增本班产物对话框
     addClassDialogConfirm() {
+      if(!this.aaa||!this.SmeltingProductsItem.bobbinDetailId||!this.SmeltingProductsItem.wireDiameterUm||!this.SmeltingProductsItem.axleNumber||!this.SmeltingProductsItem.axleloadWeight||!this.SmeltingProductsItem.lengthM||!this.SmeltingProductsItem.grossWeight||!this.SmeltingProductsItem.netWeightg||!this.SmeltingProductsItem.wastageg||!this.SmeltingProductsItem.lossg){
+        return this.$message.error("请填写必要项")
+      }
       this.SmeltingProductsItem.createTime = new Date()
       this.BobbinXiaLaInfo.forEach(item=>{
         if(item.id==this.SmeltingProductsItem.bobbinDetailId){
@@ -606,7 +657,9 @@ export default {
         totalLength: '', //总长度
         tractionSpeed: '', //牵引速度
         wastageg: '', //废料g
-        wireDiameterUm:'' //线径um
+        wireDiameterUm:'', //线径um
+        axleloadWeight:'',
+        axleNumber:'',
       }
       this.aaa=''
     },
@@ -648,6 +701,7 @@ export default {
       this.BobbinXiaLa = res.data.BobbinXiaLa
       this.twoListName=res.data.twoListName
       this.oneListName=res.data.oneListName
+      this.tsuitDetail=res.data.tsuitDetail
     },
     // 保存全部数据
     async saveAll(state) {

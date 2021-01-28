@@ -148,6 +148,13 @@
             {{ oneListName }}
           </template>
         </el-table-column>
+        <el-table-column prop="bobbinName" label="线轴名称"> </el-table-column>
+        <el-table-column prop="standards" label="线轴规格"> </el-table-column>
+        <el-table-column prop="axleNumber" label="轴号"> </el-table-column>
+        <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
+        <el-table-column prop="lengthM" label="长度m/轴"> </el-table-column>
+        <el-table-column prop="axleloadWeight" label="轴重g"> </el-table-column>
+        <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
         <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
       </el-table>
     </el-card>
@@ -167,16 +174,18 @@
           </template>
         </el-table-column>
         <el-table-column prop="gxName" label="工序">
-          <template>
+          <template  >
             {{ oneListName }}
           </template>
         </el-table-column>
+        <el-table-column prop="bobbinName" label="线轴名称"> </el-table-column>
+        <el-table-column prop="standards" label="线轴规格"> </el-table-column>
+        <el-table-column prop="axleNumber" label="轴号"> </el-table-column>
+        <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
+        <el-table-column prop="lengthM" label="长度m/轴"> </el-table-column>
+        <el-table-column prop="axleloadWeight" label="轴重g"> </el-table-column>
+        <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
         <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
-        <el-table-column prop="date" label="操作">
-          <template slot-scope="scope">
-            <el-button size="mini" type="danger" @click="del(scope.$index)">删除</el-button>
-          </template>
-        </el-table-column>
       </el-table>
       <div style="margin:40px 40%">
         <el-button type="primary" @click="saveAll">开始生产</el-button>
@@ -239,7 +248,7 @@
       </span>
     </el-dialog>
     <!-- 投料的对话框 -->
-    <el-dialog title="提示" :visible.sync="dialogTLVisible" width="30%">
+    <el-dialog title="投料" :visible.sync="dialogTLVisible" width="60%">
       <div>
         生产批号 <span style="margin-left:10%;color:#909399"> {{ ProductNumberRow.productionNumber }}</span>
       </div>
@@ -251,10 +260,17 @@
           </template>
         </el-table-column>
         <el-table-column prop="gxName" label="工序">
-          <template>
+          <template  >
             {{ oneListName }}
           </template>
         </el-table-column>
+        <el-table-column prop="bobbinName" label="线轴名称"> </el-table-column>
+        <el-table-column prop="standards" label="线轴规格"> </el-table-column>
+        <el-table-column prop="axleNumber" label="轴号"> </el-table-column>
+        <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
+        <el-table-column prop="lengthM" label="长度m/轴"> </el-table-column>
+        <el-table-column prop="axleloadWeight" label="轴重g"> </el-table-column>
+        <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
         <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
         <el-table-column type="selection" width="55"> </el-table-column>
       </el-table>
@@ -313,7 +329,7 @@ export default {
         ppProduction:{
           pproductId:this.BasicInfo.id ,
           fid:this.ProductNumberRow.id,
-          gxid:2
+          gxid:5
         },
         twoList:this.tableData
       })
@@ -364,7 +380,7 @@ export default {
       this.addDialogVisible = false
       const { data: res } = await this.$http.post('NewProductionController/getMeltingInfoById', {
         findById: this.id,
-        findIdOne: 2,
+        findIdOne: 5,
         pageNum: this.ProductNumberRow.id
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
@@ -414,7 +430,7 @@ export default {
     async showProductNumber() {
       this.ProductNumberVisible = true
       const { data: res } = await this.$http.post('NewProductionController/getProductionList', {
-        findById: 2,
+        findById: 5,
         findName:this.abc
       })
       if (res.code !== '0010') return this.$message.error(res.msg)

@@ -96,11 +96,8 @@
           <div class="meta">工艺参数</div>
           <!-- <el-button type="text" @click="showGYDialog">编辑</el-button> -->
         </div>
-        <el-row style="margin:30px 0">
-          <el-col :span="4" style="padding-top:10px;">套模方案</el-col>
-          <el-col :span="10" style="padding-top:10px;">{{ ProcessTechnology.constituteNumber }}</el-col>
-          <el-col :span="5" style="padding-top:10px;"> {{ ProcessTechnology.constituteName }}</el-col>
-          <el-col :span="4"><el-button>预览套模</el-button></el-col>
+        <el-row style="margin:30px 0;"  >
+          <div style="text-align:center;margin-top:10%">无</div>
         </el-row>
       </el-card>
       <!-- 设备信息 -->
@@ -118,12 +115,12 @@
         <el-row>
           <el-col :span="6"><div class="col-left">设备状态</div></el-col>
           <el-col :span="16" :offset="2"
-            ><div class="col-right" v-if="equipmentInfo">{{ equipmentInfo.state == 0 ? '正常' : '报废' }}</div></el-col
+            ><div class="col-right"  v-if="equipmentInfo.state!==null">{{ equipmentInfo.state == 0 ? '正常' : '报废' }}</div></el-col
           >
         </el-row>
         <el-row>
           <el-col :span="6"><div class="col-left">设备类型</div></el-col>
-          <el-col :span="16" :offset="2"><div class="col-right" v-if="equipmentInfo">熔炼设备</div></el-col>
+          <el-col :span="16" :offset="2"><div class="col-right" v-if="equipmentInfo">{{equipmentInfo.equipmentType}}</div></el-col>
         </el-row>
         <el-row>
           <el-col :span="6"><div class="col-left">最近一次检修员</div></el-col>
@@ -175,6 +172,40 @@
           >
         </el-row>
       </el-card>
+      <!-- 粗拉部分 -->
+      <el-card style="margin-top:20px;width:100%">
+        <el-row style="margin:15px 0">
+          <el-col :span="2" style=" font-weight:bold">粗拉</el-col>
+          <el-col :span="2"  >套模方案</el-col>
+          <el-col :span="3"  style="color:#888eb1">{{ ProcessTechnology.constituteNumber }}</el-col>
+          <el-col :span="3" style="color:#888eb1" > {{ ProcessTechnology.constituteName }}</el-col>
+          <el-col :span="4"><el-button style="margin-top:-10px">预览套模</el-button></el-col>
+        </el-row>
+        <el-table :data="tsuitDetail" style="width: 100%"  :header-cell-style="{background:'#f0f5ff' }">
+          <el-table-column type="index" label="序号"> </el-table-column>
+          <el-table-column label="模具类别">
+            <template slot-scope="scope">
+              {{ scope.row.mouldType === 1 ? '成品模具' : scope.row.mouldType === 2 ? '成套模具' : '不使用模具' }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="mouldNumber" label="模具编号">
+            <template slot-scope="scope">
+              {{ scope.row.mouldNumber ? scope.row.mouldNumber : '--' }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="mouldModel" label="模具型号">
+            <template slot-scope="scope">
+              {{ scope.row.mouldModel ? scope.row.mouldModel : '--' }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="sonmouldModel" label="子模具编号">
+            <template slot-scope="scope">
+              {{ scope.row.sonmouldModel ? scope.row.sonmouldModel : '--' }}
+            </template>
+          </el-table-column>
+          
+        </el-table>
+      </el-card>
       <!-- 上班产物 -->
       <el-card style="width:100%;margin-top:20px;">
         <div class="j-c-s">
@@ -218,13 +249,15 @@
           </el-table-column>
           <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
           <el-table-column prop="standards" label="线轴规格"> </el-table-column>
+          <el-table-column prop="axleNumber" label="轴号"> </el-table-column>
+          <el-table-column prop="axleloadWeight" label="轴重"> </el-table-column>
           <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
           <el-table-column prop="lengthM" label="长度m"> </el-table-column>
           <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
           <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
           <el-table-column prop="wastageg" label="废料g"> </el-table-column>
           <el-table-column prop="lossg" label="损耗g"> </el-table-column>
-          <el-table-column label="操作" v-if="PPProductionInfo.state === 0">
+          <el-table-column label="操作" v-if="PPProductionInfo.state === 0" width="200">
             <template slot-scope="scope">
               <el-button type="primary" size="mini" @click="editSmeltingProducts(scope.$index)">编辑</el-button>
               <el-button type="danger" size="mini" @click="delSmeltingProducts(scope.$index)">删除</el-button>
@@ -256,6 +289,12 @@
           </el-form-item>
           <el-form-item label="线径um">
             <el-input v-model="SmeltingProductsItem.wireDiameterUm" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+          </el-form-item>
+          <el-form-item label="轴号">
+            <el-input v-model="SmeltingProductsItem.axleNumber" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+          </el-form-item>
+          <el-form-item label="轴重">
+            <el-input v-model="SmeltingProductsItem.axleloadWeight" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
           <el-form-item label="长度m/轴">
             <el-input v-model="SmeltingProductsItem.lengthM" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
@@ -354,6 +393,7 @@ export default {
         name: ''
       },
       aaa: '',
+      tsuitDetail:[],
       tableData: [],
       addClassDialogVisible: false,
       dialogCZVisible: false,
@@ -412,7 +452,9 @@ export default {
         totalLength: '', //总长度
         tractionSpeed: '', //牵引速度
         wastageg: '', //废料g
-        wireDiameterUm:'' //线径um
+        wireDiameterUm:'', //线径um
+        axleNumber:'',
+        axleloadWeight:'',
       },
       NeedstockItem: {
         quantityChoose: '', //选择数量
@@ -530,6 +572,9 @@ export default {
     },
     // 确认新增本班产物对话框
     addClassDialogConfirm() {
+      if(!this.aaa||!this.SmeltingProductsItem.bobbinDetailId||!this.SmeltingProductsItem.wireDiameterUm||!this.SmeltingProductsItem.axleNumber||!this.SmeltingProductsItem.axleloadWeight||!this.SmeltingProductsItem.lengthM||!this.SmeltingProductsItem.grossWeight||!this.SmeltingProductsItem.netWeightg||!this.SmeltingProductsItem.wastageg||!this.SmeltingProductsItem.lossg){
+        return this.$message.error("请填写必要项")
+      }
       this.SmeltingProductsItem.createTime = new Date()
       this.SmeltingProductsItem.gxName=this.twoListName
       this.BobbinXiaLaInfo.forEach(item=>{
@@ -575,7 +620,9 @@ export default {
         totalLength: '', //总长度
         tractionSpeed: '', //牵引速度
         wastageg: '', //废料g
-        wireDiameterUm:'' //线径um
+        wireDiameterUm:'', //线径um
+        axleloadWeight:'',
+        axleNumber:'',
       }
       this.aaa=''
     },
@@ -617,6 +664,7 @@ export default {
       this.BobbinXiaLa = res.data.BobbinXiaLa
       this.oneListName=res.data.oneListName
       this.twoListName=res.data.twoListName
+      this.tsuitDetail=res.data.tsuitDetail
     },
     // 保存全部数据
     async saveAll(state) {
@@ -707,4 +755,5 @@ export default {
   text-align: right;
   margin-top: 40px;
 }
+
 </style>

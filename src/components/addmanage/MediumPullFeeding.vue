@@ -15,6 +15,12 @@
               <el-col :span="4">当前工序</el-col>
               <el-col :span="4" class="gray">{{ ProductNumberRow.gxname }}</el-col>
             </el-row>
+            <el-row style="width:100%">
+              <el-col :span="10" :offset="8">
+                  <el-button type="primary" style="margin-top:11%;" @click="showProductNumber">重新选择 <i class="el-icon-plus"></i></el-button>
+                  <el-button @click="cancelProductNumberLink">取消关联</el-button>
+              </el-col>
+            </el-row>
           </div>
         </el-card>
       </el-col>
@@ -142,6 +148,13 @@
             {{ oneListName }}
           </template>
         </el-table-column>
+        <el-table-column prop="bobbinName" label="线轴名称"> </el-table-column>
+        <el-table-column prop="standards" label="线轴规格"> </el-table-column>
+        <el-table-column prop="axleNumber" label="轴号"> </el-table-column>
+        <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
+        <el-table-column prop="lengthM" label="长度m/轴"> </el-table-column>
+        <el-table-column prop="axleloadWeight" label="轴重g"> </el-table-column>
+        <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
         <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
       </el-table>
     </el-card>
@@ -161,26 +174,31 @@
           </template>
         </el-table-column>
         <el-table-column prop="gxName" label="工序">
-          <template>
+          <template  >
             {{ oneListName }}
           </template>
         </el-table-column>
+        <el-table-column prop="bobbinName" label="线轴名称"> </el-table-column>
+        <el-table-column prop="standards" label="线轴规格"> </el-table-column>
+        <el-table-column prop="axleNumber" label="轴号"> </el-table-column>
+        <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
+        <el-table-column prop="lengthM" label="长度m/轴"> </el-table-column>
+        <el-table-column prop="axleloadWeight" label="轴重g"> </el-table-column>
+        <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
         <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
-        <el-table-column prop="date" label="操作">
-          <template slot-scope="scope">
-            <el-button size="mini" type="danger" @click="del(scope.$index)">删除</el-button>
-          </template>
-        </el-table-column>
       </el-table>
       <div style="margin:40px 40%">
         <el-button type="primary" @click="saveAll">开始生产</el-button>
         <el-button @click="cancel">取消</el-button>
       </div>
     </el-card>
-    <el-dialog title="选择生产批号" :visible.sync="ProductNumberVisible" width="40%">
+    <!-- 选择生产批号 -->
+    <el-dialog title="选择生产批号" :visible.sync="ProductNumberVisible" width="40%" @close="ProductNumberClose">
       <el-form label-width="80px">
         <el-form-item label="生产批号">
-          <el-input v-model="abc" style="width:40%"></el-input>
+          <el-input v-model="abc" style="width:40%" >
+             <i slot="suffix" class="el-input__icon el-icon-search" @click="showProductNumber"></i>
+          </el-input>
         </el-form-item>
       </el-form>
       <el-table
@@ -193,6 +211,7 @@
       >
         <el-table-column prop="productionNumber" label="生产批号"> </el-table-column>
         <el-table-column prop="ppNumber" label="产品型号"> </el-table-column>
+        <el-table-column prop="gxname" label="工序"> </el-table-column>
         <el-table-column type="selection" width="55"> </el-table-column>
       </el-table>
       <span slot="footer" class="dialog-footer">
@@ -229,7 +248,7 @@
       </span>
     </el-dialog>
     <!-- 投料的对话框 -->
-    <el-dialog title="提示" :visible.sync="dialogTLVisible" width="30%">
+    <el-dialog title="投料" :visible.sync="dialogTLVisible" width="60%">
       <div>
         生产批号 <span style="margin-left:10%;color:#909399"> {{ ProductNumberRow.productionNumber }}</span>
       </div>
@@ -241,10 +260,17 @@
           </template>
         </el-table-column>
         <el-table-column prop="gxName" label="工序">
-          <template>
+          <template  >
             {{ oneListName }}
           </template>
         </el-table-column>
+        <el-table-column prop="bobbinName" label="线轴名称"> </el-table-column>
+        <el-table-column prop="standards" label="线轴规格"> </el-table-column>
+        <el-table-column prop="axleNumber" label="轴号"> </el-table-column>
+        <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
+        <el-table-column prop="lengthM" label="长度m/轴"> </el-table-column>
+        <el-table-column prop="axleloadWeight" label="轴重g"> </el-table-column>
+        <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
         <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
         <el-table-column type="selection" width="55"> </el-table-column>
       </el-table>
@@ -293,6 +319,10 @@ export default {
     }
   },
   methods: {
+    ProductNumberClose(){
+      this.abc=''
+      this.LeftData=[]
+    },
     // 保存全部数据
     async saveAll(){
       const { data: res } = await this.$http.post('NewProductionController/saveStartProduction2',{
@@ -335,6 +365,10 @@ export default {
       this.tableData.splice(index, 1)
       
       this.$message.success('删除成功')
+    },
+    cancelProductNumberLink(){
+      this.ProductNumberRow={}
+      this.LeftData=[]
     },
     // 取消关联
     cancelLink() {
@@ -396,7 +430,8 @@ export default {
     async showProductNumber() {
       this.ProductNumberVisible = true
       const { data: res } = await this.$http.post('NewProductionController/getProductionList', {
-        findById: 3
+        findById: 3,
+        findName:this.abc
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.LeftData = res.data.LData
@@ -414,6 +449,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 /deep/thead .el-table-column--selection .cell {
   display: none !important;

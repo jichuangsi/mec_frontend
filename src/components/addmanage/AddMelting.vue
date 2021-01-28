@@ -578,7 +578,7 @@ export default {
     addAllData() {
       for(let i=0;i<this.listdataDetail.length;i++){
         for(let j=0;j<this.listdataDetailAll.length;j++){
-          if(this.listdataDetail[i].updateID==this.listdataDetail[j].updateID){
+          if(this.listdataDetail[i].updateID==this.listdataDetailAll[j].updateID){
              return this.$message.error("请不要添加重复数据")
           }
         }
@@ -603,7 +603,8 @@ export default {
     async rowClick(row) {
       const { data: res } = await this.$http.post('warehouseController/getAllWarehousingChuKuById', {
         findById: row.id,
-        findModelName: this.activeName
+        findModelName: this.activeName,
+        findIdOne: 9
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.listdataDetail = res.data.RData
