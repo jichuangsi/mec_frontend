@@ -5,10 +5,10 @@
       <div style="font-weight:bold;margin-bottom:20px">
         生产领料
       </div>
-      <el-row :gutter="20">
+      <el-row :gutter="40">
         <el-col :span="8">
           <div style="margin-bottom:20px;">当前生产计划单</div>
-          <el-card v-for="item in productPlan" :class="[ {current:row.id==item.id}]" :key="item.id" style="margin-bottom:20px" @click.native="chooseItem(item)">
+          <el-card v-for="item in productPlan" :class="[ {current:row.id==item.id}]" :key="item.id" style="margin-bottom:20px;padding:0;" @click.native="chooseItem(item)">
             <el-row style="margin:5px 0">
               <el-col :span="12">生产计划单：{{item.ppNumber}}</el-col>
               <el-col :span="12">销售单号：{{item.saleOrder}}</el-col>
@@ -25,7 +25,7 @@
           <div style="margin-bottom:20px;">生产计划单列表</div>
           <div style="margin-bottom:10px;">生产计划单号：{{row.ppNumber}}</div>
           <div style="margin-bottom:10px;">销售单号：{{row.saleOrder}} <el-button type="primary" style="margin-left:40%" @click="toUsePicking">使用该计划单进行领料</el-button></div>
-          <el-card>
+          <el-card style="min-height:500px;">
             <el-table :data="ppproduct" style="width: 100%">
               <el-table-column type="index" label="序号"> </el-table-column>
               <el-table-column prop="productName" label="产品名称"> </el-table-column>

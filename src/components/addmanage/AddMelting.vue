@@ -523,7 +523,7 @@ export default {
       ChuKuForm: {
         findName: '',
         findModelName: '',
-        findIdOne: ''
+        findIdOne: 9
       },
       listdataDetailAll: [],
       updateRemark: '', //备注

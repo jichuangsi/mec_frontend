@@ -13,7 +13,7 @@
               <el-input style="width:50%" v-model="productionPicking.ppiname"></el-input>
             </el-form-item>
             <el-form-item label="领料日期">
-              <el-date-picker v-model="productionPicking.createTime" type="date" style="width:50%" placeholder="选择日期"> </el-date-picker>
+              <el-date-picker disabled v-model="productionPicking.createTime" type="date" style="width:50%" placeholder="选择日期"> </el-date-picker>
             </el-form-item>
           </el-form>
         </el-card>
@@ -44,8 +44,8 @@
       <el-row style="margin-bottom:20px;">
         <el-col :span="4" style="font-weight:bold">添加原材料</el-col>
         <el-col :span="6">领料车间 <span class="gray">车间1</span> </el-col>
-        <el-col :span="6">总净重 <span class="gray">100000</span> </el-col>
-        <el-col :span="6"><el-button type="primary" style="margin-top:-10px;" @click="showAllocatDialog('diaobo')">新增</el-button></el-col>
+        <el-col :span="6">总净重 <span class="gray">{{sum}}</span> </el-col>
+        <el-col :span="6"><el-button type="primary" style="margin-top:-10px;" @click="showAllocatDialog('diaobo')" v-if="id==-1">新增</el-button></el-col>
       </el-row>
       <el-table :data="pickingStockList" style="width: 100%" :header-cell-style="{ background: '#f0f5ff' }">
         <el-table-column type="index" label="序号"> </el-table-column>
@@ -57,13 +57,13 @@
         <el-table-column prop="unitName" label="单位"> </el-table-column>
         <el-table-column prop="quantityChoose" label="数量"> </el-table-column>
         <el-table-column prop="totalNet" label="净重g"> </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" v-if="id==-1">
           <template slot-scope="scope">
             <el-button type="danger" size="mini" @click="delTableData(scope.$index)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <div style="text-align:center;margin:40px 0">
+      <div style="text-align:center;margin:40px 0" v-if="id==-1">
         <el-button type="primary" @click="saveAll">领料</el-button>
         <el-button>取消</el-button>
       </div>
@@ -171,6 +171,7 @@ export default {
       value1: '',
       ppproduct: [],
       row: {},
+      row1: {},
       tableData: [
       ],
       warehourseXiaLa:[],
@@ -192,18 +193,34 @@ export default {
       productionPicking:{}
     }
   },
+  computed: {
+    sum() {
+      let sum=0
+      this.pickingStockList.forEach(item=>{
+        sum=sum+Number(item.totalNet)
+      })
+      return sum
+    }
+  },
   created() {
     this.id=this.$route.query.id
-    sessionStorage.getItem('productionPicking')
-    this.row = JSON.parse(sessionStorage.getItem('productionPicking'))
+    this.row1 = JSON.parse(sessionStorage.getItem('productionPicking'))
     if(this.id>=0){
       this.getData()
-    }else{this.chooseItem(this.row)
+    }else{
+      this.chooseItem(this.row1)
     }
   },
   methods: {
     // 保存全部信息
     async saveAll(){
+      if(!this.productionPicking.ppinumber||!this.productionPicking.ppiname||!this.pickingStockList.length){
+        return this.$message.error("请填写必要信息")
+      }
+      if(!this.productionPicking.ppid){
+        this.productionPicking.ppid=this.row1.id
+         this.productionPicking.totalNet=this.sum
+      }
       const { data: res } = await this.$http.post('ProductionInventoryController/saveProductionPicking',{
         pickingStockList:this.pickingStockList,
         productionPicking:this.productionPicking
@@ -270,6 +287,7 @@ export default {
         obj.unitName=item.dictionarier
         obj.quantityChoose=item.xuandingNum
         obj.totalNet=item.xuandingNum
+        obj.inventoryStatusId=item.updateID
        this.pickingStockList.push(_.cloneDeep(obj))
       })
       this.allocatDialogVisible = false
@@ -299,8 +317,6 @@ export default {
         })
         if (res.code !== '0010') return this.$message.error(res.msg)
         this.listdataDetail=res.data.RData
-
-
 
     },
     // 获取调拨的初始数据
@@ -336,13 +352,14 @@ export default {
       this.$router.go(-1)
     },
     async chooseItem(row) {
-      this.row = row
+      
       const { data: res } = await this.$http.post('ProductionInventoryController/getPPPlanInfoById', {
         findById: row.id
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.ppproduct = res.data.ppproduct
-      this.productPlan=this.row
+      this.productPlan=row
+      this.productionPicking.createTime=new Date()
     }
   }
 }

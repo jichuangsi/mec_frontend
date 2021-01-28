@@ -28,9 +28,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" @click="getData">筛选</el-button>
+          <el-button type="primary" plain @click="getData">筛选</el-button>
           <el-button type="primary" @click="showAddDialog">新增</el-button>
-          <el-button type="text" @click="clear">清空筛选</el-button>
+          <!-- <el-button  @click="clear">清空筛选</el-button> -->
+          <el-button  @click="toFeeding">生产投料</el-button>
         </el-col>
       </el-row>
       <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%;margin-top:0">
@@ -171,6 +172,9 @@ export default {
     this.getData()
   },
   methods: {
+    toFeeding(){
+      this.$router.push("/smeltingFeeding")
+    },
     // 删除单行数据
     async del(id){
       const confirmResult = await this.$confirm('是否确认删除？', '提示', {

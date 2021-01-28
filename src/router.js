@@ -59,10 +59,18 @@ const Detour = () =>
     // 生产管理的添加项
 const AddMelting = () =>
     import ('./components/addmanage/AddMelting.vue')
+const SmeltingFeeding = () =>
+    import ('./components/addmanage/SmeltingFeeding.vue')
+const RoughDrawingFeeding = () =>
+    import ('./components/addmanage/RoughDrawingFeeding.vue')
 const AddRoughDrawing = () =>
     import ('./components/addmanage/AddRoughDrawing.vue')
 const AddMediumPull = () =>
     import ('./components/addmanage/AddMediumPull.vue')
+const MediumPullFeeding = () =>
+    import ('./components/addmanage/MediumPullFeeding.vue')
+const ThinPullFeeding = () =>
+    import ('./components/addmanage/ThinPullFeeding.vue')
 const AddThinPull = () =>
     import ('./components/addmanage/AddThinPull.vue')
 const AddSuperThinPull = () =>
@@ -342,8 +350,12 @@ const router = new Router({
                 { path: '/certificate', component: Certificate },
                 { path: '/addCertificate', component: AddCertificate },
                 { path: '/addMelting', component: AddMelting },
+                { path: '/smeltingFeeding', component: SmeltingFeeding },
+                { path: '/roughDrawingFeeding', component: RoughDrawingFeeding },
                 { path: '/addRoughDrawing', component: AddRoughDrawing },
                 { path: '/addMediumPull', component: AddMediumPull },
+                { path: '/mediumPullFeeding', component: MediumPullFeeding },
+                { path: '/thinPullFeeding', component: ThinPullFeeding },
                 { path: '/addThinPull', component: AddThinPull },
                 { path: '/addBackFire', component: AddBackFire },
                 { path: '/addSuperThinPull', component: AddSuperThinPull },

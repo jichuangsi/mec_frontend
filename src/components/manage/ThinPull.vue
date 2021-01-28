@@ -29,7 +29,8 @@
         </el-col>
         <el-col :span="6">
           <el-button type="primary" @click="getData">筛选</el-button>
-          <el-button @click="clear">清空</el-button>
+          <!-- <el-button @click="clear">清空</el-button> -->
+          <el-button @click="toFeeding">生产投料</el-button>
         </el-col>
       </el-row>
       <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%;margin-top:0">
@@ -74,6 +75,9 @@ export default {
     this.getData()
   },
   methods: {
+    toFeeding(){
+      this.$router.push("/thinPullFeeding")
+    },
     //前往查看页面
     toAddThinPull(id){
       this.$router.push({
