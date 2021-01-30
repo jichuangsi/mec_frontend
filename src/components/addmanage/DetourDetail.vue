@@ -140,13 +140,14 @@
                 </el-table-column>
                 <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
                 <el-table-column prop="standards" label="线轴规格"> </el-table-column>
-                <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
+                <el-table-column prop="wireDiameterUm" label="线径μm"> </el-table-column>
+                 <el-table-column prop="bobbinColor" label="轴色"></el-table-column>
+                <el-table-column prop="axleNumber" label="轴号"> </el-table-column>
+                <el-table-column prop="axleloadWeight" label="轴重"> </el-table-column>
                 <el-table-column prop="lengthM" label="长度m"> </el-table-column>
                 <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
                 <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
-                <el-table-column prop="numbers" label="数量"> </el-table-column>
-                <el-table-column prop="totalLength" label="总长度m"> </el-table-column>
-                <el-table-column prop="netWeightgSum" label="总净重g"> </el-table-column>
+
                 <el-table-column prop="payingOff" label="是否改绕">
                   <template slot-scope="scope">
                     {{ scope.row.state == 0 ? '否' : '是' }}
@@ -176,17 +177,14 @@
                 </el-table-column>
                 <el-table-column prop="bobbinName" label="线轴"></el-table-column>
                 <el-table-column prop="standards" label="线轴规格"></el-table-column>
-                <el-table-column prop="wireDiameterUm" label="线径um"></el-table-column>
+                <el-table-column prop="wireDiameterUm" label="线径μm"></el-table-column>
+                 <el-table-column prop="bobbinColor" label="轴色"></el-table-column>
+                <el-table-column prop="axleNumber" label="轴号"></el-table-column>
+                <el-table-column prop="axleloadWeight" label="轴重 "></el-table-column>
                 <el-table-column prop="lengthM" label="长度m/轴"></el-table-column>
                 <el-table-column prop="grossWeight" label="毛重g"></el-table-column>
                 <el-table-column prop="netWeightg" label="净重g"></el-table-column>
-                <el-table-column prop="numbers" label="数量"></el-table-column>
-                <el-table-column prop="totalLength" label="总长度m"></el-table-column>
-                <el-table-column prop="netWeightgSum" label="总净重g"></el-table-column>
-                <el-table-column prop="surface" label="表面"></el-table-column>
-                <el-table-column prop="payingOff" label="放线"></el-table-column>
-                <el-table-column prop="straightLine" label="直线"></el-table-column>
-                <el-table-column prop="flatCable" label="排线"></el-table-column>
+               
               </el-table>
             </template>
           </el-tab-pane>
@@ -293,7 +291,7 @@ export default {
       this.$router.push({
         path: '/addDetour',
         query: {
-          Eid: row.pppid,
+          Eid: this.id,
           id: row.id
         }
       })
@@ -325,7 +323,7 @@ export default {
     // 详情页面获取初始数据
     async getEditData() {
       if (this.id >= 0) {
-        const { data: res } = await this.$http.post('ProductionController/getPDetourDetailByPPPId', {
+        const { data: res } = await this.$http.post('ProductionController/getPWindingDetailByPPPId', {
           findById:this.id
         })
         if (res.code !== '0010') return this.$message.error(res.msg)
@@ -383,7 +381,7 @@ export default {
         item.gxId = this.PPProductionInfo.gxid
       })
 
-      const { data: res } = await this.$http.post('ProductionController/savePDetour', {
+      const { data: res } = await this.$http.post('ProductionController/savePWinding', {
         ppProduction: this.PPProductionInfo,
         twoList: this.Needstock
       })

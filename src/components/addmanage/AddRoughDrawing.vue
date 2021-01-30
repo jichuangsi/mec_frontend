@@ -287,7 +287,7 @@
               <el-option :label="item.standards" :value="item.id" v-for="item in BobbinXiaLaInfo" :key="item.id"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="线径um">
+          <el-form-item label="线径μm">
             <el-input v-model="SmeltingProductsItem.wireDiameterUm" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
           <el-form-item label="轴号">
@@ -302,14 +302,15 @@
           <el-form-item label="毛重g">
             <el-input v-model="SmeltingProductsItem.grossWeight" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
-          <el-form-item label="净重g">
-            <el-input v-model="SmeltingProductsItem.netWeightg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
-          </el-form-item>
+          
           <el-form-item label="废料g">
             <el-input v-model="SmeltingProductsItem.wastageg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
+          <el-form-item label="净重g">
+            <el-input v-model=" netWeightg" disabled style="width:60%"></el-input>
+          </el-form-item>
           <el-form-item label="损耗g">
-            <el-input v-model="SmeltingProductsItem.lossg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+            <el-input v-model=" lossg" disabled style="width:60%"></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -501,6 +502,14 @@ export default {
       this.getEditData()
     }
   },
+  computed:{
+    lossg(){
+      return this.SmeltingProductsItem.grossWeight-this.SmeltingProductsItem.axleloadWeight-this.SmeltingProductsItem.wastageg
+    },
+    netWeightg(){
+      return this.SmeltingProductsItem.grossWeight-this.SmeltingProductsItem.axleloadWeight
+    }
+  },
   methods: {
     async selectedChange(e) {
       const { data: res } = await this.$http.post('ProductionController/getBobbinXiaLaInfoByBId', {
@@ -572,6 +581,8 @@ export default {
     },
     // 确认新增本班产物对话框
     addClassDialogConfirm() {
+      this.SmeltingProductsItem.lossg=this.lossg
+      this.SmeltingProductsItem.netWeightg=this.netWeightg
       if(!this.aaa||!this.SmeltingProductsItem.bobbinDetailId||!this.SmeltingProductsItem.wireDiameterUm||!this.SmeltingProductsItem.axleNumber||!this.SmeltingProductsItem.axleloadWeight||!this.SmeltingProductsItem.lengthM||!this.SmeltingProductsItem.grossWeight||!this.SmeltingProductsItem.netWeightg||!this.SmeltingProductsItem.wastageg||!this.SmeltingProductsItem.lossg){
         return this.$message.error("请填写必要项")
       }

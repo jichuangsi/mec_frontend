@@ -24,7 +24,13 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="生产日期">
-            <el-input v-model="submitForm.findDate"></el-input>
+            <el-date-picker
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd"
+              v-model="submitForm.findDate"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="6">

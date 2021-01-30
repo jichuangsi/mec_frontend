@@ -37,6 +37,7 @@
       </el-row>
     </el-card>
     <el-row :gutter="20" style="margin-top:20px;">
+      <!-- 生产设备设定 -->
       <el-col :span="12">
         <el-card>
           <div style="font-weight:bold">生产设备设定</div>
@@ -50,7 +51,7 @@
           </el-row>
           <el-row :gutter="60" style="margin:10px 0;">
             <el-col :offset="1" :span="9">设备状态</el-col>
-            <el-col :offset="1" :span="9" style="color:#8494a9;">
+            <el-col :offset="1" :span="9" style="color:#8494a9;" v-if=" equipmentInfo.state!=null">
              {{ equipmentInfo.state === 0 ? '正常' : '报废' }}
             </el-col>
           </el-row>
@@ -80,17 +81,18 @@
           </el-row>
         </el-card>
       </el-col>
+      <!-- 工艺参数 -->
       <el-col :span="12">
         <el-card>
           <div style="font-weight:bold">工艺参数</div>
           <el-row :gutter="20" style="margin:20px 0;">
-            <el-col :offset="1" :span="2">张力</el-col>
+            <el-col   :span="3">绕线程序</el-col>
             <el-col :span="4">
-              <el-input size="mini" v-model="PPPWindingInfo.tension"></el-input>
+              <el-input size="mini" v-model="PPPWindingInfo.windingProcedure"></el-input>
             </el-col>
-            <el-col :offset="1" :span="2">排线</el-col>
+            <el-col  :span="3">张力程序</el-col>
             <el-col :span="4">
-              <el-input size="mini" v-model="PPPWindingInfo.flatCable"></el-input>
+              <el-input size="mini" v-model="PPPWindingInfo.tensionProgram"></el-input>
             </el-col>
             <el-col :offset="1" :span="5">绕线前总长度m</el-col>
             <el-col :span="4" style="color:#8494a9;">
@@ -98,13 +100,13 @@
             </el-col>
           </el-row>
           <el-row :gutter="20" style="margin:20px 0;">
-            <el-col :offset="1" :span="2">废料g</el-col>
+            <el-col :span="3">延伸率%</el-col>
             <el-col :span="4">
-              <el-input size="mini" v-model="PPPWindingInfo.wasteAge"></el-input>
+              <el-input size="mini" v-model="PPPWindingInfo.elongation"></el-input>
             </el-col>
-            <el-col :offset="1" :span="2">表面</el-col>
+            <el-col   :span="3">拉断力cn</el-col>
             <el-col :span="4">
-              <el-input size="mini" v-model="PPPWindingInfo.surface"></el-input>
+              <el-input size="mini" v-model="PPPWindingInfo.breakingForce"></el-input>
             </el-col>
             <el-col :offset="1" :span="5">绕线后总长度m</el-col>
             <el-col :span="4" style="color:#8494a9;">
@@ -112,13 +114,13 @@
             </el-col>
           </el-row>
           <el-row :gutter="20" style="margin:20px 0;">
-            <el-col :offset="1" :span="2">余料g</el-col>
+            <el-col   :span="3">线轴类型</el-col>
             <el-col :span="4">
-              <el-input size="mini" v-model="PPPWindingInfo.cloutG"></el-input>
+              <el-input size="mini" v-model="PPPWindingInfo.bobbinType"></el-input>
             </el-col>
-            <el-col :offset="1" :span="2">放线</el-col>
+            <el-col   :span="3">线轴直径</el-col>
             <el-col :span="4">
-              <el-input size="mini" v-model="PPPWindingInfo.settingOut"></el-input>
+              <el-input size="mini" v-model="PPPWindingInfo.bobbindiameter"></el-input>
             </el-col>
             <el-col :offset="1" :span="5">绕线前总重量m</el-col>
             <el-col :span="4" style="color:#8494a9;">
@@ -126,13 +128,13 @@
             </el-col>
           </el-row>
           <el-row :gutter="20" style="margin:22px 0;">
-            <el-col :offset="1" :span="2">损耗g</el-col>
+            <el-col  :span="3">线轴颜色</el-col>
             <el-col :span="4">
-              <el-input size="mini" v-model="PPPWindingInfo.lossG"></el-input>
+              <el-input size="mini" v-model="PPPWindingInfo.bobbinColor"></el-input>
             </el-col>
-            <el-col :offset="1" :span="2">直线</el-col>
+            <el-col  :span="3">首尾标识</el-col>
             <el-col :span="4">
-              <el-input size="mini" v-model="PPPWindingInfo.straightLine"></el-input>
+              <el-input size="mini" v-model="PPPWindingInfo.identification"></el-input>
             </el-col>
             <el-col :offset="1" :span="5">绕线后总重量m</el-col>
             <el-col :span="4" style="color:#8494a9;">
@@ -142,8 +144,9 @@
         </el-card>
       </el-col>
     </el-row>
+    <!-- 本班生产产物 -->
     <el-card style="margin-top:20px;">
-      <div style="font-weight:bold">本班生产产物（{{ oneListName }}）<el-button type="primary" plain style="margin-left:60%;" @click="showAddDialog">新增</el-button></div>
+      <div style="font-weight:bold">本班生产产物（{{ oneListName }}）<el-button type="primary" plain style="margin-left:60%;" @click="showAddDialog" v-if="pppstate===0">新增</el-button></div>
       <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="twoList">
         <el-table-column type="index" label="序号"></el-table-column>
         <el-table-column label="生产时间" prop="createTime">
@@ -156,23 +159,22 @@
             {{ oneListName }}
           </template>
         </el-table-column>
-        <el-table-column label="线轴" prop="bobbinName"></el-table-column>
+        <el-table-column label="线轴" prop="bobbinName" show-overflow-tooltip></el-table-column>
         <el-table-column label="线轴规格" prop="standards"></el-table-column>
-        <el-table-column label="线径um" prop="wireDiameterUm"></el-table-column>
+        <el-table-column label="线径μm" prop="wireDiameterUm"></el-table-column>
+        <el-table-column label="轴号" prop="axleNumber"></el-table-column>
+        <el-table-column label="轴重" prop="axleloadWeight"></el-table-column>
         <el-table-column label="长度m/轴" prop="lengthM"></el-table-column>
         <el-table-column label="毛重g" prop="grossWeight"></el-table-column>
         <el-table-column label="净重g" prop="netWeightg"></el-table-column>
-        <el-table-column label="数量" prop="numbers"></el-table-column>
-        <el-table-column label="总长度m" prop="totalLength"></el-table-column>
-        <el-table-column label="总净重m" prop="netWeightgSum"></el-table-column>
-        <el-table-column label="操作" width="200">
+        <el-table-column label="操作" width="200" v-if="pppstate===0">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="editSmeltingProducts(scope.$index)">编辑</el-button>
             <el-button type="danger" size="mini" @click="delSmeltingProducts(scope.$index)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <div style="margin:20px 40%">
+      <div style="margin:20px 40%" v-if="pppstate===0">
         <el-button @click="cancel">取消</el-button>
         <el-button type="primary" @click="saveAll()">保存</el-button>
       </div>
@@ -190,8 +192,14 @@
             <el-option :label="item.standards" :value="item.id" v-for="item in BobbinXiaLaInfo" :key="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="线径um">
+        <el-form-item label="线径μm">
           <el-input v-model="twoListItem.wireDiameterUm" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+        </el-form-item>
+         <el-form-item label="轴号">
+          <el-input v-model="twoListItem.axleNumber" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+        </el-form-item>
+         <el-form-item label="轴重">
+          <el-input v-model="twoListItem.axleloadWeight" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
         </el-form-item>
         <el-form-item label="长度m/轴">
           <el-input v-model="twoListItem.lengthM" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
@@ -200,11 +208,9 @@
           <el-input v-model="twoListItem.grossWeight" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
         </el-form-item>
         <el-form-item label="净重g">
-          <el-input v-model="twoListItem.netWeightg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+          <el-input v-model=" netWeightg" disabled style="width:60%"></el-input>
         </el-form-item>
-        <el-form-item label="数量">
-          <el-input v-model="twoListItem.numbers" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
-        </el-form-item>
+        
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addClassDialogVisible = false">取 消</el-button>
@@ -253,7 +259,9 @@ export default {
         state: '', //改绕/绕线否 0否 1是（默认0）
         deleteNo: '', //删除否
         pppid: '', //生产id
-        slip: '' //滑差
+        slip: '', //滑差
+        axleNumber:'',
+        axleloadWeight:'',
       },
       PPPWindingInfo: {
         id: '', //产物ID
@@ -277,8 +285,10 @@ export default {
       beforeWeight:'',
       beforeLength:'',
       index:-1,
+      pppstate:-1,
     }
   },
+  
   computed:{
     afterLength () {
       let num=0
@@ -293,6 +303,9 @@ export default {
         num+=item.netWeightgSum
       })
       return num
+    },
+    netWeightg(){
+      return this.twoListItem.grossWeight-this.twoListItem.axleloadWeight
     }
   },
   created() {
@@ -345,6 +358,7 @@ export default {
       this.$message.success('删除成功')
     },
     addClassDialogConfirm() {
+      this.twoListItem.netWeightg=this.netWeightg
       this.twoListItem.totalLength=this.twoListItem.lengthM*this.twoListItem.numbers
       this.twoListItem.netWeightgSum=this.twoListItem.netWeightg*this.twoListItem.numbers
       this.twoListItem.createTime = new Date()
@@ -397,7 +411,9 @@ export default {
         state: '', //改绕/绕线否 0否 1是（默认0）
         deleteNo: '', //删除否
         pppid: '', //生产id
-        slip: '' //滑差
+        slip: '', //滑差
+        axleNumber:'',
+        axleloadWeight:'',
       }
     },
     async selectedChange(e) {
@@ -419,6 +435,7 @@ export default {
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.pppProducts = res.data.pppProducts
+      this.pppstate=res.data.pppstate
       this.oneListName = res.data.oneListName
       this.equipmentXiaLa = res.data.equipmentXiaLa
       this.twoList = res.data.TwoList
@@ -427,6 +444,9 @@ export default {
       this.PPPWindingInfo=res.data.PPPWindingInfo
       this.beforeLength=res.data.beforeLength
       this.beforeWeight=res.data.beforeWeight
+      if(this.PPPWindingInfo.equipmentId){
+        this.equipmentSelectChanged()
+      }
     },
     cancel() {
       this.$router.go(-1)

@@ -243,9 +243,9 @@ export default {
     },
     // 添加数据合并
     addAllData(){
-      for(let i=0;i<this.listdataDetail.length;i++){
-        for(let j=0;j<this.listdataDetailAll.length;j++){
-          if(this.listdataDetail[i].updateID==this.listdataDetailAll[j].updateID){
+      for(let i=0;i<this.listdataDetailAll.length;i++){
+        for(let j=0;j<this.listdataDetail.length;j++){
+          if(this.listdataDetail[j].updateID==this.listdataDetailAll[i].updateID&&this.listdataDetail[j].updateID.updateNum>0){
              return this.$message.error("请不要添加重复数据")
           }
         }

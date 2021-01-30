@@ -232,10 +232,7 @@
           <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
           <el-table-column prop="wastageg" label="废料g"> </el-table-column>
           <el-table-column prop="lossg" label="损耗g"> </el-table-column>
-          <el-table-column prop="slip" label="滑差"> </el-table-column>
-          <el-table-column prop="tractionSpeed" label="牵引速度"> </el-table-column>
-          <el-table-column prop="takeUpSpeed" label="收线速度"> </el-table-column>
-          <el-table-column prop="surface" label="表面"> </el-table-column>
+          
         </el-table>
         
       </el-card>
@@ -312,14 +309,15 @@
           <el-form-item label="毛重g">
             <el-input v-model="SmeltingProductsItem.grossWeight" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
-          <el-form-item label="净重g">
-            <el-input v-model="SmeltingProductsItem.netWeightg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
-          </el-form-item>
+          
           <el-form-item label="废料g">
             <el-input v-model="SmeltingProductsItem.wastageg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
+          <el-form-item label="净重g">
+            <el-input v-model="netWeightg" disabled style="width:60%"></el-input>
+          </el-form-item>
           <el-form-item label="损耗g">
-            <el-input v-model="SmeltingProductsItem.lossg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+            <el-input v-model="lossg" disabled style="width:60%"></el-input>
           </el-form-item>
           
         </el-form>
@@ -511,6 +509,14 @@ export default {
       this.getEditData()
     }
   },
+  computed:{
+    lossg(){
+      return this.SmeltingProductsItem.grossWeight-this.SmeltingProductsItem.axleloadWeight-this.SmeltingProductsItem.wastageg
+    },
+    netWeightg(){
+      return this.SmeltingProductsItem.grossWeight-this.SmeltingProductsItem.axleloadWeight
+    }
+  },
   methods: {
     // 撤回当前工序
     async goBack(){
@@ -598,6 +604,8 @@ export default {
     },
     // 确认新增本班产物对话框
     addClassDialogConfirm() {
+      this.SmeltingProductsItem.lossg=this.lossg
+      this.SmeltingProductsItem.netWeightg=this.netWeightg
       if(!this.aaa||!this.SmeltingProductsItem.bobbinDetailId||!this.SmeltingProductsItem.wireDiameterUm||!this.SmeltingProductsItem.axleNumber||!this.SmeltingProductsItem.axleloadWeight||!this.SmeltingProductsItem.lengthM||!this.SmeltingProductsItem.grossWeight||!this.SmeltingProductsItem.netWeightg||!this.SmeltingProductsItem.wastageg||!this.SmeltingProductsItem.lossg){
         return this.$message.error("请填写必要项")
       }

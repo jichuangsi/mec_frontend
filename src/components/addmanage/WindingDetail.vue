@@ -52,7 +52,7 @@
             <el-col :span="10" :offset="2" class="col-right">{{ BasicInfo.customerName }}</el-col>
           </el-col>
           <el-col :span="8">
-            <el-col :span="12" class="col-left">产品规格um</el-col>
+            <el-col :span="12" class="col-left">产品规格μm</el-col>
             <el-col :span="10" :offset="2" class="col-right">{{ BasicInfo.umStart }}</el-col>
           </el-col>
           <el-col :span="8">
@@ -121,7 +121,7 @@
           >
         </el-row>
       </el-card>
-
+      <!-- 待绕线成品 -->
       <el-card style="margin-top:20px;width:100%;">
         <el-tabs v-model="activeName" >
           <el-tab-pane label="待绕线成品" name="first">
@@ -140,13 +140,13 @@
                 </el-table-column>
                 <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
                 <el-table-column prop="standards" label="线轴规格"> </el-table-column>
-                <el-table-column prop="wireDiameterUm" label="线径um"> </el-table-column>
+                <el-table-column prop="wireDiameterUm" label="线径μm"> </el-table-column>
+                <el-table-column prop="axleNumber" label="轴号"> </el-table-column>
+                <el-table-column prop="axleloadWeight" label="轴重"> </el-table-column>
                 <el-table-column prop="lengthM" label="长度m"> </el-table-column>
                 <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
                 <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
-                <el-table-column prop="numbers" label="数量"> </el-table-column>
-                <el-table-column prop="totalLength" label="总长度m"> </el-table-column>
-                <el-table-column prop="netWeightgSum" label="总净重g"> </el-table-column>
+               
                 <el-table-column prop="payingOff" label="是否改绕">
                   <template slot-scope="scope">
                     {{scope.row.state==0?'否':'是'}}
@@ -172,19 +172,15 @@
                 <el-table-column   label="本班工序">
                   <template>绕线</template>
                 </el-table-column>
-                <el-table-column prop="bobbinName" label="线轴"></el-table-column>
+                <el-table-column prop="bobbinName" label="线轴" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="standards" label="线轴规格"></el-table-column>
-                <el-table-column prop="wireDiameterUm" label="线径um"></el-table-column>
+                <el-table-column prop="wireDiameterUm" label="线径μm"></el-table-column>
+                <el-table-column prop="axleNumber" label="轴号"></el-table-column>
+                <el-table-column prop="axleloadWeight" label="轴重"></el-table-column>
                 <el-table-column prop="lengthM" label="长度m/轴"></el-table-column>
                 <el-table-column prop="grossWeight" label="毛重g"></el-table-column>
                 <el-table-column prop="netWeightg" label="净重g"></el-table-column>
-                <el-table-column prop="numbers" label="数量"></el-table-column>
-                <el-table-column prop="totalLength" label="总长度m"></el-table-column>
-                <el-table-column prop="netWeightgSum" label="总净重g"></el-table-column>
-                <el-table-column prop="surface" label="表面"></el-table-column>
-                <el-table-column prop="payingOff" label="放线"></el-table-column>
-                <el-table-column prop="straightLine" label="直线"></el-table-column>
-                <el-table-column prop="flatCable" label="排线"></el-table-column>
+               
               </el-table>
             </template>
           </el-tab-pane>

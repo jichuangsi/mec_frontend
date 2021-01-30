@@ -24,7 +24,13 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="生产日期">
-            <el-input v-model="submitForm.findDate"></el-input>
+            <el-date-picker
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd"
+              v-model="submitForm.findDate"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -46,7 +52,7 @@
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="toDetail(scope.row.id)">查看</el-button>
 
-            <el-button type="danger" size="mini">删除</el-button>
+            <el-button type="danger" size="mini"  @click="del(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -75,6 +81,24 @@ export default {
     this.getData()
   },
   methods: {
+     // 删除单行数据
+    async del(id) {
+      const confirmResult = await this.$confirm('是否确认删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if (confirmResult !== 'confirm') {
+        return
+      }     
+      const { data: res } = await this.$http.post('ProductionController/updatePPPByPPPId',{
+        updateID:id,
+        updateType:'D'
+      })
+      if (res.code !== "0010") return this.$message.error(res.msg)
+      this.$message.success('删除成功')
+      this.getData()
+    },
     toFeeding(){
       this.$router.push("/windingFeeding")
     },

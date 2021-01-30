@@ -76,6 +76,9 @@
               <el-table-column prop="recordType" label="类型"></el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
+              <el-table-column prop="productionNumber" label="生产批号"> </el-table-column>
+              <el-table-column prop="gxName" label="工序"> </el-table-column>
+              
               <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
               <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
               <el-table-column prop="standards" label="规格"> </el-table-column>
@@ -120,6 +123,8 @@
               <el-table-column prop="recordType" label="类型"></el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
+              <el-table-column prop="productionNumber" label="生产批号"> </el-table-column>
+              <el-table-column prop="gxName" label="工序"> </el-table-column>
               <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
               <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
               <el-table-column prop="standards" label="规格"> </el-table-column>
@@ -164,6 +169,8 @@
               <el-table-column prop="recordType" label="类型"></el-table-column>
               <el-table-column prop="warehousenName" label="仓库"> </el-table-column>
               <el-table-column prop="stockName" label="产品名称"> </el-table-column>
+              <el-table-column prop="productionNumber" label="生产批号"> </el-table-column>
+              <el-table-column prop="gxName" label="工序"> </el-table-column>
               <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
               <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
               <el-table-column prop="standards" label="规格"> </el-table-column>
@@ -175,7 +182,7 @@
           <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"  :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
         </template>
       </el-tab-pane>
-      <el-tab-pane label="线轴" name="bobbin">
+      <!-- <el-tab-pane label="线轴" name="bobbin">
         <template>
           <el-form ref="form" label-width="80px">
             <el-row :gutter="40">
@@ -220,7 +227,7 @@
           </el-form>
           <el-pagination :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
         </template>
-      </el-tab-pane>
+      </el-tab-pane> -->
       <el-tab-pane label="其他" name="elseother">
         <template>
           <el-form label-width="80px">
@@ -305,12 +312,12 @@
         <el-col :span="11" :offset="1">
           <el-table   height="300px" :data="listdataDetail" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
             <el-table-column prop="updateRemark" label="规格"  > </el-table-column>
-            <el-table-column prop="updateNum" label="库存数量"  >
+            <el-table-column prop="updateNum" label="库存数量(g)"  >
               <template slot-scope="scope">
                 {{scope.row.updateNum?scope.row.updateNum:'  --'}}
               </template>  
             </el-table-column>
-            <el-table-column label="选定数量"  > 
+            <el-table-column label="选定数量(g)"  > 
               <template slot-scope="scope">
                 <el-input  v-model="scope.row.xuandingNum" size="mini" oninput = "value=value.replace(/[^\d.]/g,'')"></el-input>
               </template>
@@ -334,12 +341,12 @@
             <el-table-column prop="updateRemark"    label="线轴" v-show="activeName=='nofinished'|| activeName=='product'"> </el-table-column>
             <el-table-column prop="standards"   label="长度m/轴" v-show="activeName=='nofinished'|| activeName=='product'"> </el-table-column>
             <el-table-column prop="updateType"   label="单位"> </el-table-column>
-            <el-table-column prop="updateNum"  label="库存数量">
+            <el-table-column prop="updateNum"  label="库存数量(g)">
               <template slot-scope="scope">
                 {{scope.row.updateNum?scope.row.updateNum:'  --'}}
               </template>  
             </el-table-column>
-            <el-table-column label="选定数量" > 
+            <el-table-column label="选定数量(g)" > 
               <template slot-scope="scope">
                 <el-input oninput = "value=value.replace(/[^\d.]/g,'')"  v-model="scope.row.xuandingNum" size="mini"></el-input>
               </template>
@@ -361,12 +368,12 @@
         <el-table-column prop="updateRemark" label="产品名称"> </el-table-column>
         <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
         <el-table-column prop="updateRemark" label="规格"> </el-table-column>
-        <el-table-column   label="库存数量">
+        <el-table-column   label="库存数量(g)">
           <template slot-scope="scope">
             {{scope.row.updateNum?scope.row.updateNum:'  --'}}
           </template>  
         </el-table-column>
-        <el-table-column prop="xuandingNum" label="已选定数量"> </el-table-column>
+        <el-table-column prop="xuandingNum" label="已选定数量(g)"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" size="mini" @click="del(scope.$index)">删除</el-button>
@@ -382,12 +389,12 @@
         <el-table-column prop="updateRemark" label="线轴" v-show="activeName=='nofinished'||activeName=='product'"> </el-table-column>
         <el-table-column prop="standards" label="长度/轴" v-show="activeName=='nofinished'||activeName=='product'"> </el-table-column>
         <el-table-column prop="updateType" label="单位" v-show="activeName=='waste'"> </el-table-column>
-        <el-table-column   label="库存数量">
+        <el-table-column   label="库存数量(g)">
           <template slot-scope="scope">
             {{scope.row.updateNum?scope.row.updateNum:'  --'}}
           </template>  
         </el-table-column>
-        <el-table-column prop="xuandingNum" label="已选定数量"> </el-table-column>
+        <el-table-column prop="xuandingNum" label="已选定数量(g)"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" size="mini" @click="del(scope.$index)">删除</el-button>
@@ -412,12 +419,12 @@
         <el-table-column prop="stockName" label="产品名称"> </el-table-column>
         <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
         <el-table-column prop="updateRemark" label="规格"> </el-table-column>
-        <el-table-column prop="updateNum" label="库存数量" >
+        <el-table-column prop="updateNum" label="库存数量(g)" >
           <template slot-scope="scope">
             {{scope.row.updateNum?scope.row.updateNum:'  --'}}
           </template>
         </el-table-column>
-        <el-table-column prop="xuandingNum" label="已选定数量"> </el-table-column>
+        <el-table-column prop="xuandingNum" label="已选定数量(g)"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" size="mini" @click="del(scope.$index)">删除</el-button>
@@ -431,12 +438,12 @@
         <el-table-column prop="stockRemarks" label="工序"> </el-table-column>
         <el-table-column prop="updateRemark" label="线轴"> </el-table-column>
         <el-table-column prop="standards" label="长度/轴"> </el-table-column>
-        <el-table-column   label="库存数量">
+        <el-table-column   label="库存数量(g)">
           <template slot-scope="scope">
             {{scope.row.updateNum?scope.row.updateNum:'  --'}}
           </template>  
         </el-table-column>
-        <el-table-column prop="xuandingNum" label="已选定数量"> </el-table-column>
+        <el-table-column prop="xuandingNum" label="已选定数量(g)"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" size="mini" @click="del(scope.$index)">删除</el-button>
@@ -561,9 +568,9 @@ export default {
     },
     // 添加数据合并
     addAllData(){
-      for(let i=0;i<this.listdataDetail.length;i++){
-        for(let j=0;j<this.listdataDetailAll.length;j++){
-          if(this.listdataDetail[i].updateID==this.listdataDetailAll[j].updateID){
+      for(let i=0;i<this.listdataDetailAll.length;i++){
+        for(let j=0;j<this.listdataDetail.length;j++){
+          if(this.listdataDetail[j].updateID==this.listdataDetailAll[i].updateID&&this.listdataDetail[j].updateID.updateNum>0){
              return this.$message.error("请不要添加重复数据")
           }
         }

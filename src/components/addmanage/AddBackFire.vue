@@ -332,14 +332,15 @@
           <el-form-item label="毛重g">
             <el-input v-model="SmeltingProductsItem.grossWeight" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
-          <el-form-item label="净重g">
-            <el-input v-model="SmeltingProductsItem.netWeightg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
-          </el-form-item>
+          
           <el-form-item label="废料g">
             <el-input v-model="SmeltingProductsItem.wastageg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
+          <el-form-item label="净重g">
+            <el-input v-model=" netWeightg" disabled style="width:60%"></el-input>
+          </el-form-item>
           <el-form-item label="损耗g">
-            <el-input v-model="SmeltingProductsItem.lossg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+            <el-input v-model=" lossg" disabled style="width:60%"></el-input>
           </el-form-item>
           <el-form-item label="表面">
             <el-input v-model="SmeltingProductsItem.surface" style="width:60%"></el-input>
@@ -534,7 +535,9 @@ export default {
         totalLength: '', //总长度
         tractionSpeed: '', //牵引速度
         wastageg: '', //废料g
-        wireDiameterUm: '' //线径um
+        wireDiameterUm: '', //线径um
+        axleNumber:'',
+        axleloadWeight:'',
       },
       NeedstockItem: {
         quantityChoose: '', //选择数量
@@ -576,6 +579,14 @@ export default {
     if (this.$route.query.Eid) {
       this.Eid = this.$route.query.Eid
       this.getEditData()
+    }
+  },
+  computed:{
+    lossg(){
+      return  this.SmeltingProductsItem.grossWeight-this.SmeltingProductsItem.axleloadWeight-this.SmeltingProductsItem.wastageg
+    },
+    netWeightg(){
+      return  this.SmeltingProductsItem.grossWeight-this.SmeltingProductsItem.axleloadWeight
     }
   },
   methods: {
@@ -696,6 +707,8 @@ export default {
     },
     // 确认新增本班产物对话框
     addClassDialogConfirm() {
+      this.SmeltingProductsItem.lossg=this.lossg
+      this.SmeltingProductsItem.netWeightg=this.netWeightg
       this.SmeltingProductsItem.createTime = new Date()
       this.BobbinXiaLaInfo.forEach(item => {
         if (item.id == this.SmeltingProductsItem.bobbinDetailId) {
@@ -740,7 +753,9 @@ export default {
         totalLength: '', //总长度
         tractionSpeed: '', //牵引速度
         wastageg: '', //废料g
-        wireDiameterUm:'' //线径um
+        wireDiameterUm:'', //线径um
+        axleNumber:'',
+        axleloadWeight:'',
       },
       this.aaa='',
       this.SmeltingProductsIndex=-1

@@ -321,14 +321,15 @@
           <el-form-item label="毛重g">
             <el-input v-model="SmeltingProductsItem.grossWeight" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
-          <el-form-item label="净重g">
-            <el-input v-model="SmeltingProductsItem.netWeightg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
-          </el-form-item>
+         
           <el-form-item label="废料g">
             <el-input v-model="SmeltingProductsItem.wastageg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
           </el-form-item>
+           <el-form-item label="净重g">
+            <el-input v-model=" netWeightg" disabled style="width:60%"></el-input>
+          </el-form-item>
           <el-form-item label="损耗g">
-            <el-input v-model="SmeltingProductsItem.lossg" oninput="value=value.replace(/[^\d.]/g,'')" style="width:60%"></el-input>
+            <el-input v-model=" lossg" disabled style="width:60%"></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -521,6 +522,14 @@ export default {
       this.getEditData()
     }
   },
+  computed:{
+    lossg(){
+      return this.SmeltingProductsItem.grossWeight-this.SmeltingProductsItem.axleloadWeight-this.SmeltingProductsItem.wastageg
+    },
+    netWeightg(){
+      return this.SmeltingProductsItem.grossWeight-this.SmeltingProductsItem.axleloadWeight
+    }
+  },
   methods: {
     // 撤回当前工序
     async goBack(){
@@ -609,6 +618,8 @@ export default {
     },
     // 确认新增本班产物对话框
     addClassDialogConfirm() {
+      this.SmeltingProductsItem.lossg=this.lossg
+      this.SmeltingProductsItem.netWeightg=this.netWeightg
       this.SmeltingProductsItem.createTime = new Date()
       this.BobbinXiaLaInfo.forEach(item => {
         if (item.id == this.SmeltingProductsItem.bobbinDetailId) {

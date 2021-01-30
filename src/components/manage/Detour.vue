@@ -24,14 +24,20 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="生产日期">
-            <el-input v-model="submitForm.findDate"></el-input>
+            <el-date-picker
+              format="yyyy 年 MM 月 dd 日"
+              value-format="yyyy-MM-dd"
+              v-model="submitForm.findDate"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" @click="showDialog" plain>新增</el-button>
+          <!-- <el-button type="primary" @click="showDialog" plain>新增</el-button> -->
           <el-button type="primary" @click="getData">筛选</el-button>
           <!-- <el-button @click="clear">清空</el-button> -->
-          <!-- <el-button @click="toFeeding">生产投料</el-button> -->
+          <el-button @click="toFeeding">生产投料</el-button>
         </el-col>
       </el-row>
       <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%;margin-top:0">

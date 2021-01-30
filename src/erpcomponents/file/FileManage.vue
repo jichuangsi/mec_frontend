@@ -29,7 +29,8 @@
         </el-table-column>
       </el-table>
     </el-form>
-    <el-pagination :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
+    <el-pagination @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" :current-page="submitForm.pageNum" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" @close="dialogClose">
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="文件上传">
@@ -111,6 +112,16 @@ export default {
     this.getData()
   },
   methods: {
+    // 监听 pagesize 改变
+    handleSizeChange(newSize) {
+      this.submitForm.pageSize = newSize
+      this.getData()
+    },
+    // 监听 pagenum 改变
+    handleCurrentChange(newPage) {
+      this.submitForm.pageNum = newPage
+      this.getData()
+    },
     //清空筛选
     clearAll() {
       this.submitForm.findName = ''

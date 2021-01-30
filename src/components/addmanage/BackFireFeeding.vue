@@ -186,6 +186,11 @@
         <el-table-column prop="axleloadWeight" label="轴重g"> </el-table-column>
         <el-table-column prop="grossWeight" label="毛重g"> </el-table-column>
         <el-table-column prop="netWeightg" label="净重g"> </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button size="mini" type="danger" @click="del(scope.$index)">删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <div style="margin:40px 40%">
         <el-button type="primary" @click="saveAll">开始生产</el-button>
