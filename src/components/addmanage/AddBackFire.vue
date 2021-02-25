@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="cancel" content="中拉" style="margin-bottom:20px;"> </el-page-header>
+    <el-page-header @back="cancel" content="退火" style="margin-bottom:20px;"> </el-page-header>
     <div class="container">
       <el-card style="width:100%">
         <div class="meta">基本信息</div>
@@ -105,11 +105,11 @@
           <el-col :span="8" :offset="4" style="color:#9896a9;">{{ ppAnnealingInfo.speed }}</el-col>
         </el-row>
         <el-row style="margin:20px 0">
-          <el-col :span="8" style="text-align:right">张力</el-col>
+          <el-col :span="8" style="text-align:right">张力g</el-col>
           <el-col :span="8" :offset="4" style="color:#9896a9;">{{ ppAnnealingInfo.tension }}</el-col>
         </el-row>
         <el-row style="margin:20px 0">
-          <el-col :span="8" style="text-align:right">气体流量</el-col>
+          <el-col :span="8" style="text-align:right">气体流量l/min</el-col>
           <el-col :span="8" :offset="4" style="color:#9896a9;">{{ ppAnnealingInfo.gasFlow }}</el-col>
         </el-row>
         <el-row style="margin:20px 0">
@@ -428,7 +428,7 @@
             <el-upload
               :data="{ findById: Eid }"
               class="upload-demo"
-              action="http://192.168.31.92:8080/ProductionController/importFilePPProduction"
+              action="http://192.168.31.117:8080/ProductionController/importFilePPProduction"
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :before-remove="beforeRemove"
@@ -591,7 +591,7 @@ export default {
   },
   methods: {
     downTemplate(){
-      window.location.href = 'http://192.168.31.92:8080/upload/file3223d4d0-7ced-4df1-8a88-d3f137164e07elbl.xlsx' 
+      window.location.href = 'http://192.168.31.117:8080/upload/file3223d4d0-7ced-4df1-8a88-d3f137164e07elbl.xlsx' 
     },
     toDetail(id){
       this.$router.replace({

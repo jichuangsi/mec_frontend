@@ -39,6 +39,20 @@ const ProductionDetail = () =>
     // 生产管理
 const Melting = () =>
     import ('./components/manage/Melting.vue')
+const PackagingSetting = () =>
+    import ('./components/manage/PackagingSetting.vue')
+const UsePicking = () =>
+    import ('./components/manage/UsePicking.vue')
+const ProductionPicking = () =>
+    import ('./components/manage/ProductionPicking.vue')
+const PackagingManage = () =>
+    import ('./components/manage/PackagingManage.vue')
+const InventoryManage = () =>
+    import ('./components/manage/InventoryManage.vue')
+const ProductionWarehousing = () =>
+    import ('./components/manage/ProductionWarehousing.vue')
+const InventoryManageHistory = () =>
+    import ('./components/manage/InventoryManageHistory.vue')
 const RoughDrawing = () =>
     import ('./components/manage/RoughDrawing.vue')
 const MediumPull = () =>
@@ -259,16 +273,6 @@ const WarehouseAllocation = () =>
     import ('./erpcomponents/inventory/WarehouseAllocation.vue')
 const WarehouseManage = () =>
     import ('./erpcomponents/inventory/WarehouseManage.vue')
-const PackagingManage = () =>
-    import ('./erpcomponents/inventory/PackagingManage.vue')
-const ProductionPicking = () =>
-    import ('./erpcomponents/inventory/ProductionPicking.vue')
-const UsePicking = () =>
-    import ('./erpcomponents/inventory/UsePicking.vue')
-const InventoryManage = () =>
-    import ('./erpcomponents/inventory/InventoryManage.vue')
-const PackagingSetting = () =>
-    import ('./erpcomponents/inventory/PackagingSetting.vue')
     // 文件管理
 const FileManage = () =>
     import ('./erpcomponents/file/FileManage.vue')
@@ -300,6 +304,13 @@ const router = new Router({
                 { path: '/ProductionDetail', component: ProductionDetail },
                 { path: '/examine', component: Examine },
                 { path: '/melting', component: Melting },
+                { path: '/packagingSetting', component: PackagingSetting },
+                { path: '/usePicking', component: UsePicking },
+                { path: '/productionPicking', component: ProductionPicking },
+                { path: '/productionWarehousing', component: ProductionWarehousing },
+                { path: '/packagingManage', component: PackagingManage },
+                { path: '/inventoryManage', component: InventoryManage },
+                { path: '/inventoryManageHistory', component: InventoryManageHistory },
                 { path: '/roughDrawing', component: RoughDrawing },
                 { path: '/mediumPull', component: MediumPull },
                 { path: '/thinPull', component: ThinPull },
@@ -408,11 +419,7 @@ const router = new Router({
                 { path: '/inventoryStatusDetail', component: InventoryStatusDetail },
                 { path: '/warehouseallocation', component: WarehouseAllocation },
                 { path: '/warehouseManage', component: WarehouseManage },
-                { path: '/packagingSetting', component: PackagingSetting },
-                { path: '/packagingManage', component: PackagingManage },
-                { path: '/productionPicking', component: ProductionPicking },
-                { path: '/usePicking', component: UsePicking },
-                { path: '/inventoryManage', component: InventoryManage },
+
                 { path: '/fileManage', component: FileManage },
                 { path: '/systemAnnounce', component: SystemAnnounce },
             ]

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="cancel" content="绕线" style="margin-bottom:20px;"> </el-page-header>
+    <el-page-header @back="cancel" content="改绕" style="margin-bottom:20px;"> </el-page-header>
     <div class="container">
       <el-card style="width:67%">
         <div class="meta">基本信息</div>

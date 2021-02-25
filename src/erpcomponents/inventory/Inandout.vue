@@ -337,7 +337,7 @@
           </el-table>
         </el-col>     
         <el-col :span="11" :offset="1">
-          <el-table   height="300px" :data="listdataDetail" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
+          <el-table   height="300px" :data="listdataDetail" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding:'0' }" style="width: 100%">
             <el-table-column prop="updateRemark"    label="线轴" v-show="activeName=='nofinished'|| activeName=='product'"> </el-table-column>
             <el-table-column prop="standards"   label="长度m/轴" v-show="activeName=='nofinished'|| activeName=='product'"> </el-table-column>
             <el-table-column prop="updateType"   label="单位"> </el-table-column>

@@ -16,7 +16,7 @@
         </el-form-item>
         <el-form-item label="工序">
           <el-checkbox-group v-model="checkList">
-            <el-checkbox :label="item.name"  v-for="item in selecteds.GX" :key="item.id"> </el-checkbox>
+            <el-checkbox :label="item.name" v-for="item in selecteds.GX" :key="item.id"> </el-checkbox>
           </el-checkbox-group>
           <!-- <el-select v-model="tBobbin.procedureId" placeholder="请选择" style="width:100%;">
             <el-option :label="item.name" :value="item.id" v-for="item in selecteds.GX" :key="item.id"></el-option>
@@ -43,10 +43,9 @@
         规格型号
         <el-button type="primary" plain style="margin-left:60%;" @click="addDialog()">新增</el-button>
       </div>
-      <el-table :data="tstandards" height="250" style="width: 100%"  :header-cell-style="{background:'#f0f5ff' }">
+      <el-table :data="tstandards" height="250" style="width: 100%" :header-cell-style="{ background: '#f0f5ff' }">
         <el-table-column type="index" width="150" label="序号"> </el-table-column>
-        <el-table-column prop="standards" label="轴号"> </el-table-column>
-        <el-table-column prop="remark" label="轴重"> </el-table-column>
+        <el-table-column prop="standards" label="规格"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="addDialog(scope.$index)">编辑</el-button>
@@ -64,11 +63,9 @@
         <el-form-item label="序号">
           <el-input :value="index >= 0 ? index + 1 : tstandards.length + 1" disabled></el-input>
         </el-form-item>
-        <el-form-item label="轴号">
+
+        <el-form-item label="规格">
           <el-input v-model="tstandardsItem.standards"></el-input>
-        </el-form-item>
-        <el-form-item label="轴重">
-          <el-input v-model="tstandardsItem.remark"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -84,7 +81,7 @@ import _ from 'lodash'
 export default {
   data() {
     return {
-      checkList:[],
+      checkList: [],
       form: {
         name: ''
       },
@@ -111,10 +108,7 @@ export default {
   },
   created() {
     this.getSelecteds()
-    if (this.$route.query.id >= 0) {
-      this.id = this.$route.query.id
-      this.getData()
-    }
+    
   },
   methods: {
     // 根据id获取页面的初始数据
@@ -126,19 +120,30 @@ export default {
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.tBobbin = res.data.bobbin
       this.tstandards = res.data.listbobbinDetail
+      let arr1 = res.data.bobbin.procedureId.split(',')
+      for (let i = 0; i < arr1.length; i++) {
+        this.selecteds.GX.forEach(item1 => {
+          if (arr1[i] == item1.id) {
+            this.checkList.push(item1.name)
+          }
+        })
+      }
     },
     // 点击保存全部
     async saveAll() {
       if (this.id >= 0) {
         this.tBobbin.id = this.id
       }
-      this.checkList.forEach(item=>{
-        this.selecteds.GX.forEach(item1=>{
-          if(item==item1.name){
-            this.tBobbin.procedureId=this.tBobbin.procedureId+item1.id+','
+      this.tBobbin.procedureId=''
+      for(let i=0;i<this.checkList.length;i++){
+        for(let j=0;j<this.selecteds.GX.length;j++){
+          if(this.checkList[i]===this.selecteds.GX[j].name){
+             this.tBobbin.procedureId = this.tBobbin.procedureId + this.selecteds.GX[j].id + ','
           }
-        })
-      })
+        }
+      }
+      
+      
       const { data: res } = await this.$http.post('BasicSettingController/saveBobbin', {
         tBobbin: this.tBobbin,
         tstandards: this.tstandards
@@ -195,6 +200,11 @@ export default {
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.selecteds = res.data
       this.tBobbin.bobbinNumber = res.data.rawStockNum
+      if (this.$route.query.id >= 0) {
+      this.id = this.$route.query.id
+      this.getData()
+    }
+
     },
     cancel() {
       this.$router.go(-1)

@@ -65,7 +65,7 @@
               <el-col :span="8" :offset="8">
                 <el-button type="primary" @click="choose">筛选</el-button>
                 <el-button @click="toadd()">新增</el-button>
-                <el-button style="border:none" plain @click="clear">清空筛选</el-button>
+                <el-button style="border:none" type="text" @click="clear">清空筛选</el-button>
               </el-col>
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
@@ -117,7 +117,7 @@
               <el-col :span="8">
                 <el-button type="primary" @click="choose">筛选</el-button>
                 <el-button @click="toadd()">新增</el-button>
-                <el-button style="border:none" plain @click="clear">清空筛选</el-button>
+                <el-button style="border:none" type="text" @click="clear">清空筛选</el-button>
               </el-col>
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">
@@ -169,7 +169,7 @@
               <el-col :span="8">
                 <el-button type="primary" v-model="choose">筛选</el-button>
                 <el-button @click="toadd()">新增</el-button>
-                <el-button style="text" @click="clear">清空筛选</el-button>
+                <el-button type="text" @click="clear">清空筛选</el-button>
               </el-col>
             </el-row>
             <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="tableData" style="width: 100%">

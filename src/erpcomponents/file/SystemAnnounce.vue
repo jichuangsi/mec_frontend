@@ -52,7 +52,7 @@
           <el-upload
             ref="upload"
             :data="{ findModelName: 'NOTICE' }"
-            action="http://192.168.31.92:8080/fileController/upload"
+            action="http://192.168.31.117:8080/fileController/upload"
             :on-success="handleSuccess"
             :before-remove="beforeRemove"
             multiple
@@ -198,7 +198,7 @@ export default {
         findModelName: 'NOTICE'
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
-      window.location.href = 'http://192.168.31.92:8080/' + res.data
+      window.location.href = 'http://192.168.31.117:8080/' + res.data
     },
     // 获取页面初始数据
     async getData() {

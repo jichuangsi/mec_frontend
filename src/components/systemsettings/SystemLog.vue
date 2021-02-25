@@ -34,7 +34,7 @@
                 {{ scope.row.loginState == 1 ? '成功' : '失败' }}
               </template>
             </el-table-column>
-            <el-table-column prop="userAgent" label="User-Agent" width="500"> </el-table-column>
+            <el-table-column prop="userAgent" label="User-Agent" width="500" show-overflow-tooltip> </el-table-column>
             <el-table-column prop="operaterIp" label="操作IP"> </el-table-column>
           </el-table>
         </template>
@@ -50,11 +50,11 @@
             </el-table-column>
             <el-table-column prop="userName" label="用户名"> </el-table-column>
             <el-table-column prop="operates" label="用户操作"  :show-overflow-tooltip='true'> </el-table-column>
-            <el-table-column prop="requestURL" label="请求URL" width="300"> </el-table-column>
+            <el-table-column prop="requestURL" label="请求URL"  show-overflow-tooltip> </el-table-column>
             <el-table-column prop="requestMode" label="请求方式"> </el-table-column>
             <el-table-column prop="requestParam" label="请求参数" :show-overflow-tooltip='true'> </el-table-column>
             <el-table-column prop="requestTime" label="请求时长（毫秒）"> </el-table-column>
-            <el-table-column prop="userAgent" label="User-Agent" width="400"> </el-table-column>
+            <el-table-column prop="userAgent" label="User-Agent" width="400" show-overflow-tooltip> </el-table-column>
             <el-table-column prop="operaterIp" label="操作IP"> </el-table-column>
           </el-table>
         </template>

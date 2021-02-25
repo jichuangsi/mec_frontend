@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="cancel" content="中拉" style="margin-bottom:20px;"> </el-page-header>
+    <el-page-header @back="cancel" content="细拉" style="margin-bottom:20px;"> </el-page-header>
     <div class="container">
       <el-card style="width:100%">
         <div class="meta">基本信息</div>
@@ -94,9 +94,27 @@
       <el-card style="width:32%;margin-top:20px;">
         <div class="j-c-s">
           <div class="meta">工艺参数</div>
-          <!-- <el-button type="text" @click="showGYDialog">编辑</el-button> -->
+          <el-button type="text" @click="showGYDialog">编辑</el-button>
         </div>
-        <div style="text-align:center;margin-top:20%">无</div>
+        <!-- <div style="text-align:center;margin-top:20%">无</div> -->
+        <el-row style="margin:30px 0">
+          <el-col :span="6">1~2轴压缩率%</el-col>
+          <el-col :span="7">{{ PPProductionInfo.compressionRate12 }}</el-col>
+          <el-col :span="6">滑动率%</el-col>
+          <el-col :span="5">{{ PPProductionInfo.slipRate }}</el-col>
+        </el-row>
+        <el-row style="margin:30px 0">
+          <el-col :span="6">2~3轴压缩率%</el-col>
+          <el-col :span="7">{{ PPProductionInfo.compressionRate34 }}</el-col>
+          <el-col :span="6">末道延伸率%</el-col>
+          <el-col :span="5">{{ PPProductionInfo.elongationRate }}</el-col>
+        </el-row>
+        <el-row style="margin:30px 0">
+          <el-col :span="6">排线间距mm</el-col>
+          <el-col :span="7">{{ PPProductionInfo.lineSpacing }} </el-col>
+          <el-col :span="6">拉丝速度m/min</el-col>
+          <el-col :span="5">{{ PPProductionInfo.drawingSpeed }}</el-col>
+        </el-row>
       </el-card>
       <!-- 设备信息 -->
       <el-card style="width:32%;margin-top:20px;">
@@ -329,20 +347,23 @@
       <!-- 编辑工艺参数的对话框 -->
       <el-dialog title="工艺参数" :visible.sync="dialogGYVisible" width="30%">
         <el-form label-width="120px">
-          <el-form-item label="铸造温度℃">
-            <el-input v-model="PPProductionInfo.moldTemp" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+          <el-form-item label="1~2轴压缩率%">
+            <el-input v-model="PPProductionInfo.compressionRate12" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
-          <el-form-item label="牵引参数">
-            <el-input v-model="PPProductionInfo.towParameters" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+          <el-form-item label="滑动率%">
+            <el-input v-model="PPProductionInfo.slipRate" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
-          <el-form-item label="牵引时间min">
-            <el-input v-model="PPProductionInfo.towTime" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+          <el-form-item label="2~3轴压缩率%">
+            <el-input v-model="PPProductionInfo.compressionRate34" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
-          <el-form-item label="停止时间min">
-            <el-input v-model="PPProductionInfo.stopTime" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+          <el-form-item label="末道延伸率%">
+            <el-input v-model="PPProductionInfo.elongationRate" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
-          <el-form-item label="水温℃">
-            <el-input v-model="PPProductionInfo.waterTemp" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+          <el-form-item label="排线间距mm">
+            <el-input v-model="PPProductionInfo.lineSpacing" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
+          </el-form-item>
+          <el-form-item label="拉丝速度m/min">
+            <el-input v-model="PPProductionInfo.drawingSpeed" oninput="value=value.replace(/[^\d.]/g,'')" style="width:80%"></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">

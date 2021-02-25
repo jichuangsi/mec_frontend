@@ -46,8 +46,8 @@
             ref="multipleTable"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column prop="ppNumber" label="生产批号"> </el-table-column>
-            <el-table-column prop="productModel" label="产品型号"> </el-table-column>
+            <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
+            <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
             <el-table-column type="selection" label="操作"> </el-table-column>
           </el-table>
         </el-col>
@@ -110,7 +110,7 @@ export default {
       this.dialogVisible = true
       const { data: res } = await this.$http.post('ProductionController/getAllFinished')
       if (res.code !== '0010') return this.$message.error(res.msg)
-      this.OneList = res.data.oneList
+      this.OneList = res.data.LData
     },
     async del(id) {
       const confirmResult = await this.$confirm('是否确认删除？', '提示', {

@@ -13,12 +13,13 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="4" style="position:relative">
             <el-form-item label="负责人">
               <el-select style="width:100%" v-model="tsaleorder.staffId" placeholder="请选择 ">
-                <el-option :label="item.mapValue" :value="item.mapKey" v-for="item in selecteds.userXiaLa" :key="item.mapKey"></el-option>
+                <el-option :label="item.mapValue+'--'+item.mapValue2" :value="item.mapKey" v-for="item in selecteds.userXiaLa" :key="item.mapKey"></el-option>
               </el-select>
             </el-form-item>
+            
           </el-col>
           <el-col :span="4">
             <el-form-item label="销售类型">
@@ -30,7 +31,7 @@
           <el-col :span="4">
             <el-form-item label="仓库">
               <el-select style="width:100%" v-model="tsaleorder.warehouseId" placeholder="请选择 ">
-                <el-option :label="item.mapValue+'--'+item.mapValue2" :value="item.mapKey" v-for="item in selecteds.warehouse" :key="item.mapKey"></el-option>
+                <el-option :label="item.mapValue + '--' + item.mapValue2" :value="item.mapKey" v-for="item in selecteds.warehouse" :key="item.mapKey"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -118,20 +119,20 @@
           <el-button type="primary" @click="saveAll(1)">提交</el-button>
         </span>
         <span v-else-if="tsaleorder.orderStateId == 1 || tsaleorder.orderStateId == 2">
-          <el-button type="info">打印单据</el-button>
+          <!-- <el-button type="info">打印单据</el-button> -->
           <el-button type="default" disabled>订单审核中</el-button>
           <el-button type="danger" @click="withdraw('CH')">撤回</el-button>
         </span>
         <span v-else-if="tsaleorder.orderStateId == 3">
-          <el-button type="info">打印单据</el-button>
+          <!-- <el-button type="info">打印单据</el-button> -->
           <el-button type="default" disabled>销售出库</el-button>
         </span>
         <span v-else-if="tsaleorder.orderStateId == 4">
-          <el-button type="info">打印单据</el-button>
+          <!-- <el-button type="info">打印单据</el-button> -->
           <el-button type="primary" @click="withdraw('JS')">结束销售</el-button>
         </span>
         <span v-else-if="tsaleorder.orderStateId == 5">
-          <el-button type="info">打印单据</el-button>
+          <!-- <el-button type="info">打印单据</el-button> -->
           <el-button type="primary" @click="withdraw('TH')">销售退回</el-button>
           <el-button type="danger">删除</el-button>
         </span>
@@ -140,8 +141,14 @@
     <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" @close="dialogClose">
       <el-form ref="saleOrderDetailItem" :model="saleOrderDetailItem" label-width="120px">
         <el-form-item label="产品名称" prop="productId">
-          <el-select v-model="saleOrderDetailItem.productId" placeholder="请选择" @change="selectedChange">
+          <el-select v-model="saleOrderDetailItem.productId" placeholder="请选择" @change="selectedChange()">
             <el-option :label="item.mapValue2 + '--' + item.mapliandong" :value="item.mapKey" v-for="item in stockXiaLa" :key="item.mapKey"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="单位">
+          <el-select v-model="findIdOne" placeholder="请选择" @change="selectedChange1">
+            <el-option label="μm" :value="0"></el-option>
+            <el-option label="mil" :value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="产品规格" prop="productdetailId">
@@ -149,24 +156,23 @@
             <el-option :label="Number(item.mapValue).toFixed(2)" :value="item.mapKey" v-for="item in productDetailXiaLa" :key="item.mapKey"></el-option>
           </el-select>
         </el-form-item>
+
         <el-form-item label="长度(m/轴)" prop="lengthM">
-          <el-input oninput = "value=value.replace(/[^\d.]/g,'')" v-model="saleOrderDetailItem.lengthM" style="width:53%;"></el-input>
+          <el-input oninput="value=value.replace(/[^\d.]/g,'')" v-model="saleOrderDetailItem.lengthM" style="width:53%;" @blur="productPriceBlur()"></el-input>
         </el-form-item>
         <el-form-item label="数量(轴)" prop="productNum">
-          <el-input oninput = "value=value.replace(/[^\d.]/g,'')" v-model="saleOrderDetailItem.productNum" style="width:53%;"></el-input>
+          <el-input oninput="value=value.replace(/[^\d.]/g,'')" v-model="saleOrderDetailItem.productNum" style="width:53%;" @blur="productPriceBlur()"></el-input>
         </el-form-item>
-        <el-form-item label="单价" prop="productPrice">
-          <el-input oninput = "value=value.replace(/[^\d.]/g,'')" v-model="saleOrderDetailItem.productPrice" style="width:53%;" @blur="productPriceBlur()"></el-input>
+        <el-form-item label="每轴单价(元)" prop="productPrice">
+          <el-input oninput="value=value.replace(/[^\d.]/g,'')" v-model="saleOrderDetailItem.productPrice" style="width:53%;" @blur="productPriceBlur()"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="saleOrderDetailItem.remark" style="width:53%;"></el-input>
         </el-form-item>
-        <el-form-item label="合计(数量)">
-          {{saleOrderDetailItem.productLengthSum}}
+        <el-form-item label="总长度(m)">
+          {{ saleOrderDetailItem.productLengthSum }}
         </el-form-item>
-        <el-form-item label="合计(元)">
-          {{saleOrderDetailItem.productSum}}
-        </el-form-item>
+        <el-form-item label="订单金额(元)"> {{ saleOrderDetailItem.productSum }} <span class="red">*按每轴单价*数量(轴)</span> </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -198,6 +204,7 @@ export default {
       checkState: '', //审核状态
       orderState: '', //订单状态
       selecteds: {}, //客户以及下拉数据
+      findIdOne: '',
       tsaleorder: {
         id: '',
         orderStateId: '',
@@ -228,8 +235,8 @@ export default {
         productNum: '', //数量
         productPrice: '', //单价
         productSum: '', //合计
-        lengthM:'',
-        productLengthSum:'',
+        lengthM: '',
+        productLengthSum: '',
         remark: '', //明细备注
         deleteNo: ''
       }, //下面部分的每个小类
@@ -244,10 +251,12 @@ export default {
     }
   },
   created() {
-    
     this.getSelecteds()
   },
   methods: {
+    selectedChange1() {
+      this.selectedChange()
+    },
     withdrawClose() {
       this.withdrawForm.updateRemark = ''
     },
@@ -267,7 +276,7 @@ export default {
     },
     // 计算总价
     productPriceBlur() {
-      this.saleOrderDetailItem.productSum = this.saleOrderDetailItem.productNum * this.saleOrderDetailItem.productPrice * this.saleOrderDetailItem.lengthM
+      this.saleOrderDetailItem.productSum = this.saleOrderDetailItem.productNum * this.saleOrderDetailItem.productPrice
       this.saleOrderDetailItem.productLengthSum = this.saleOrderDetailItem.productNum * this.saleOrderDetailItem.lengthM
     },
     // 根据id获取页面的初始数据
@@ -314,8 +323,8 @@ export default {
         productNum: '', //数量
         productPrice: '', //单价
         productSum: '', //合计
-        lengthM:'',
-        productLengthSum:'',
+        lengthM: '',
+        productLengthSum: '',
         remark: ' ', //明细备注
         deleteNo: 0
       }
@@ -336,8 +345,8 @@ export default {
     },
     // 确认添加对话框
     dialogConfirm() {
-      if(!this.saleOrderDetailItem.productNum||!this.saleOrderDetailItem.remark||!this.saleOrderDetailItem.productPrice){
-        return this.$message.error("请填写必要项")
+      if (!this.saleOrderDetailItem.productNum || !this.saleOrderDetailItem.remark || !this.saleOrderDetailItem.productPrice) {
+        return this.$message.error('请填写必要项')
       }
       this.stockXiaLa.forEach(item => {
         if (this.saleOrderDetailItem.productId == item.mapKey) {
@@ -360,8 +369,11 @@ export default {
       this.dialogVisible = false
     },
     // 产品名称下拉框发生变化
-    async selectedChange(e) {
-      const { data: res } = await this.$http.post('saleController/getSaleDetailById', { findById: e })
+    async selectedChange() {
+      const { data: res } = await this.$http.post('saleController/getSaleDetailById', {
+        findById: this.saleOrderDetailItem.productId,
+        findIdOne: this.findIdOne
+      })
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.productDetailXiaLa = res.data.productDetailXiaLa
     },
@@ -385,9 +397,15 @@ export default {
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.selecteds = res.data
       this.tsaleorder.saleOrder = res.data.pruchaseNum
+      
+      this.selecteds.purchaseType.forEach(item=>{
+        if(item.name=='成品销售'){
+          this.tsaleorder.saleTypeId=item.id
+        }
+      })
       this.orderState = res.data.orderState
       this.checkState = res.data.checkState
-      this.tsaleorder.staffId=JSON.parse(sessionStorage.getItem('user')).userId
+      this.tsaleorder.staffId = JSON.parse(sessionStorage.getItem('user')).userId
       if (this.$route.query.id >= 0) {
         this.id = this.$route.query.id
         this.getInitData()
@@ -401,6 +419,11 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.red {
+  color: red;
+  font-size: 14px;
+  margin-left: 40%;
+}
 .top {
   cursor: pointer;
 }
@@ -412,4 +435,5 @@ export default {
   text-align: right;
   margin-top: 40px;
 }
+
 </style>

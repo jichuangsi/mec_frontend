@@ -110,31 +110,31 @@
         <el-button type="danger" @click="del()">删除</el-button>
       </div>
       <div class="footer" v-if="tPurchase.orderState == 1 || tPurchase.orderState == 2">
-        <el-button type="primary">打印单据</el-button>
+        <!-- <el-button type="primary">打印单据</el-button> -->
         <el-button disabled>订单审核中</el-button>
         <el-button type="danger" @click="withdraw('CH')">撤回</el-button>
       </div>
       <div class="footer" v-if="tPurchase.orderState == 3 || tPurchase.orderState == 4">
-        <el-button type="primary">打印单据</el-button>
+        <!-- <el-button type="primary">打印单据</el-button> -->
         <el-button disabled>来料检验中</el-button>
       </div>
       <div class="footer" v-if="tPurchase.orderState == 5">
-        <el-button type="primary">打印单据</el-button>
+        <!-- <el-button type="primary">打印单据</el-button> -->
         <el-button type="info" @click="withdraw('JSCG')">结束采购</el-button>
         <el-button type="info" @click="withdraw('TH')">采购退回</el-button>
       </div>
       <div class="footer" v-if="tPurchase.orderState == 6">
-        <el-button type="primary">打印单据</el-button>
+        <!-- <el-button type="primary">打印单据</el-button> -->
         <el-button type="info" @click="withdraw('TH')">采购退回</el-button>
         <el-button type="danger">删除</el-button>
       </div>
       <div class="footer" v-if="tPurchase.orderState == 7">
-        <el-button type="primary">打印单据</el-button>
+        <!-- <el-button type="primary">打印单据</el-button> -->
         <el-button type="info" @click="withdraw('JS')">结束退回</el-button>
         <el-button type="danger">删除</el-button>
       </div>
       <div class="footer" v-if="tPurchase.orderState == 8">
-        <el-button type="primary">打印单据</el-button>
+        <!-- <el-button type="primary">打印单据</el-button> -->
         <el-button type="danger">删除</el-button>
       </div>
     </el-card>
@@ -151,15 +151,15 @@
             <el-option :label="item.mapValue" :value="item.mapKey" v-for="item in stockDetailXiaLa" :key="item.mapKey"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="数量" prop="stockAmount">
+        <el-form-item label="数量(g)" prop="stockAmount">
           <el-input type="number" v-model="tPurchaseDetailsItem.stockAmount" style="width:57%;"></el-input>
         </el-form-item>
         <el-form-item label="单位" prop="unitId">
-          <el-select v-model="tPurchaseDetailsItem.unitId" placeholder="请选择 ">
+          <el-select disabled v-model="tPurchaseDetailsItem.unitId" placeholder="请选择 ">
             <el-option :label="item.name" :value="item.id" v-for="item in dialogSelecteds.DW" :key="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="单价" prop="stockUnitPrice">
+        <el-form-item label="单价(元)" prop="stockUnitPrice">
           <el-input type="number" v-model="tPurchaseDetailsItem.stockUnitPrice" style="width:57%;"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
@@ -252,10 +252,11 @@ export default {
     }
   },
   methods: {
-    // edit(index){
-    //   this.tPurchaseDetailsItem=_.cloneDeep(this.tableData[index])
-    //   this.addDialogVisible = true
-    // },
+    edit(index){
+      this.tPurchaseDetailsItem=_.cloneDeep(this.tableData[index])
+      this.addDialog()
+      this.addDialogVisible = true
+    },
     async delRow(index) {
       const confirmResult = await this.$confirm('是否确认删除？', '提示', {
         confirmButtonText: '确定',
@@ -306,6 +307,7 @@ export default {
       this.purchase_orderstate = res.data.purchase_orderstate
       this.tPurchase = res.data.purchase
       this.tableData = res.data.purchaseDetail
+      this.tPurchaseDetails=res.data.purchaseDetail
     },
     // 点击提交
     async submit(status) {
@@ -361,6 +363,11 @@ export default {
     },
     // 获取规格的下拉框
     async getSpecsSelecteds() {
+      this.dialogSelecteds.stockXiaLa.forEach(item=>{
+        if(item.mapKey==this.findById){
+          this.tPurchaseDetailsItem.unitId=+item.mapliandong2
+        }
+      })
       const { data: res } = await this.$http.post('PurchaseController/getPurchaseDetailById', { findById: this.findById })
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.stockDetailXiaLa = res.data.stockDetailXiaLa
@@ -379,9 +386,16 @@ export default {
     },
     // 获取页面初始数据
     async getData() {
+      this.tPurchase.staffId=JSON.parse(sessionStorage.getItem("user")).userId
       const { data: res } = await this.$http.post('PurchaseController/getPurchaseBasicInfo')
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.selecteds = res.data
+      this.selecteds.purchaseType.forEach(item=>{
+        if(item.name=='原材料'){
+          this.tPurchase.purchasetypeId=item.id
+        }
+      })
+      
       this.tPurchase.purchaseOrder = res.data.pruchaseNum
       this.purchase_checkState = res.data.checkState
       this.purchase_orderstate = res.data.orderState

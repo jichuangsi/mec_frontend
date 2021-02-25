@@ -133,7 +133,7 @@
         >
 
         <span v-if="tsaleorder.orderStateId == 3">
-          <el-button type="info">打印单据</el-button>
+          <!-- <el-button type="info">打印单据</el-button> -->
           <el-button type="primary" @click="showUpdateMaterialOuter">销售出库</el-button>
         </span>
       </div>

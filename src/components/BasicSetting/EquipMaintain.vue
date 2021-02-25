@@ -255,7 +255,7 @@
             <el-date-picker placeholder="选择日期" v-model="equipmentCheckRecord.equipmentTime" style="width:33%;" format="yyyy 年 MM 月 dd 日 " value-format="yyyy-MM-dd"></el-date-picker>
           </el-form-item>
           <el-form-item label="时间h">
-            <el-input v-model="equipmentCheckRecord.userTime" oninput="value=value.replace(/[^\d.]/g,'')" style="width:33%;"></el-input>
+            <el-input v-model="equipmentCheckRecord.userTime" type="number" style="width:33%;"></el-input>
           </el-form-item>
           <el-form-item label="班次">
             <el-select v-model="equipmentCheckRecord.frequency" placeholder="请选择">
@@ -424,7 +424,7 @@ export default {
       this.getData()
     },
     objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      let length = this.tableData.length + 1
+      let length = this.tableData.length + 10
       if (columnIndex === 3 || columnIndex === 4) {
         if (rowIndex === 0) {
           return {
@@ -477,6 +477,7 @@ export default {
         item.overhaulState = ''
       })
       this.equipmentItemsList = res.data.equipmentItemsList
+      
       this.dialogVisible = true
     },
     // 设备报废

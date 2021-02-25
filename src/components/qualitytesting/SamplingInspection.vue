@@ -50,15 +50,15 @@
             :header-cell-style="{ background: '#f0f5ff', padding: '0' }"
             @row-click="rowClick"
           >
-            <el-table-column prop="ppNumber" label="生产批号"> </el-table-column>
-            <el-table-column prop="productModel" label="产品型号"> </el-table-column>
+            <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
+            <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
           </el-table>
         </el-col>
         <el-col :span="12">
           <el-table :data="TwoList" style="width: 100%" height="300px" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
-            <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
-            <el-table-column prop="lengthM" label="长度/m"> </el-table-column>
-            <el-table-column prop="numbers" label="数量"> </el-table-column>
+            <el-table-column prop="updateRemark" label="线轴"> </el-table-column>
+            <el-table-column prop="standards" label="长度/m"> </el-table-column>
+            <el-table-column prop="updateNum" label="数量"> </el-table-column>
             <el-table-column label="选定数量">
               <template slot-scope="scope">
                 <el-input size="mini" v-model="scope.row.pageNum"></el-input>
@@ -74,10 +74,10 @@
         </el-col>
       </el-row>
       <el-table :data="listData" style="width: 100%" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
-        <el-table-column prop="ppNumber" label="生产批号"> </el-table-column>
-        <el-table-column prop="productModel" label="产品型号"> </el-table-column>
-        <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
-        <el-table-column prop="lengthM" label="长度/m"> </el-table-column>
+        <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
+        <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
+        <el-table-column prop="updateRemark" label="线轴"> </el-table-column>
+        <el-table-column prop="standards" label="长度/m"> </el-table-column>
         <el-table-column prop="pageNum" label="选定数量"> </el-table-column>
         <el-table-column prop="address" label="操作">
           <template slot-scope="scope">
@@ -93,10 +93,10 @@
     <el-dialog title="新增抽检" :visible.sync="dialogNextVisible" width="60%"  >
       <span>已选择待抽检成品</span>
       <el-table :data="listData" style="width: 100%" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
-        <el-table-column prop="ppNumber" label="生产批号"> </el-table-column>
-        <el-table-column prop="productModel" label="产品型号"> </el-table-column>
-        <el-table-column prop="bobbinName" label="线轴"> </el-table-column>
-        <el-table-column prop="lengthM" label="长度/m"> </el-table-column>
+        <el-table-column prop="stockNumber" label="生产批号"> </el-table-column>
+        <el-table-column prop="stockModel" label="产品型号"> </el-table-column>
+        <el-table-column prop="updateRemark" label="线轴"> </el-table-column>
+        <el-table-column prop="standards" label="长度/m"> </el-table-column>
         <el-table-column prop="pageNum" label="选定数量"> </el-table-column>
         <el-table-column prop="address" label="操作">
           <template slot-scope="scope">
@@ -109,7 +109,7 @@
           <el-input v-model="form.findName" style="width:30%"></el-input>
         </el-form-item>
         <el-form-item label="抽检生产批号">
-         {{listData[0]?listData[0].ppNumber:''}}
+         {{listData[0]?listData[0].stockNumber:''}}
         </el-form-item>
         <el-form-item label="进检验轴数">
           {{listData[0]?listData[0].pageNum:''}}
@@ -200,7 +200,7 @@ export default {
     // 确认跳转
     dialogNextConfirm(){
       this.form.findById=this.listData[0].leftId
-      this.form.findIdOne=this.listData[0].id
+      this.form.findIdOne=this.listData[0].updateID
       this.form.pageSize=this.listData[0].pageNum
       if(!this.form.findName||!this.form.pageNum){
         return this.$message.error("请填写必要信息")
@@ -238,10 +238,11 @@ export default {
     },
     // 添加数据合并
     addAllData() {
+     
       if (this.listData.length > 0) {
         return
       }
-      let arr=this.TwoList.filter((item, index) => item.pageNum > 0 && item.numbers >= item.pageNum  )
+      let arr=this.TwoList.filter((item, index) => item.pageNum > 0 && item.updateNum >= item.pageNum  )
       if(arr.length>1){
         return this.$message.error("只能选择一项")
       }
@@ -249,8 +250,8 @@ export default {
 
       this.listData.forEach(item => {
         item.leftId = this.row.id
-        item.ppNumber = this.row.ppNumber
-        item.productModel = this.row.productModel
+        item.stockNumber = this.row.stockNumber
+        item.stockModel = this.row.stockModel
       })
     },
     // 监听行点击
@@ -260,7 +261,7 @@ export default {
         findById: row.id
       })
       if (res.code !== '0010') return this.$message.error(res.msg)
-      this.TwoList = res.data.twoList
+      this.TwoList = res.data.RData
     },
     // 监听对话框关闭
     dialogClose() {
@@ -271,8 +272,7 @@ export default {
       this.dialogVisible = true
       const { data: res } = await this.$http.post('ProductionController/getAllFinished')
       if (res.code !== '0010') return this.$message.error(res.msg)
-      this.OneList = res.data.oneList
-      this.TwoList = res.data.twoList
+      this.OneList = res.data.LData
       this.rowClick(this.OneList[0])
     },
     handleSizeChange(val) {

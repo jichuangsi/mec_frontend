@@ -116,19 +116,20 @@
       <el-table :header-cell-style="{ background: '#f0f5ff' }" :data="gxLossBislist" height="250" style="width: 100%">
         <el-table-column type="index" width="50" label="序号"> </el-table-column>
         <el-table-column prop="name" label="工序"> </el-table-column>
-        <el-table-column label="成品率%">
-          <template slot-scope="scope">
-            {{ scope.row.cpstart }}-{{ scope.row.cpend }}
+        <el-table-column label="成品率%" >
+          <template slot-scope="scope" v-if="scope.row.cpstart||scope.row.cpend">
+            {{ scope.row.cpstart && scope.row.cpend ? scope.row.cpstart + '-' + scope.row.cpend : scope.row.cpstart ? '&gt;' + scope.row.cpstart : '&lt;' + scope.row.cpend }}
           </template>
         </el-table-column>
-        <el-table-column label="废品率%">
-          <template slot-scope="scope">
-            {{ scope.row.fpstart }}-{{ scope.row.fpend }}
+        <el-table-column label="废品率%" >
+          <template slot-scope="scope" v-if="scope.row.fpstart||scope.row.fpend">
+            {{ scope.row.fpstart && scope.row.fpend ? scope.row.fpstart + '-' + scope.row.fpend : scope.row.fpstart ? '&gt;' + scope.row.fpstart : '&lt;' + scope.row.fpend }}
           </template>
         </el-table-column>
         <el-table-column label="损耗率%">
-          <template slot-scope="scope">
-            {{ scope.row.lossstart }}-{{ scope.row.lossend }}
+          <template slot-scope="scope" v-if="scope.row.lossstart||scope.row.lossend">
+
+            {{ scope.row.lossstart && scope.row.lossend ? scope.row.lossstart + '-' + scope.row.lossend : scope.row.lossstart ? '&gt;' + scope.row.lossstart : '&lt;' + scope.row.lossend }}
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -282,7 +283,7 @@
 
         <el-row>
           <el-col :span="20">
-            <el-form-item label="成品直径μm">
+            <el-form-item label="原料比例%">
               <el-col :span="5">
                 <el-input v-model="rawMaterialRatiosItem.ratiostart" type="number"></el-input>
               </el-col>
@@ -361,7 +362,7 @@
           <el-form-item label="文件上传">
             <el-upload
               class="upload-demo"
-              action="http://192.168.31.92:8080/importController/importFiletProstandards"
+              action="http://192.168.31.117:8080/importController/importFiletProstandards"
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :before-remove="beforeRemove"
@@ -467,7 +468,7 @@ export default {
   },
   methods: {
     downTemplate(){
-      window.location.href = 'http://192.168.31.92:8080/upload/file0be316a4-aa19-4190-bb9f-8108f27ddb1d产品管理-导入规格模板.xlsx'
+      window.location.href = 'http://192.168.31.117:8080/upload/file0be316a4-aa19-4190-bb9f-8108f27ddb1d产品管理-导入规格模板.xlsx'
     },
     //   监听图片上传成功
     handleSuccess(response) {
@@ -563,7 +564,7 @@ export default {
     },
     // 确认编辑
     gxLossConfirm() {
-      this.gxLossBislist.splice(this.gxLossBislistItemIndex, 1, this.gxLossBislistItem)
+      this.gxLossBislist.splice(this.gxLossBislistItemIndex, 1, _.cloneDeep(this.gxLossBislistItem))
       this.gxLossBislistVisible = false
     },
     // 各工序环节的重置操作
@@ -571,10 +572,12 @@ export default {
       this.gxLossBislistItemIndex = index
       this.gxLossBislistItem.name = row.name
       this.gxLossBislistItem.id = row.id
-      this.gxLossBislist.splice(this.gxLossBislistItemIndex, 1, this.gxLossBislistItem)
+
+      this.gxLossBislist.splice(this.gxLossBislistItemIndex, 1, _.cloneDeep(this.gxLossBislistItem))
     },
     // 各工序环节的编辑操作
     showgx(row, index) {
+      this.gxLossBislistItemIndex=index
       this.gxLossBislistItem = this.gxLossBislist[index]
       this.gxLossBislistVisible = true
     },

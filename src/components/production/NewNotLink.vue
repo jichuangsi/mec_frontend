@@ -295,6 +295,7 @@ export default {
       if (res.code !== '0010') return this.$message.error(res.msg)
       this.LData = res.data.LData
       this.RData = res.data.RData
+      this.rowClick(this.LData[0])
     },
     //   展示关联订单对话框
     async showLinkDialog() {

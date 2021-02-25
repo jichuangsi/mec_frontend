@@ -105,7 +105,7 @@
         </el-table-column>
       </el-table>
       <div class="footer" v-if="tPurchase.orderState == 6">
-        <el-button type="primary">打印单据</el-button>
+        <!-- <el-button type="primary">打印单据</el-button> -->
         <el-button type="primary" @click="withdraw()">完成入库</el-button>
       </div>
     </el-card>

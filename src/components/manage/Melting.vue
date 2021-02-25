@@ -35,7 +35,7 @@
         </el-col>
         <el-col :span="6">
           <el-button type="primary" plain @click="getData">筛选</el-button>
-          <el-button type="primary" @click="showAddDialog">新增</el-button>
+          <!-- <el-button type="primary" @click="showAddDialog">新增</el-button> -->
           <!-- <el-button  @click="clear">清空筛选</el-button> -->
           <el-button  @click="toFeeding">生产投料</el-button>
         </el-col>

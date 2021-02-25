@@ -9,7 +9,8 @@
                 :on-success="handleSuccess"
                 :headers="headerObj"
                 :limit="1"
-                action="http://192.168.31.92:8080/SysController/localUploadPic"
+                :file-list="fileList"
+                action="http://192.168.31.117:8080/SysController/localUploadPic"
                 list-type="picture-card"
                 :on-preview="handlePictureCardPreview"
                 :on-remove="handleRemove">
@@ -19,16 +20,16 @@
                 <img width="100%" :src="dialogImageUrl" alt="">
                 </el-dialog>
             </el-form-item>
-            <el-form-item label="厂房信息" prop="workshopName">
+            <el-form-item label="厂房信息">
                 <el-input v-model="form.workshopName"></el-input>
             </el-form-item>
-            <el-form-item label="厂房地址" prop="workshopAddress">
+            <el-form-item label="厂房地址" >
                 <el-input v-model="form.workshopAddress"></el-input>
             </el-form-item>
-            <el-form-item label="厂房介绍" prop="workshopRemark">
+            <el-form-item label="厂房介绍" >
                 <el-input v-model="form.workshopRemark"></el-input>
             </el-form-item>
-            <el-form-item label="联系方式" prop="workshopContact">
+            <el-form-item label="联系方式" >
                 <el-input v-model="form.workshopContact"></el-input>
             </el-form-item>
         </el-form>
@@ -43,8 +44,15 @@ export default {
     data() {
       return {
         showUpload:false,
-        form:{},
+        form:{
+            workshopName:'',
+            workshopRemark:'',
+            workshopAddress:'',
+            workshopContact:'',
+            workshopImg:'',
+        },
         dialogImageUrl: '',
+        fileList:[],
         dialogVisible: false,
         // 图片上传组件的headers请求头对象
         headerObj: {
@@ -52,7 +60,24 @@ export default {
         },
       };
     },
+    created() {
+        this.getData()
+    },
     methods: {
+        async getData(){
+            const { data: res } = await this.$http.post('SysController/getWorkShopNewInfo', this.form)
+            if (res.code !== "0010") return this.$message.error(res.msg)
+            this.form.workshopName=res.data.workshopName
+            this.form.workshopRemark=res.data.workshopRemark
+            this.form.workshopAddress=res.data.workshopAddress
+            this.form.workshopContact=res.data.workshopContact
+            this.form.workshopImg=res.data.workshopImg
+            if(this.form.workshopImg){  
+                this.fileList.push({url:'http://192.168.31.117:8080'+this.form.workshopImg })             
+                this.dialogImageUrl='http://192.168.31.117:8080'+this.form.workshopImg               
+                this.showUpload = true
+            }
+        },
         handleRemove(file, fileList) {
             this.showUpload = false
         
@@ -64,18 +89,15 @@ export default {
         //   监听图片上传成功
         handleSuccess(response) {
         console.log(response)
+        
         this.form.workshopImg=response.data  
         this.showUpload = true
         },
         // 点击提交
-        async save(){
-            
-            
+        async save(){       
             const { data: res } = await this.$http.post('SysController/addWorkShop', this.form)
             if (res.code !== "0010") return this.$message.error(res.msg)
-            this.$message.success('新增成功')
-            this.$refs.form.resetFields()
-            this.$refs.upload.clearFiles()
+            this.$message.success('保存成功')   
         }
     }
 }

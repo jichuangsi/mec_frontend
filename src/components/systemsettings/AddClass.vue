@@ -178,12 +178,14 @@ export default {
               if (item.mapKey == i) {
                 obj.staffIdCard = item.mapValue2
                 obj.staffIdName = item.mapValue
+                obj.id=item.mapKey
               }
             })
             this.tableData.push({
               teamName: this.classForm.teamName,
               staffIdCard: obj.staffIdCard,
-              staffIdName: obj.staffIdName
+              staffIdName: obj.staffIdName,
+              id:obj.id
             })
           }
         })

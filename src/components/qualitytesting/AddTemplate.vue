@@ -22,7 +22,7 @@
           <el-upload
             ref="upload"
             :data="{ findModelName: 'FILE' }"
-            action="http://192.168.31.92:8080/fileController/upload"
+            action="http://192.168.31.117:8080/fileController/upload"
             :on-success="handleSuccess"
             :before-remove="beforeRemove"
             multiple

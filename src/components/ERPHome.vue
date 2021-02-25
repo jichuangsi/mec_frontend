@@ -23,11 +23,7 @@
              
               
             </el-submenu>
-             <el-menu-item @click="saveNavState('/InventoryManage')" :index="'/InventoryManage'"  >
-                <template  >              
-                  <span> 生产库存管理 </span>
-                </template>
-              </el-menu-item>
+            
           </el-menu>
         </el-col>
       </el-aside>

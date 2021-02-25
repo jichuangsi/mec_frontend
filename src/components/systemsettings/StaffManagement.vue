@@ -34,8 +34,8 @@
 
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)" v-if=" rolePowerList.indexOf(12)>=0">编辑</el-button>
-                <el-button type="danger" size="mini" @click="del(scope.row)" v-if=" rolePowerList.indexOf(10)>=0">删除</el-button>
+                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)" :disabled="rolePowerList.indexOf(12)==-1"  >编辑</el-button>
+                <el-button type="danger" size="mini" @click="del(scope.row)" :disabled="rolePowerList.indexOf(10)==-1"  >删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -78,8 +78,8 @@
 
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini"  @click="onSubmit(scope.row.id)" v-if="rolePowerList.indexOf(12)>=0">查看</el-button>
-                <el-button type="danger" size="mini" @click="del(scope.row)" v-if="rolePowerList.indexOf(14)>=0">删除</el-button>
+                <el-button type="primary" size="mini"  @click="onSubmit(scope.row.id)" :disabled="rolePowerList.indexOf(12)==-1"  >查看</el-button>
+                <el-button type="danger" size="mini" @click="del(scope.row)" :disabled="rolePowerList.indexOf(14)==-1"  >删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -122,8 +122,8 @@
 
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)" v-if="rolePowerList.indexOf(20)>=0">查看</el-button>
-                <el-button type="danger" size="mini" @click="del(scope.row)" v-if="rolePowerList.indexOf(18)>=0">删除</el-button>
+                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)" :disabled="rolePowerList.indexOf(20)==-1"  >查看</el-button>
+                <el-button type="danger" size="mini" @click="del(scope.row)" :disabled="rolePowerList.indexOf(18)==-1" >删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -167,8 +167,8 @@
 
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)" v-if="rolePowerList.indexOf(24)>=0">查看</el-button>
-                <el-button type="danger" size="mini" @click="del(scope.row)" v-if="rolePowerList.indexOf(23)>=0">删除</el-button>
+                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)" :disabled="rolePowerList.indexOf(24)==-1" >查看</el-button>
+                <el-button type="danger" size="mini" @click="del(scope.row)" :disabled="rolePowerList.indexOf(23)==-1"  >删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -209,8 +209,8 @@
 
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)" v-if="rolePowerList.indexOf(28)>=0">查看</el-button>
-                <el-button type="danger" size="mini" @click="del(scope.row)" v-if="rolePowerList.indexOf(26)>=0">删除</el-button>
+                <el-button type="primary" size="mini" @click="onSubmit(scope.row.id)" :disabled="rolePowerList.indexOf(28)==-1"  >查看</el-button>
+                <el-button type="danger" size="mini" @click="del(scope.row)" :disabled="rolePowerList.indexOf(26)==-1"  >删除</el-button>
               </template>
             </el-table-column>
           </el-table>

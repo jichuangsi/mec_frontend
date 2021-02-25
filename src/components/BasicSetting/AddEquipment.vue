@@ -128,6 +128,7 @@ export default {
     },
     //保存全部
     async saveAll() {
+      this.equipment.equipmentTypeId=''
       this.checkList.forEach(item=>{
         this.SBType.forEach(item1=>{
           if(item==item1.name){
@@ -184,6 +185,14 @@ export default {
         const { data: res } = await this.$http.post('BasicSettingController/getAllEquipmentById', { findById: this.id })
         if (res.code !== '0010') return this.$message.error(res.msg)
         this.equipment = res.data.equipment
+        let arr=this.equipment.equipmentTypeId.split(',')
+        arr.forEach(item=>{
+          this.SBType.forEach(item1=>{
+            if(item==item1.id){
+              this.checkList.push(item1.name)
+            }
+          })
+        })
         this.equipmentItemsList = res.data.equipmentOverhauls
       }
     },

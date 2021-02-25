@@ -69,7 +69,12 @@ export default {
     this.activePath = window.sessionStorage.getItem('activePath')
     let user=sessionStorage.getItem("user")
     this.user=JSON.parse(user)
-    this.getMenuList()
+    if(sessionStorage.getItem("menulist")){
+      this.menulist=JSON.parse(sessionStorage.getItem("menulist"))
+    }else{
+      this.getMenuList()
+    }
+   
   },
   methods: {
     // 获取所有的菜单
@@ -79,6 +84,7 @@ export default {
       })
       if (res.code !== "0010") return this.$message.error(res.meta.msg)
       this.menulist = res.data.list
+      sessionStorage.setItem("menulist",JSON.stringify(res.data.list))
       sessionStorage.setItem("rolePowerList",JSON.stringify(res.data.rolePowerList))
 
     },

@@ -21,7 +21,7 @@
         <el-form-item label="拉丝范围描述">
           <el-input v-model="tmould.wiredrawRemark" style="width:30%;"></el-input>
         </el-form-item>
-        <el-form-item label="拉丝范围um">
+        <el-form-item label="拉丝范围μm">
           <el-col :span="1" style="color:red;" :offset="1">上限</el-col>
           <el-col :span="2"><el-input v-model="tmould.wiredrawUp" oninput="value=value.replace(/[^\d.]/g,'')"></el-input></el-col>
           <el-col :span="1" style="color:red;" :offset="1">下限</el-col>
