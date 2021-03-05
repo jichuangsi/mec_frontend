@@ -10,7 +10,7 @@
                 :headers="headerObj"
                 :limit="1"
                 :file-list="fileList"
-                action="http://192.168.31.117:8080/SysController/localUploadPic"
+                action="http://192.168.0.186:8080/SysController/localUploadPic"
                 list-type="picture-card"
                 :on-preview="handlePictureCardPreview"
                 :on-remove="handleRemove">
@@ -73,8 +73,8 @@ export default {
             this.form.workshopContact=res.data.workshopContact
             this.form.workshopImg=res.data.workshopImg
             if(this.form.workshopImg){  
-                this.fileList.push({url:'http://192.168.31.117:8080'+this.form.workshopImg })             
-                this.dialogImageUrl='http://192.168.31.117:8080'+this.form.workshopImg               
+                this.fileList.push({url:'http://192.168.0.186:8080'+this.form.workshopImg })             
+                this.dialogImageUrl='http://192.168.0.186:8080'+this.form.workshopImg               
                 this.showUpload = true
             }
         },

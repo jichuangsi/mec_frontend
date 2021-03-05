@@ -95,11 +95,11 @@
         <el-table-column prop="productName" label="产品名称"> </el-table-column>
         <el-table-column prop="productModel" label="产品型号"> </el-table-column>
         <el-table-column prop="productNumber" label="产品编号"> </el-table-column>
-        <el-table-column prop="umStart" label="规格"> </el-table-column>
-        <el-table-column prop="lengthM" label="长度"> </el-table-column>
-        <el-table-column prop="productNum" label="数额"> </el-table-column>
+        <el-table-column prop="umStart" label="产品规格"> </el-table-column>
+        <el-table-column prop="lengthM" label="长度(m/轴)"> </el-table-column>
+        <el-table-column prop="productNum" label="数量(轴)"> </el-table-column>
         <el-table-column prop="unitName" label="单位"> </el-table-column>
-        <el-table-column prop="productPrice" label="单价(元)"> </el-table-column>
+        <el-table-column prop="productPrice" label="每轴单价(元)"> </el-table-column>
         <el-table-column prop="remark" label="备注"> </el-table-column>
         <el-table-column prop="productSum" label="合计(元)"> </el-table-column>
         <el-table-column prop="productLengthSum" label="合计(数量)"> </el-table-column>
@@ -115,8 +115,8 @@
           此单 <span style="color:red">{{ detailSize }}</span> 个产品，共计：<span style="color:red">{{ sumMoney }}</span> 元</span
         >
         <span v-if="tsaleorder.orderStateId == 0">
-          <el-button type="info" @click="saveAll(0)">保存草稿</el-button>
-          <el-button type="primary" @click="saveAll(1)">提交</el-button>
+          <el-button type="primary" @click="saveAll(0)">保存草稿</el-button>
+          <el-button type="warning" @click="saveAll(1)">提交</el-button>
         </span>
         <span v-else-if="tsaleorder.orderStateId == 1 || tsaleorder.orderStateId == 2">
           <!-- <el-button type="info">打印单据</el-button> -->

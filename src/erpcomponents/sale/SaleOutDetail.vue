@@ -171,6 +171,10 @@
 
     <!-- 新增出库的对话框 -->
     <el-dialog title="新增出库" :visible.sync="dialogVisible1" width="60%" @close="dialogClose1">
+      <el-input placeholder="请输入内容" v-model="findName" class="input-with-select" style="width:35%">
+    
+        <el-button slot="append" icon="el-icon-search" @click="showDialog"></el-button>
+      </el-input>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-table
@@ -200,7 +204,7 @@
         </el-col>
       </el-row>
       <el-row style="margin:20px 0">
-        <el-col :span="3" style="font-weight:bold">待改绕产品</el-col>
+        <el-col :span="3" style="font-weight:bold">待出库产品</el-col>
         <el-col :span="3" :offset="18">
           <el-button size="mini" @click="addAllData()">添加</el-button>
         </el-col>
@@ -279,7 +283,8 @@ export default {
       TwoList: [],
       row: {},
       listData: [],
-      tableData: []
+      tableData: [],
+      findName:''
     }
   },
   created() {
@@ -358,7 +363,7 @@ export default {
     async showDialog() {
       this.dialogVisible1 = true
       const { data: res } = await this.$http.post('warehouseController/getAllWarehousingChuKu', {
-        findName: '',
+        findName: this.findName,
         findModelName: 'product',
         findIdOne: ''
       })

@@ -117,7 +117,7 @@ export default {
       subForm: {
         findName: '', //模糊查询
         pageNum: 1,
-        pageSize: 11
+        pageSize: 5
       }, //提交的分页
       total: 0, //总条数
       auditXiaLa: [], //审核人下拉框数据

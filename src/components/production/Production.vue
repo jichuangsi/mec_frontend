@@ -25,26 +25,33 @@
         <el-table-column prop="ppName" label="生产计划单名称"> </el-table-column>
         <el-table-column prop="createTime" label="计划下达日期">
           <template slot-scope="scope">
-            {{scope.row.createTime|dateFormat}}
+            {{ scope.row.createTime | dateFormat }}
           </template>
         </el-table-column>
         <el-table-column prop="finishedTime" label="计划完工日期">
           <template slot-scope="scope">
-            {{scope.row.finishedTime|dateFormat}}
+            {{ scope.row.finishedTime | dateFormat }}
           </template>
         </el-table-column>
         <el-table-column prop="ppstate" label="审核状态"> </el-table-column>
         <el-table-column label="操作" width="250">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="toDatail(scope.row.id)">查看</el-button>
-            <el-button type="warning" size="mini" @click="edit(scope.row.relationNo,scope.row.id)">编辑</el-button>
+            <el-button type="warning" size="mini" @click="edit(scope.row.relationNo, scope.row.id)">编辑</el-button>
             <el-button type="danger" size="mini" @click="del(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-form>
-    <el-pagination :current-page="submitForm.pageNum" @size-change="handleSizeChange"
-            @current-change="handleCurrentChange" :page-sizes="[5, 10, 15, 20]" :page-size="submitForm.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+    <el-pagination
+      :current-page="submitForm.pageNum"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :page-sizes="[5, 10, 15, 20]"
+      :page-size="submitForm.pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    >
     </el-pagination>
     <!-- 关联销售订单对话框 -->
     <el-dialog title="请关联销售订单" :visible.sync="linkDialogVisible" width="50%">
@@ -56,6 +63,11 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-table :data="LData" style="width: 100%" highlight-current-row :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" @row-click="rowClick">
+              <el-table-column prop="mapliandong" label="交货日期">
+                <template slot-scope="scope">
+                  {{ scope.row.mapliandong | dateFormat }}
+                </template>
+              </el-table-column>
               <el-table-column prop="mapValue" label="销售单号"> </el-table-column>
               <el-table-column prop="mapValue2" label="客户名称"> </el-table-column>
             </el-table>
@@ -63,6 +75,7 @@
           <el-col :span="12">
             <el-table :data="RData" style="width: 100%" @selection-change="handleSelectionChange" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
               <el-table-column prop="productModel" label="产品型号"> </el-table-column>
+              <el-table-column prop="lengthM" label="长度(m/轴)"> </el-table-column>
               <el-table-column prop="umStart" label="规格"> </el-table-column>
               <el-table-column type="selection" width="55"> </el-table-column>
             </el-table>
@@ -108,8 +121,8 @@ export default {
       LData: [],
       RData: [],
       multipleSelection: [],
-      findName:'',
-      saleId:'',
+      findName: '',
+      saleId: '',
       row: {
         productName: '',
         productModel: '',
@@ -118,9 +131,9 @@ export default {
         length: '',
         quantum: '',
         sumMI: '',
-        ppId:'',
+        ppId: ''
       },
-      ppproduct:[]
+      ppproduct: []
     }
   },
   created() {
@@ -146,44 +159,44 @@ export default {
       if (confirmResult !== 'confirm') {
         return
       }
-      const { data: res } = await this.$http.post('ProductionPlanController/updateProductPlanByid',{
-          updateID:id,
-          updateType:'D'
+      const { data: res } = await this.$http.post('ProductionPlanController/updateProductPlanByid', {
+        updateID: id,
+        updateType: 'D'
       })
-      if (res.code !== "0010") return this.$message.error(res.msg)
+      if (res.code !== '0010') return this.$message.error(res.msg)
       this.$message.success('删除成功')
       this.getData()
     },
     //   点击编辑
-    edit(relationNo,id){
-        if(relationNo===0){
-            this.$router.push({
-                path:'/production/newNotLink',
-                query:{
-                    id:id
-                }
-            })
-        }else{
-            this.$router.push({
-                path:'/production/newLink',
-                query:{
-                    id:id
-                }
-            })
-        }
+    edit(relationNo, id) {
+      if (relationNo === 0) {
+        this.$router.push({
+          path: '/production/newNotLink',
+          query: {
+            id: id
+          }
+        })
+      } else {
+        this.$router.push({
+          path: '/production/newLink',
+          query: {
+            id: id
+          }
+        })
+      }
     },
     //   监听行点击事件
     async rowClick(row) {
-        this.saleId=row.mapKey
-        this.row.productName = row.mapValue2
-        this.row.productModel = row.mapliandong
-        this.row.productNumber = row.mapValue
-        const { data: res } = await this.$http.post('ProductionPlanController/getPPProductInfoById',{
-            iswhether:1,
-            findById:row.mapKey
-        })
-        if (res.code !== "0010") return this.$message.error(res.msg)
-        this.RData=res.data.RData
+      this.saleId = row.mapKey
+      this.row.productName = row.mapValue2
+      this.row.productModel = row.mapliandong
+      this.row.productNumber = row.mapValue
+      const { data: res } = await this.$http.post('ProductionPlanController/getPPProductInfoById', {
+        iswhether: 1,
+        findById: row.mapKey
+      })
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      this.RData = res.data.RData
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
@@ -205,35 +218,35 @@ export default {
       this.total = res.data.total
     },
     toLink() {
-        if(!this.saleId){
-            this.saleId=this.LData[0].mapKey
-            this.row.productName = this.LData[0].mapValue2
-            this.row.productModel = this.LData[0].mapliandong
-            this.row.productNumber = this.LData[0].mapValue
-        }
-        this.multipleSelection.forEach((item, index) => {
+      if (!this.saleId) {
+        this.saleId = this.LData[0].mapKey
+        this.row.productName = this.LData[0].mapValue2
+        this.row.productModel = this.LData[0].mapliandong
+        this.row.productNumber = this.LData[0].mapValue
+      }
+      this.multipleSelection.forEach((item, index) => {
         this.row.productDetailId = item.id
         this.row.productModel = item.productModel
         this.row.standards = item.umStart
         this.ppproduct.push(_.cloneDeep(this.row))
       })
       this.dialogVisible = false
-      let ppproduct=JSON.stringify(this.ppproduct)
-      sessionStorage.setItem("ppproduct",ppproduct)
-      sessionStorage.setItem("saleId",this.saleId)
+      let ppproduct = JSON.stringify(this.ppproduct)
+      sessionStorage.setItem('ppproduct', ppproduct)
+      sessionStorage.setItem('saleId', this.saleId)
       this.$router.push('/production/newLink')
     },
     toNotLink() {
       this.$router.push('/production/newNotLink')
     },
-    async getDialogData(){
-        const { data: res } = await this.$http.post('ProductionPlanController/getPPProductInfo', {
-            iswhether: 1,
-            findName:this.findName
-        })
-        if (res.code !== '0010') return this.$message.error(res.msg)
-        this.LData = res.data.LData
-        this.RData = res.data.RData
+    async getDialogData() {
+      const { data: res } = await this.$http.post('ProductionPlanController/getPPProductInfo', {
+        iswhether: 1,
+        findName: this.findName
+      })
+      if (res.code !== '0010') return this.$message.error(res.msg)
+      this.LData = res.data.LData
+      this.RData = res.data.RData
     },
     async showLinkDialog() {
       this.dialogVisible = false
@@ -242,9 +255,9 @@ export default {
     },
     toDatail(id) {
       this.$router.push({
-        path:'/productionDetail',
-        query:{
-          id:id
+        path: '/productionDetail',
+        query: {
+          id: id
         }
       })
     }

@@ -142,6 +142,11 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-table :data="LData" highlight-current-row style="width: 100%" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" @row-click="rowClick">
+              <el-table-column prop="mapliandong" label="交货日期">
+                <template slot-scope="scope">
+                  {{scope.row.mapliandong|dateFormat}}
+                </template>
+              </el-table-column>
               <el-table-column prop="mapValue" label="销售单号"> </el-table-column>
               <el-table-column prop="mapValue2" label="客户名称"> </el-table-column>
             </el-table>
@@ -149,6 +154,7 @@
           <el-col :span="12">
             <el-table :data="RData" style="width: 100%" @selection-change="handleSelectionChange" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }">
               <el-table-column prop="productModel" label="产品型号"> </el-table-column>
+              <el-table-column prop="lengthM" label="长度(m/轴)"> </el-table-column>
               <el-table-column prop="umStart" label="规格">
                 <template slot-scope="scope">
                   {{Number(scope.row.umStart).toFixed(2)}}
@@ -214,7 +220,7 @@ export default {
         ppNumber: '',
         finishedTime: '',
         ppName: '',
-        createTime: '',
+        createTime: new Date(),
         finishedTime: '',
         suitId: '',
         saleId: '',

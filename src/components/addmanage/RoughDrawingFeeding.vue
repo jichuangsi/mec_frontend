@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-page-header @back="cancel" content="模具维护" style="margin-bottom:20px;"> </el-page-header>
+    <el-page-header @back="cancel" content="粗拉" style="margin-bottom:20px;"> </el-page-header>
     <el-row :gutter="20">
       <el-col :span="12">
         <el-card>
@@ -210,7 +210,7 @@
         <el-button type="primary" @click="ProductNumberConfirm">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog title="新增熔炼" :visible.sync="addDialogVisible" width="60%">
+    <el-dialog title="粗拉" :visible.sync="addDialogVisible" width="60%">
       <div style="font-size:12px;margin:0 0 10px 10px;">step1：查询当前进行中的生产计划单</div>
       <el-row>
         <el-col :span="3"><div style="line-height:40px;">生产计划单表</div></el-col>
@@ -228,6 +228,7 @@
         </el-table>
         <el-table :data="RData" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" ref="multipleTable1" @selection-change="handleSelectionChange1">
           <el-table-column prop="productModel" label="产品型号"> </el-table-column>
+          <el-table-column prop="lengthM" label="长度(m/轴)"> </el-table-column>
           <el-table-column prop="standards" label="规格"> </el-table-column>
           <el-table-column type="selection" width="55"> </el-table-column>
         </el-table>

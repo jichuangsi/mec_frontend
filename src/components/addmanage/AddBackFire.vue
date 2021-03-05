@@ -428,7 +428,7 @@
             <el-upload
               :data="{ findById: Eid }"
               class="upload-demo"
-              action="http://192.168.31.117:8080/ProductionController/importFilePPProduction"
+              action="http://192.168.0.186:8080/ProductionController/importFilePPProduction"
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :before-remove="beforeRemove"
@@ -591,7 +591,7 @@ export default {
   },
   methods: {
     downTemplate(){
-      window.location.href = 'http://192.168.31.117:8080/upload/file3223d4d0-7ced-4df1-8a88-d3f137164e07elbl.xlsx' 
+      window.location.href = 'http://192.168.0.186:8080/upload/file3223d4d0-7ced-4df1-8a88-d3f137164e07elbl.xlsx' 
     },
     toDetail(id){
       this.$router.replace({

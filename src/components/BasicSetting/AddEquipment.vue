@@ -36,9 +36,11 @@
       <el-row style="margin:10px;">
         <el-col :span="2" :offset="2" style="padding-top:10px;">模具类别</el-col>
         <el-col :span="4">
-          <el-select v-model="mjType" placeholder="请选择 " @change="mjTypeChange" style="width:100%;">
-            <el-option label="成套模具" value="1"></el-option>
-            <el-option label="成品模具" value="0"></el-option>
+          <el-select v-model="equipment.mouldType" placeholder="请选择 " @change="mjTypeChange" style="width:100%;">
+            <el-option label="不使用模具" :value="2"></el-option>
+            <el-option label="成套模具" :value="1"></el-option>
+            <el-option label="成品模具" :value="0"></el-option>
+
           </el-select>
         </el-col>
       </el-row>
@@ -120,6 +122,9 @@ export default {
   },
   methods: {
     async mjTypeChange(e){
+      if(this.mjType==2){
+        return  this.mouldXiaLa=[]
+      }
       const { data: res } = await this.$http.post('BasicSettingController/getAllTmouldByTypeId',{
         findById:e
       })

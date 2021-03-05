@@ -158,7 +158,7 @@
       </span>
     </el-dialog>
     <!--原材料调拨的对话框  -->
-      <el-dialog title="原材料调拨" :visible.sync="allocatDialogVisible" width="60%" @close="allocatDialogClose">
+      <el-dialog title="添加原材料" :visible.sync="allocatDialogVisible" width="60%" @close="allocatDialogClose">
         <!-- 上一部分的表格 -->
         <el-row>
           <el-col :span="7">
@@ -180,12 +180,12 @@
           <el-col :span="11" :offset="1">
             <el-table stripe :data="listdataDetail" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
               <el-table-column prop="updateRemark" label="规格"> </el-table-column>
-              <el-table-column prop="updateNum" label="库存数量">
+              <el-table-column prop="updateNum" label="库存数量g">
                 <template slot-scope="scope">
                   {{ scope.row.updateNum ? scope.row.updateNum : '  --' }}
                 </template>
               </el-table-column>
-              <el-table-column label="选定数量">
+              <el-table-column label="选定数量g">
                 <template slot-scope="scope">
                   <el-input v-model="scope.row.xuandingNum" size="mini"></el-input>
                 </template>
@@ -196,7 +196,7 @@
         <!-- 下一部分的表格 -->
         <el-row>
           <el-col :span="5">
-            <span style="line-height:60px;font-weight:bold;">待调拨原材料</span>
+            <span style="line-height:60px;font-weight:bold;">待添加原材料</span>
           </el-col>
           <el-col :span="3" :offset="16">
             <el-button type="primary" plain size="mini" style="margin-top:20px;" @click="addAllData">添加</el-button>
@@ -206,12 +206,12 @@
           <el-table-column prop="stockName" label="产品名称"> </el-table-column>
           <el-table-column prop="stockNumber" label="产品编号"> </el-table-column>
           <el-table-column prop="updateRemark" label="规格"> </el-table-column>
-          <el-table-column label="库存数量">
+          <el-table-column label="库存数量g">
             <template slot-scope="scope">
               {{ scope.row.updateNum ? scope.row.updateNum : '  --' }}
             </template>
           </el-table-column>
-          <el-table-column prop="xuandingNum" label="已选定数量"> </el-table-column>
+          <el-table-column prop="xuandingNum" label="已选定数量g"> </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button type="text" size="mini" @click="del(scope.$index)">删除</el-button>
@@ -324,7 +324,7 @@ export default {
         obj.unitName=item.dictionarier
         obj.stockName=item.stockName
         obj.quantityChoose=item.xuandingNum
-        obj.totalNet=Number(item.xuandingNum)*Number(item.updateRemark)
+        obj.totalNet=Number(item.xuandingNum)
         obj.inventoryStatusId=item.updateID
         this.OneList.push(_.cloneDeep(obj))
       })

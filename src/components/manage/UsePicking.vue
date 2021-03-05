@@ -113,12 +113,12 @@
         <el-col :span="11" :offset="1">
           <el-table height="300px" :data="listdataDetail" :cell-style="{ padding: '5px 0' }" :header-cell-style="{ background: '#f0f5ff', padding: '0' }" style="width: 100%">
             <el-table-column prop="updateRemark" label="规格"> </el-table-column>
-            <el-table-column prop="updateNum" label="库存数量">
+            <el-table-column prop="updateNum" label="库存数量g">
               <template slot-scope="scope">
                 {{ scope.row.updateNum ? scope.row.updateNum : '  --' }}
               </template>
             </el-table-column>
-            <el-table-column label="选定数量">
+            <el-table-column label="选定数量g">
               <template slot-scope="scope">
                 <el-input v-model="scope.row.xuandingNum" size="mini" oninput="value=value.replace(/[^\d.]/g,'')"></el-input>
               </template>
@@ -143,12 +143,12 @@
         <el-table-column prop="findModelName" label="出库仓库"> </el-table-column>
         <el-table-column prop="updateRemark" label="规格"> </el-table-column>
         <el-table-column prop="dictionarier" label="单位"> </el-table-column>
-        <el-table-column label="库存数量">
+        <el-table-column label="库存数量g">
           <template slot-scope="scope">
             {{ scope.row.updateNum ? scope.row.updateNum : '  --' }}
           </template>
         </el-table-column>
-        <el-table-column prop="xuandingNum" label="已选定数量"> </el-table-column>
+        <el-table-column prop="xuandingNum" label="已选定数量g"> </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="text" size="mini" @click="del(scope.$index)">删除</el-button>

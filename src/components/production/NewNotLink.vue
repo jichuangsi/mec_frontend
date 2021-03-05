@@ -164,7 +164,7 @@ export default {
         ppNumber: '',
         finishedTime: '',
         ppName: '',
-        createTime: '',
+        createTime: new Date(),
         finishedTime: '',
         suitId: '',
         saleId:'',
